@@ -3,7 +3,7 @@ import * as types from "../constants/ActionTypes";
 const initialState = {
   user: {
     access_token: "",
-    login_attempted: false
+    isLoginAttempted: false
   }
 };
 

@@ -15,7 +15,7 @@ class App extends React.Component {
     this.state = {
       user: {
         access_token: "",
-        login_attempted: false
+        isLoginAttempted: false
       }
     };
 
@@ -24,13 +24,17 @@ class App extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.isLoggedIn();
+  }
+
   isLoggedIn() {
     if (this.state.user.access_token) {
       return true;
     }
 
     if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
-      store.dispatch(updateUser({ access_token: "", login_attempted: true }));
+      store.dispatch(updateUser({ access_token: "", isLoginAttempted: true }));
       return false;
     }
 
@@ -40,7 +44,7 @@ class App extends React.Component {
     }
 
     let accessToken = accessTokenParam.split("&");
-    store.dispatch(updateUser({access_token: accessToken[0], login_attempted: true }))
+    store.dispatch(updateUser({access_token: accessToken[0], isLoginAttempted: true }))
     return true;
   }
 
@@ -49,7 +53,7 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" render={() => (
-            this.isLoggedIn() ? ( <Home/> ) : ( <Login/> )
+            this.state.user.access_token ? ( <Home/> ) : ( <Login/> )
           )} />
           <Route exact path="/login" component={Login} />
         </Switch>

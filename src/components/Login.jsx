@@ -1,6 +1,8 @@
 import React from "react";
-import Button from "./Button.jsx";
 import store from "../store/store";
+
+import Button from "./Button.jsx";
+import Alert from "./Alert.jsx";
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,7 +10,7 @@ class Login extends React.Component {
     this.state = {
       user: {
         access_token: null,
-        login_attempted: false
+        isLoginAttempted: false
       }
     };
 
@@ -21,9 +23,18 @@ class Login extends React.Component {
     window.location.href =
       "https://accounts.spotify.com/authorize?client_id=6a055beb5e304ad19bf4dc36a07e3fcd&response_type=token&redirect_uri=http://localhost:8080/";
   }
-  
+
   render() {
-    return <Button label="Test" handleClick={this.loginButtonClicked} />;
+    let alert;
+    if (this.state.user.isLoginAttempted) {
+      alert = <Alert>Failed login attempt.</Alert>
+    }
+    return (
+      <div>
+        {alert}
+        <Button handleClick={this.loginButtonClicked}>Authorize Spotify</Button>
+      </div>
+    );
   }
 }
 
