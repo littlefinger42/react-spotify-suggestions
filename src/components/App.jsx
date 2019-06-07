@@ -1,5 +1,8 @@
 import React from "react";
-import Button from "./Button.jsx";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Home from "./Home.jsx";
+import Login from "./Login.jsx";
 
 import urlUtils from "../utils/urlUtils";
 
@@ -10,10 +13,6 @@ class App extends React.Component {
       access_token: null,
       login_attempted: false
     };
-  }
-
-  render() {
-    return <Button label="Test" handleClick={this.loginButtonClicked} />;
   }
 
   componentDidMount() {
@@ -36,11 +35,15 @@ class App extends React.Component {
     return true;
   }
 
-  loginButtonClicked() {
-    // TODO: Feedback if user is already logged in
-    if (!this.state.access_token)
-      window.location.href =
-        "https://accounts.spotify.com/authorize?client_id=6a055beb5e304ad19bf4dc36a07e3fcd&response_type=token&redirect_uri=http://localhost:8080/";
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+        </Switch>
+      </Router>
+    );
   }
 }
 
