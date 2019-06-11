@@ -1,8 +1,7 @@
 import React from "react";
 
 import store from "../store/store";
-import { updateUserSpotifyData } from "../store/actions/index";
-import { throws } from "assert";
+import { setUserSpotifyData } from "../store/actions/index";
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,7 +10,6 @@ class Home extends React.Component {
     this.state = {
       topSongs: []
     };
-
   }
 
   componentDidMount() {
@@ -19,13 +17,13 @@ class Home extends React.Component {
     fetch("https://api.spotify.com/v1/me/", {
       signal: this.abortController.signal,
       headers: {
-        Authorization: `Bearer ${store.getState().user.access_token}`
+        Authorization: `Bearer ${store.getState().user.accessToken}`
       }
     })
       .then(res => res.json())
       .then(
         result => {
-          store.dispatch(updateUserSpotifyData(result));
+          store.dispatch(setUserSpotifyData(result));
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow

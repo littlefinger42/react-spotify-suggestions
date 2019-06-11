@@ -2,7 +2,7 @@ import * as types from "../constants/ActionTypes";
 
 const initialState = {
   user: {
-    access_token: "",
+    accessToken: "",
     isLoginAttempted: false
   },
   topSongs: []
@@ -11,10 +11,10 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     //USERS
-    case types.UPDATE_USER:
-      return { ...state, user: action.payload };
-    case types.UPDATE_USER_SPOTIFY_DATA:
-      return { ...state, user: { spotify: action.payload } };
+    case types.SET_USER_ACCESS_TOKEN:
+      return { ...state, user: { ...state.user, accessToken: action.payload } };
+    case types.SET_USER_SPOTIFY_DATA:
+      return { ...state, user: { ...state.user, spotify: action.payload } };
     //SONGS
     case types.UPDATE_TOP_SONGS:
       return { ...state, topSongs: action.payload };

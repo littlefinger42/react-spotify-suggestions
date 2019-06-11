@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import store from "../store/store"
-import { updateUser } from "../store/actions/index"
+import store from "../store/store";
+import { setUserAccessToken } from "../store/actions/index";
 
 import Home from "./Home.jsx";
 import Login from "./Login.jsx";
@@ -15,12 +15,12 @@ class App extends React.Component {
   }
 
   isLoggedIn() {
-    if (store.getState().user.access_token) {
+    if (store.getState().user.accessToken) {
       return true;
     }
 
     if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
-      store.dispatch(updateUser({ access_token: "", isLoginAttempted: true }));
+      store.dispatch(setUserAccessToken(""));
       return false;
     }
 
@@ -30,8 +30,8 @@ class App extends React.Component {
       return false;
     }
 
-    let accessToken = accessTokenParam.split("&");
-    store.dispatch(updateUser({access_token: accessToken[0], isLoginAttempted: true }))
+    let accessTokenSplit = accessTokenParam.split("&");
+    store.dispatch(setUserAccessToken(accessTokenSplit[0]));
     return true;
   }
 
@@ -39,9 +39,11 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" render={() => (
-            this.isLoggedIn() ? ( <Home/> ) : ( <Login/> )
-          )} />
+          <Route
+            exact
+            path="/"
+            render={() => (this.isLoggedIn() ? <Home /> : <Login />)}
+          />
           <Route exact path="/login" component={Login} />
         </Switch>
       </Router>
