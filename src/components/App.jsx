@@ -12,24 +12,10 @@ import urlUtils from "../utils/urlUtils";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: {
-        access_token: "",
-        isLoginAttempted: false
-      }
-    };
-
-    store.subscribe(() => {
-      this.setState({ user: store.getState().user});
-    });
-  }
-
-  componentDidMount() {
-    this.isLoggedIn();
   }
 
   isLoggedIn() {
-    if (this.state.user.access_token) {
+    if (store.getState().user.access_token) {
       return true;
     }
 
@@ -40,6 +26,7 @@ class App extends React.Component {
 
     const accessTokenParam = urlUtils.getUrlParam("#", "access_token");
     if (!accessTokenParam) {
+      //TODO: Check for accessToken in local storage and check to see if it is expired
       return false;
     }
 
@@ -53,7 +40,7 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" render={() => (
-            this.state.user.access_token ? ( <Home/> ) : ( <Login/> )
+            this.isLoggedIn() ? ( <Home/> ) : ( <Login/> )
           )} />
           <Route exact path="/login" component={Login} />
         </Switch>

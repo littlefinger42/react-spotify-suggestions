@@ -1,33 +1,25 @@
 import React from "react";
 
 import store from "../store/store";
-import { updateUserSpotifyData } from "../store/actions/index"
+import { updateUserSpotifyData } from "../store/actions/index";
+import { throws } from "assert";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.abortController = new AbortController();
     this.state = {
-      user: {
-        access_token: "",
-        isLoginAttempted: false
-      },
       topSongs: []
     };
 
-    store.subscribe(() => {
-      this.setState({
-        user: store.getState().user,
-        topSongs: store.getState().topSongs
-      });
-    });
   }
-  
 
   componentDidMount() {
     //TODO: Make it come from local state, not Redux
     fetch("https://api.spotify.com/v1/me/", {
+      signal: this.abortController.signal,
       headers: {
-        'Authorization': `Bearer ${store.getState().user.access_token}`
+        Authorization: `Bearer ${store.getState().user.access_token}`
       }
     })
       .then(res => res.json())
@@ -45,6 +37,10 @@ class Home extends React.Component {
           });
         }
       );
+  }
+
+  componentWillUnmount() {
+    this.abortController.abort();
   }
 
   render() {
