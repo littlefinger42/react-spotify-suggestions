@@ -1,9 +1,16 @@
 import React from "react";
+import styled from "styled-components"
 
-class User extends React.Component {
+const AvatarImg = styled.img`
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+`
+
+class Avatar extends React.Component {
   render() {
-    return <img src={this.props.src} alt={this.props.alt} />;
+    return <AvatarImg src={this.props.src} alt={this.props.alt} />;
   }
 }
 
-export default User;
+export default Avatar;

@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: { home: path.resolve(__dirname, "src") + "/index.jsx" },
   output: {
-    filename: 'bundle.js'
+    filename: "bundle.js"
   },
   module: {
     rules: [
@@ -26,7 +26,7 @@ module.exports = {
     ]
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebPackPlugin({
