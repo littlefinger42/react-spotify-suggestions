@@ -5,7 +5,12 @@ const initialState = {
     accessToken: "",
     isLoginAttempted: false,
     spotify: {
-      user_name: ""
+      display_name: "",
+      images: [
+        {
+          url: ""
+        }
+      ]
     }
   },
   topSongs: []

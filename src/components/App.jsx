@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import store from "../store/store";
 import { setUserAccessToken } from "../store/actions/index";
 
-import Home from "../containers/User.jsx";
+import Home from "../containers/Home.jsx";
 import Login from "./Login.jsx";
 
 import urlUtils from "../utils/urlUtils";

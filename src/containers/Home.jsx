@@ -7,22 +7,26 @@ import {
   setUserSpotifyDataError
 } from "../store/actions/index";
 import {
+  getUserAccessToken,
   getSpotifyDisplayName,
-  getUserAccessToken
+  getSpotifyDisplayImgUrl
 } from "../store/selectors/index";
+
+import User from "../components/User.jsx";
 
 const mapStateToProps = state => {
   return {
     user: {
       accessToken: getUserAccessToken(state),
       spotify: {
-        user_name: getSpotifyDisplayName(state)
+        display_name: getSpotifyDisplayName(state),
+        img_url: getSpotifyDisplayImgUrl(state)
       }
     }
   };
 };
 
-class UserContainer extends React.Component {
+class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
     this.abortController = new AbortController();
@@ -56,8 +60,13 @@ class UserContainer extends React.Component {
   }
 
   render() {
-    return <span>Logged in as {this.props.user.spotify.user_name}</span>;
+    return (
+      <User
+        username={this.props.user.spotify.display_name}
+        imgUrl={this.props.user.spotify.img_url}
+      />
+    );
   }
 }
 
-export default connect(mapStateToProps)(UserContainer);
+export default connect(mapStateToProps)(HomeContainer);
