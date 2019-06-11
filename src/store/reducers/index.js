@@ -3,7 +3,10 @@ import * as types from "../constants/ActionTypes";
 const initialState = {
   user: {
     accessToken: "",
-    isLoginAttempted: false
+    isLoginAttempted: false,
+    spotify: {
+      user_name: ""
+    }
   },
   topSongs: []
 };

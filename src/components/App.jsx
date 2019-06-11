@@ -4,16 +4,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import store from "../store/store";
 import { setUserAccessToken } from "../store/actions/index";
 
-import Home from "./Home.jsx";
+import Home from "../containers/User.jsx";
 import Login from "./Login.jsx";
 
 import urlUtils from "../utils/urlUtils";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   isLoggedIn() {
     if (store.getState().user.accessToken) {
       return true;

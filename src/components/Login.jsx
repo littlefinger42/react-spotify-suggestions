@@ -9,14 +9,9 @@ class Login extends React.Component {
     super(props);
     this.state = {
       user: {
-        access_token: null,
         isLoginAttempted: store.getState().user.isLoginAttempted
       }
     };
-
-    this.unsubscribe = store.subscribe(() => {
-      this.setState({ user: store.getState().user });
-    });
   }
 
   loginButtonClicked() {
