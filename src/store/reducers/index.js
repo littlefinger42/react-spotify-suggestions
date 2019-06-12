@@ -22,7 +22,7 @@ function reducer(state = initialState, action) {
     case types.SET_USER_ACCESS_TOKEN:
       return { ...state, user: { ...state.user, accessToken: action.payload } };
     case types.SET_USER_SPOTIFY_DATA:
-      return { ...state, user: { ...state.user, spotify: action.payload } };
+      return { ...state, user: { ...state.user, spotify: { ...state.user.spotify, ...action.payload, status: action.status } } };
     //SONGS
     case types.UPDATE_TOP_SONGS:
       return { ...state, topSongs: action.payload };

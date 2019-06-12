@@ -2,14 +2,25 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import store from "../store/store";
-import { setUserAccessToken } from "../store/actions/index";
+import {
+  setUserAccessToken,
+  setUserSpotifyDataStarted,
+  setUserSpotifyDataFinished,
+  setUserSpotifyDataError
+} from "../store/actions/index";
 
 import Home from "../containers/Home.jsx";
 import Login from "./Login.jsx";
 
 import urlUtils from "../utils/urlUtils";
+import spotifyUtils from "../utils/spotifyUtils";
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.abortController = new AbortController();
+  }
+
   isLoggedIn() {
     if (store.getState().user.accessToken) {
       return true;
@@ -28,7 +39,24 @@ class App extends React.Component {
 
     let accessTokenSplit = accessTokenParam.split("&");
     store.dispatch(setUserAccessToken(accessTokenSplit[0]));
-    return true;
+
+    store.dispatch(setUserSpotifyDataStarted());
+    spotifyUtils
+      .getSpotifyUserData(accessTokenSplit[0], this.abortController)
+      .then(result => {
+        if (result.error) {
+          store.dispatch(setUserSpotifyDataError(result));
+          return false;
+        } else {
+          store.dispatch(setUserSpotifyDataFinished(result));
+          return true;
+        }
+      });
+
+  }
+
+  componentWillUnmount() {
+    this.abortController.abort();
   }
 
   render() {
