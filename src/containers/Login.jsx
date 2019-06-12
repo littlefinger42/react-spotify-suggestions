@@ -45,13 +45,7 @@ class LoginContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
-      user: {
-        accessToken: "",
-        isLoginAttempted: false,
-        spotify: {
-          display_name: ""
-        }
-      }
+      isLoginFailed: false,
     };
   }
 
@@ -59,7 +53,7 @@ class LoginContainer extends React.Component {
     const accessToken = this.getAccessToken();
     this.props.setUserAccessToken(accessToken);
 
-    if (accessToken && !this.state.user.spotify.displayName) {
+    if (accessToken && !this.props.user.spotify.displayName) {
       this.props.setUserSpotifyDataStarted();
       spotifyUtils
         .getSpotifyUserData(accessToken, this.abortController)
@@ -83,15 +77,15 @@ class LoginContainer extends React.Component {
   getAccessToken() {
     this.setState({ isLoading: true });
 
-    if (this.state.user.accessToken) {
+    if (this.props.user.accessToken) {
       this.setState({ isLoading: false });
-      return this.state.user.accessToken;
+      return this.props.user.accessToken;
     }
 
     const accessTokenParam = urlUtils.getUrlParam("#", "access_token");
     if (!accessTokenParam) {
       if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
-        this.setState({user: { isLoginAttempted: true}});
+        this.setState({ isLoginFailed: true });
       }
       //TODO: Check for accessToken in local storage and check to see if it is expired
       this.setState({ isLoading: false });
@@ -104,7 +98,7 @@ class LoginContainer extends React.Component {
 
   render() {
     let alert;
-    if (this.state.user.isLoginAttempted) {
+    if (this.state.isLoginFailed) {
       alert = <Alert>Failed login attempt.</Alert>;
     }
     return (

@@ -26,19 +26,10 @@ const mapStateToProps = state => {
 class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: {
-        accessToken: "",
-        spotify: {
-          display_name: "",
-          img_url: ""
-        }
-      }
-    }
   }
 
   getTopTracks() {
-    spotifyUtils.getSpotifyTopTracks(this.state.user.accessToken).then(result => {
+    spotifyUtils.getSpotifyTopTracks(this.props.user.accessToken).then(result => {
       console.log(result);
     })
   }
