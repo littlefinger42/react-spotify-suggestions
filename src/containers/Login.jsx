@@ -32,12 +32,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUserAccessToken: (prop) => dispatch(setUserAccessToken(prop)),
+    setUserAccessToken: prop => dispatch(setUserAccessToken(prop)),
     setUserSpotifyDataStarted: () => dispatch(setUserSpotifyDataStarted()),
-    setUserSpotifyDataError: (prop) => dispatch(setUserSpotifyDataError(prop)),
-    setUserSpotifyDataFinished: (prop) => dispatch(setUserSpotifyDataFinished(prop))
-  }
-}
+    setUserSpotifyDataError: prop => dispatch(setUserSpotifyDataError(prop)),
+    setUserSpotifyDataFinished: prop =>
+      dispatch(setUserSpotifyDataFinished(prop))
+  };
+};
 
 class LoginContainer extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class LoginContainer extends React.Component {
       isLoading: false,
       user: {
         accessToken: "",
-        isLoginAttempted: store.getState().user.isLoginAttempted,
+        isLoginAttempted: false,
         spotify: {
           display_name: ""
         }
@@ -75,7 +76,7 @@ class LoginContainer extends React.Component {
         });
     }
   }
-  
+
   componentWillUnmount() {
     this.abortController.abort();
   }
@@ -89,10 +90,10 @@ class LoginContainer extends React.Component {
     }
 
     const accessTokenParam = urlUtils.getUrlParam("#", "access_token");
-    if (
-      !accessTokenParam ||
-      urlUtils.getUrlParam("\\?", "error") === "access_denied"
-    ) {
+    if (!accessTokenParam) {
+      if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
+        this.setState({user: { isLoginAttempted: true}});
+      }
       //TODO: Check for accessToken in local storage and check to see if it is expired
       this.setState({ isLoading: false });
       return false;
@@ -110,10 +111,15 @@ class LoginContainer extends React.Component {
     return (
       <div>
         {alert}
-        <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>Authorize Spotify</Button>
+        <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
+          Authorize Spotify
+        </Button>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginContainer);
