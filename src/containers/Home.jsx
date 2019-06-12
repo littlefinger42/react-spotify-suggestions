@@ -6,7 +6,10 @@ import {
   getSpotifyDisplayImgUrl
 } from "../store/selectors/index";
 
+import spotifyUtils from "../utils/spotifyUtils";
+
 import User from "../components/User.jsx";
+import Button from "../components/Button.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -23,20 +26,32 @@ const mapStateToProps = state => {
 class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: {
+        accessToken: "",
+        spotify: {
+          display_name: "",
+          img_url: ""
+        }
+      }
+    }
   }
 
-  componentDidMount() {
-    if (!this.props.user.spotify.display_name) {
-      //TODO: Redirect back to login
-    }
+  getTopTracks() {
+    spotifyUtils.getSpotifyTopTracks(this.state.user.accessToken).then(result => {
+      console.log(result);
+    })
   }
 
   render() {
     return (
-      <User
-        username={this.props.user.spotify.display_name}
-        imgUrl={this.props.user.spotify.img_url}
-      />
+      <div>
+        <User
+          username={this.props.user.spotify.display_name}
+          imgUrl={this.props.user.spotify.img_url}
+        />
+        <Button handleClick={this.getTopTracks.bind(this)}>Load top tracks</Button>
+      </div>
     );
   }
 }

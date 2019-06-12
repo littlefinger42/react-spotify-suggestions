@@ -1,4 +1,4 @@
-import config from "../config"
+import config from "../config";
 
 const spotifyUtils = {
   getSpotifyUserData(accessToken, abortController) {
@@ -15,10 +15,24 @@ const spotifyUtils = {
       .then(res => res.json())
       .then(result => result, error => error);
   },
+  getSpotifyTopTracks(accessToken, abortController) {
+    let options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+    if (abortController && abortController.signal) {
+      options = { ...options, ...(options.signal = abortController.signal) };
+    }
 
+    return fetch("https://api.spotify.com/v1/me/top/", options)
+      .then(res => res.json())
+      .then(result => result, error => error);
+  },
   redirectToSpotifyLoginPage() {
-    window.location.href =
-      `https://accounts.spotify.com/authorize?client_id=${config.spotify.clientId}&response_type=token&redirect_uri=${config.spotify.redirectUrl}`;
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${
+      config.spotify.clientId
+    }&response_type=token&redirect_uri=${config.spotify.redirectUrl}`;
   }
 };
 
