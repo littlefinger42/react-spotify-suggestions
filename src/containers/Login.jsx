@@ -30,6 +30,15 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserAccessToken: (prop) => dispatch(setUserAccessToken(prop)),
+    setUserSpotifyDataStarted: () => dispatch(setUserSpotifyDataStarted()),
+    setUserSpotifyDataError: (prop) => dispatch(setUserSpotifyDataError(prop)),
+    setUserSpotifyDataFinished: (prop) => dispatch(setUserSpotifyDataFinished(prop))
+  }
+}
+
 class LoginContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -48,18 +57,18 @@ class LoginContainer extends React.Component {
 
   componentDidMount() {
     const accessToken = this.getAccessToken();
-    store.dispatch(setUserAccessToken(accessToken));
+    this.props.setUserAccessToken(accessToken);
 
     if (accessToken && !this.state.user.spotify.displayName) {
-      store.dispatch(setUserSpotifyDataStarted());
+      this.props.setUserSpotifyDataStarted();
       spotifyUtils
         .getSpotifyUserData(accessToken, this.abortController)
         .then(result => {
           if (result.error) {
-            store.dispatch(setUserSpotifyDataError(result));
+            this.props.setUserSpotifyDataError(result);
             this.setState({ isLoading: false });
           } else {
-            store.dispatch(setUserSpotifyDataFinished(result));
+            this.props.setUserSpotifyDataFinished(result);
             this.props.history.push("/home");
             this.setState({ isLoading: false });
           }
@@ -93,11 +102,6 @@ class LoginContainer extends React.Component {
     return accessTokenParam.split("&")[0];
   }
 
-  fetchUserData() {
-    store.dispatch(setUserSpotifyDataStarted());
-    return;
-  }
-
   render() {
     let alert;
     if (this.state.user.isLoginAttempted) {
@@ -112,4 +116,4 @@ class LoginContainer extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
