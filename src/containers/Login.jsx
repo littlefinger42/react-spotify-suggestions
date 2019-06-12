@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Button from "../components/Button.jsx";
 import Alert from "../components/Alert.jsx";
 
-import store from "../store/store";
 import {
   getSpotifyDisplayName,
   getUserAccessToken
