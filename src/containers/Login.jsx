@@ -69,8 +69,8 @@ class LoginContainer extends React.Component {
             this.setState({ isLoading: false });
           } else {
             this.props.setUserSpotifyDataFinished(result);
-            this.props.history.push("/home");
             this.setState({ isLoading: false });
+            this.props.history.push("/home");
           }
         });
     }
