@@ -1,7 +1,5 @@
 import config from "../config"
 
-console.log(config)
-
 const spotifyUtils = {
   getSpotifyUserData(accessToken, abortController) {
     let options = {
