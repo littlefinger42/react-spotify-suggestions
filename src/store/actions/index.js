@@ -6,4 +6,4 @@ export const setUserSpotifyDataStarted = () => ({ type: types.SET_USER_SPOTIFY_D
 export const setUserSpotifyDataError = payload => ({ type: types.SET_USER_SPOTIFY_DATA, status: "error",  payload });
 export const setUserSpotifyDataFinished = payload => ({ type: types.SET_USER_SPOTIFY_DATA, status: "success",  payload });
 
-export const updateTopSongs = payload => ({ type: types.UPDATE_TOP_SONGS, payload });
+export const updateTopTracks = payload => ({ type: types.UPDATE_TOP_TRACKS, payload });

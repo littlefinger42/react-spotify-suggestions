@@ -12,7 +12,7 @@ const initialState = {
       ]
     }
   },
-  topSongs: []
+  topTracks: []
 };
 
 function reducer(state = initialState, action) {
@@ -22,9 +22,9 @@ function reducer(state = initialState, action) {
       return { ...state, user: { ...state.user, accessToken: action.payload } };
     case types.SET_USER_SPOTIFY_DATA:
       return { ...state, user: { ...state.user, spotify: { ...state.user.spotify, ...action.payload, status: action.status } } };
-    //SONGS
-    case types.UPDATE_TOP_SONGS:
-      return { ...state, topSongs: action.payload };
+    //TRACKS
+    case types.UPDATE_TOP_TRACKS:
+      return { ...state, topTracks: action.payload };
   }
   return state;
 }

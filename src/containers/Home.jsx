@@ -5,6 +5,9 @@ import {
   getSpotifyDisplayName,
   getSpotifyDisplayImgUrl
 } from "../store/selectors/index";
+import {
+  updateTopTracks,
+} from "../store/actions/index";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
@@ -23,6 +26,12 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    updateTopTracks: prop => dispatch(updateTopTracks(prop)),
+  };
+};
+
 class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +39,8 @@ class HomeContainer extends React.Component {
 
   getTopTracks() {
     spotifyUtils.getSpotifyTopTracks(this.props.user.accessToken).then(result => {
-      console.log(result);
+      console.log(this.props.updateTopTracks);
+      this.props.updateTopTracks(result);
     })
   }
 
@@ -47,4 +57,4 @@ class HomeContainer extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(HomeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

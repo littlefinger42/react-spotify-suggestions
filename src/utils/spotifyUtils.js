@@ -13,7 +13,7 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/", options)
       .then(res => res.json())
-      .then(result => result, error => error);
+      .then(response => response, error => error);
   },
   getSpotifyTopTracks(accessToken, abortController) {
     let options = {
@@ -27,7 +27,7 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/top/tracks", options)
       .then(res => res.json())
-      .then(result => result, error => error);
+      .then(response => response.items, error => error);
   },
   redirectToSpotifyLoginPage() {
     window.location.href = `https://accounts.spotify.com/authorize?client_id=${
