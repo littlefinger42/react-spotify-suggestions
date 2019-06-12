@@ -13,6 +13,7 @@ import spotifyUtils from "../utils/spotifyUtils";
 
 import User from "../components/User.jsx";
 import Button from "../components/Button.jsx";
+import List from "../components/List.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -35,12 +36,15 @@ const mapDispatchToProps = dispatch => {
 class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tracks: []
+    }
   }
 
   getTopTracks() {
     spotifyUtils.getSpotifyTopTracks(this.props.user.accessToken).then(result => {
-      console.log(this.props.updateTopTracks);
       this.props.updateTopTracks(result);
+      this.setState({tracks: result});
     })
   }
 
@@ -52,6 +56,7 @@ class HomeContainer extends React.Component {
           imgUrl={this.props.user.spotify.img_url}
         />
         <Button handleClick={this.getTopTracks.bind(this)}>Load top tracks</Button>
+        <List list={this.state.tracks}/>
       </div>
     );
   }
