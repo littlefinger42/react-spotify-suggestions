@@ -53,13 +53,17 @@ class HomeContainer extends React.Component {
   getTopTracks = () => {
     spotifyUtils
       .getSpotifyTopTracks(this.props.user.accessToken, this.abortController)
-      .then(result => {
-        result = result.map(track => {
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
+          return false;
+        }
+        response = response.map(track => {
           track.selected = false;
           return track;
         });
-        this.props.updateTopTracks(result);
-        this.setState({ tracks: [result] });
+        this.props.updateTopTracks(response);
+        this.setState({ tracks: [response] });
       });
   };
 
@@ -73,8 +77,13 @@ class HomeContainer extends React.Component {
         this.state.selectedTracks,
         this.abortController
       )
-      .then(result => {
-        this.setState({ tracks: [...this.state.tracks, result] });
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
+          return false;
+        }
+
+        this.setState({ tracks: [...this.state.tracks, response] });
       });
   };
 
@@ -89,9 +98,9 @@ class HomeContainer extends React.Component {
         this.state.selectedTracks,
         this.abortController
       )
-      .then(result => {
-        if (result.error) {
-          alert(result.error); //TODO: add better error messages
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
           return false;
         }
 
@@ -114,7 +123,7 @@ class HomeContainer extends React.Component {
       const newList = this.state.selectedTracks.filter(
         trackId => trackId !== item.props.id
       );
-      this.setState({ selectedTracks: newList });
+      this.setState({ selectedTracks: newList, tracksExportable: true });
     }
   };
 
