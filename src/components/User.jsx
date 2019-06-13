@@ -13,7 +13,7 @@ class User extends React.Component {
     return (
       <Card>
         <span><Label>Username:</Label> {this.props.username}</span>
-        <Avatar src={this.props.imgUrl} alt={this.props.username + " avatar"} />
+        <Avatar imgSrc={this.props.imgUrl} alt={this.props.username + " avatar"} />
       </Card>
     );
   }

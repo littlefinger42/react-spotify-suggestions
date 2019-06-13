@@ -8,7 +8,6 @@ const TrackLi = styled.li`
 `;
 
 const TrackTitle = styled.span`
-  font-size: 14px;
   color: #CCC;
 `;
 

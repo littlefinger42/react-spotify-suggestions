@@ -16,6 +16,10 @@ const AppBody = styled.div`
   color: ${style.textColor};
   background-color: ${style.blackBackground};
   font-family: "Open Sans", Arial;
+  font-size: 12px;
+  @media ${style.device.tablet} { 
+    font-size: 14px;
+  }
 `;
 
 class App extends React.Component {

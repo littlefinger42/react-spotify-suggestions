@@ -14,10 +14,23 @@ const HeaderStyled = styled.header`
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: 24px;
+  font-size: 16px;
+  @media ${style.device.tablet} {
+    font-size: 20px;
+  }
+  @media ${style.device.laptop} {
+    font-size: 24px;
+  }
 `;
+
 const HeaderVersion = styled.span`
-  font-size: 24px;
+  font-size: 14px;
+  @media ${style.device.tablet} {
+    font-size: 16px;
+  }
+  @media ${style.device.laptop} {
+    font-size: 18px;
+  }
 `;
 
 class Header extends React.Component {
