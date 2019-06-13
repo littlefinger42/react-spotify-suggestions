@@ -101,7 +101,6 @@ class HomeContainer extends React.Component {
         {topTracksButton}
         {recommendationButton}
         {this.state.tracks.map((trackList, index) => {
-          console.log(45, trackList, this.state.tracks);
           return (
             <TrackList
               key={index}
