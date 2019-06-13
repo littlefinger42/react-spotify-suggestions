@@ -82,24 +82,24 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-    let topTracksButton;
-    if (this.state.tracks[0].length === 0) {
-      topTracksButton = <Button handleClick={this.getTopTracks.bind(this)}>Load top tracks</Button>
-    }
-
-    let recommendationButton;
-    if (this.state.selectedTracks.length > 0) {
-      recommendationButton = <Button handleClick={this.getRecommendations.bind(this)}>Load recommendations tracks</Button>
-    }
-
     return (
       <Main>
         <User
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
         />
-        {topTracksButton}
-        {recommendationButton}
+        <Button
+          disabled={this.state.tracks[0].length !== 0}
+          handleClick={this.getTopTracks.bind(this)}
+        >
+          Load tops tracks
+        </Button>
+        <Button
+          disabled={this.state.selectedTracks.length < 1}
+          handleClick={this.getRecommendations.bind(this)}
+        >
+          Suggest tracks
+        </Button>
         {this.state.tracks.map((trackList, index) => {
           return (
             <TrackList

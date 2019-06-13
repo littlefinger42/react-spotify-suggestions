@@ -13,7 +13,7 @@ import config from "../../package.json";
 const AppBody = styled.div`
   min-height: 100vh;
   color: white;
-  background-color: #303030;
+  background-color: #101010;
 `
 
 class App extends React.Component {
