@@ -20,11 +20,11 @@ class TrackList extends React.Component {
   render() {
     return (
       <StyledList>
-        {this.props.tracks.map(item => (
+        {this.props.tracks.map((track, index) => (
           <Track
-            key={item.id}
+            key={track.id}
             handleClick={this.trackClicked}
-            {...item}
+            {...track}
           />
         ))}
       </StyledList>

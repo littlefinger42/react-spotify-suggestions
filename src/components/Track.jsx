@@ -55,7 +55,7 @@ class Track extends React.Component {
             <span>
               {this.props.artists.map(artist => {
                 return (
-                  <span>
+                  <span key={artist.id}>
                     <a
                       href={artist.external_urls.spotify}
                       title={"Find " + this.props.name + " on Spotify"}
