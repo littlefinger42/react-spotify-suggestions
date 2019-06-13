@@ -10,15 +10,11 @@ const StyledList = styled.ul`
 class TrackList extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
-    this.state = {
-      tracks: [ ...props.tracks ]
-    };
   }
 
 
-  handleClick(track, event) {
-    this.props.handleClick(track, event);
+  trackClicked(track, event) {
+    this.props.trackClicked(track, event);
   }
 
   // this.tracks.setState
@@ -29,7 +25,7 @@ class TrackList extends React.Component {
         {this.props.tracks.map(item => (
           <Track
             key={item.id}
-            handleClick={this.props.handleClick}
+            handleClick={this.trackClicked.bind(this)}
             {...item}
           />
         ))}
