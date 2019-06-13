@@ -15,7 +15,7 @@ const Card = styled.div`
 	align-items: center;
 
 	&.active {
-	  box-shadow: #7f7 0px 0px ${style.sizeXs} -2px;
+	  box-shadow: ${style.primaryColor} 0px 0px ${style.sizeXs} -2px;
 	}
 `;
 
