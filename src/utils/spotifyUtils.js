@@ -29,6 +29,20 @@ const spotifyUtils = {
       .then(res => res.json())
       .then(response => response.items, error => error);
   },
+  getSpotifyRecommendations(accessToken, seeds, abortController) {
+    let options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+    if (abortController && abortController.signal) {
+      options = { ...options, ...(options.signal = abortController.signal) };
+    }
+
+    return fetch("https://api.spotify.com/v1/recommendations?seed_tracks=" + seeds.join(","), options)
+      .then(res => res.json())
+      .then(response => response.tracks, error => error);
+  },
   redirectToSpotifyLoginPage() {
     window.location.href = `https://accounts.spotify.com/authorize?client_id=${
       config.spotify.clientId
