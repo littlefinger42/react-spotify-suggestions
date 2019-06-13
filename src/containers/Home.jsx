@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import {
   getUserAccessToken,
   getSpotifyDisplayName,
-  getSpotifyDisplayImgUrl
+  getSpotifyDisplayImgUrl,
+  getSpotifyUserId
 } from "../store/selectors/index";
 import { updateTopTracks } from "../store/actions/index";
 
@@ -21,7 +22,8 @@ const mapStateToProps = state => {
       accessToken: getUserAccessToken(state),
       spotify: {
         display_name: getSpotifyDisplayName(state),
-        img_url: getSpotifyDisplayImgUrl(state)
+        img_url: getSpotifyDisplayImgUrl(state),
+        id: getSpotifyUserId(state)
       }
     }
   };
@@ -39,7 +41,8 @@ class HomeContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       tracks: [[]],
-      selectedTracks: []
+      selectedTracks: [],
+      tracksExportable: false
     };
   }
 
@@ -57,7 +60,7 @@ class HomeContainer extends React.Component {
         this.props.updateTopTracks(result);
         this.setState({ tracks: [result] });
       });
-  }
+  };
 
   /**
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
@@ -72,17 +75,39 @@ class HomeContainer extends React.Component {
       .then(result => {
         this.setState({ tracks: [...this.state.tracks, result] });
       });
-  }
+  };
 
   /**
-   * CLick handler for track
-   * @param {Object} item 
-   * @param {*} event 
+   * Creates and fills a new spotify playlist with selected tracks
+   */
+  exportPlaylist = () => {
+    spotifyUtils
+      .createAndFillSpotifyPlaylist(
+        this.props.user.accessToken,
+        this.props.user.spotify.id,
+        this.state.selectedTracks,
+        this.abortController
+      )
+      .then(result => {
+        if (result.error) {
+          alert(result.error); //TODO: add better error messages
+          return false;
+        }
+
+        this.setState({ tracksExportable: false });
+      });
+  };
+
+  /**
+   * Click handler for track
+   * @param {Object} item
+   * @param {*} event
    */
   trackClicked = (item, event) => {
     if (event.target.checked) {
       this.setState({
-        selectedTracks: [...this.state.selectedTracks, item.props.id]
+        selectedTracks: [...this.state.selectedTracks, item.props.id],
+        tracksExportable: true
       });
     } else {
       const newList = this.state.selectedTracks.filter(
@@ -90,7 +115,7 @@ class HomeContainer extends React.Component {
       );
       this.setState({ selectedTracks: newList });
     }
-  }
+  };
 
   componentWillUnmount() {
     this.abortController.abort();
@@ -114,6 +139,12 @@ class HomeContainer extends React.Component {
           handleClick={this.getRecommendations}
         >
           Suggest tracks
+        </Button>
+        <Button
+          disabled={!this.state.tracksExportable}
+          handleClick={this.exportPlaylist}
+        >
+          Export Playlist
         </Button>
         {this.state.tracks.map((trackList, index) => {
           return (

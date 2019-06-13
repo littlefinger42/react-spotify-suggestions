@@ -7,3 +7,6 @@ export const getSpotifyDisplayImgUrl = state => {
 export const getUserAccessToken = state => {
   return state.user.accessToken;
 };
+export const getSpotifyUserId = state => {
+  return state.user.spotify.id;
+};
