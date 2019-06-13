@@ -5,10 +5,10 @@ const TrackLi = styled.li`
   list-style: none;
   margin: 8px 0;
   padding: 16px;
-  border: 1px #ddd solid;
+  border: 1px #111 solid;
   border-radius: 4px;
-  color: #777;
-  box-shadow: #eee 0px 0px 8px;
+  color: #CCC;
+  box-shadow: #111 0px 0px 8px;
   &.checked {
     box-shadow: #7f7 0px 0px 8px;
   }
@@ -20,7 +20,7 @@ const TrackLi = styled.li`
 
 const TrackTitle = styled.span`
   font-size: 14px;
-  color: #555;
+  color: #CCC;
 `;
 
 class Track extends React.Component {

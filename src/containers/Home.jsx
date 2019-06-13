@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components"
 
 import {
   getUserAccessToken,
@@ -38,8 +37,8 @@ class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tracks: [],
-      selectedTrackIds: []
+      tracks: [[]],
+      selectedTracks: []
     };
   }
 
@@ -53,54 +52,65 @@ class HomeContainer extends React.Component {
           return track;
         });
         this.props.updateTopTracks(result);
-        this.setState({ tracks: result });
+        this.setState({ tracks: [result] });
       });
-  }
-
-  getSelectedTracksIds() {
-    return this.state.tracks.filter(track => track.selected === true).map(track => track.id)
   }
 
   getRecommendations() {
     //TODO: add abort handler
     spotifyUtils
-      .getSpotifyRecommendations(this.props.user.accessToken, this.getSelectedTracksIds())
+      .getSpotifyRecommendations(
+        this.props.user.accessToken,
+        this.state.selectedTracks
+      )
       .then(result => {
-        console.log(result);
+        this.setState({ tracks: [...this.state.tracks, result] });
       });
   }
 
   trackClicked(item, event) {
-    let index;
-    const clickedTrack = this.state.tracks.find((track, i) => {
-      index = i;
-      return track.id === item.props.id;
-    });
-    
-    if (!clickedTrack) return false;
-
-    clickedTrack.selected = event.target.checked;
-
-    this.setState({ tracks: [...this.state.tracks.slice(0, index), clickedTrack, ...this.state.tracks.slice(index + 1)] });
+    if (event.target.checked) {
+      this.setState({
+        selectedTracks: [...this.state.selectedTracks, item.props.id]
+      });
+    } else {
+      const newList = this.state.selectedTracks.filter(
+        trackId => trackId !== item.props.id
+      );
+      this.setState({ selectedTracks: newList });
+    }
   }
 
   render() {
+    let topTracksButton;
+    if (this.state.tracks[0].length === 0) {
+      topTracksButton = <Button handleClick={this.getTopTracks.bind(this)}>Load top tracks</Button>
+    }
+
+    let recommendationButton;
+    if (this.state.selectedTracks.length > 0) {
+      recommendationButton = <Button handleClick={this.getRecommendations.bind(this)}>Load recommendations tracks</Button>
+    }
+
     return (
       <Main>
         <User
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
         />
-        <Button handleClick={this.getTopTracks.bind(this)}>
-          Load top tracks
-        </Button>
-        <Button handleClick={this.getRecommendations.bind(this)}>
-          Load recommendations tracks
-        </Button>
-        <TrackList
-          tracks={this.state.tracks}
-          handleClick={this.trackClicked.bind(this)}
-        />
+        {topTracksButton}
+        {recommendationButton}
+        {this.state.tracks.map((trackList, index) => {
+          console.log(45, trackList, this.state.tracks);
+          return (
+            <TrackList
+              key={index}
+              id={index}
+              tracks={trackList}
+              trackClicked={this.trackClicked.bind(this)}
+            />
+          );
+        })}
       </Main>
     );
   }

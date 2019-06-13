@@ -4,7 +4,8 @@ import styled from "styled-components";
 const HeaderStyled = styled.header`
   height: 64px;
   padding: 0 16px;
-  background-color: pink;
+  background-color: #212121;
+  color: white;
 
   display: flex;
   justify-content: space-between;

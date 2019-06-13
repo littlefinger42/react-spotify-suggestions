@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from "styled-components"
 import { Reset } from "styled-reset";
 
 import Home from "../containers/Home.jsx";
@@ -9,10 +10,16 @@ import Header from "../components/Header.jsx";
 
 import config from "../../package.json";
 
+const AppBody = styled.div`
+  min-height: 100vh;
+  color: white;
+  background-color: #303030;
+`
+
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <AppBody>
         <Reset />
         <Header title={config.friendlyName} version={config.version} />
         <Router>
@@ -21,7 +28,7 @@ class App extends React.Component {
             <PrivateRoute path="/home" component={Home} />
           </Switch>
         </Router>
-      </div>
+      </AppBody>
     );
   }
 }
