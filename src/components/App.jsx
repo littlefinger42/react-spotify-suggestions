@@ -20,6 +20,12 @@ const AppBody = styled.div`
   @media ${style.device.tablet} { 
     font-size: 14px;
   }
+  a {
+    color: #fff;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 class App extends React.Component {

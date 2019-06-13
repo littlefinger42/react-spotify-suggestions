@@ -1,14 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { style } from "../config";
 
-import Card from "./Card.jsx"
+import Card from "./Card.jsx";
+import Audio from "./Audio.jsx";
+
+const TrackAudio = styled.div`
+  padding-top: 8px;
+  flex: 0 1 100%;
+  @media ${style.device.tablet} {
+    padding-top: 0px;
+    flex: 0 1 40%;
+  }
+  @media ${style.device.laptop} {
+    flex: 0 1 30%;
+  }
+`;
 
 const TrackLi = styled.li`
   list-style: none;
-`;
-
-const TrackTitle = styled.span`
-  color: #CCC;
 `;
 
 class Track extends React.Component {
@@ -32,13 +42,36 @@ class Track extends React.Component {
             <input
               type="checkbox"
               checked={this.state.active}
-              onChange={(e) => this.onChangeCheckbox(e)}
+              onChange={e => this.onChangeCheckbox(e)}
             />
-            <TrackTitle>{this.props.name}</TrackTitle>
-            <TrackTitle>
-              {this.props.artists.map(artist => artist.name + " ")}
-            </TrackTitle>
-            <audio controls preload="metadata" src={this.props.preview_url} />
+            <a
+              href={this.props.external_urls.spotify}
+              title={"Find " + this.props.name + " on spotify"}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {this.props.name}
+            </a>
+            <span>
+              {this.props.artists.map(artist => {
+                return (
+                  <span>
+                    <a
+                      href={artist.external_urls.spotify}
+                      title={"Find " + this.props.name + " on Spotify"}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {artist.name}
+                    </a>
+                    <span> </span>
+                  </span>
+                );
+              })}
+            </span>
+            <TrackAudio>
+              <Audio src={this.props.preview_url} controls preload="metadata" />
+            </TrackAudio>
           </Card>
         </TrackLi>
       </label>

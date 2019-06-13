@@ -10,11 +10,12 @@ const Card = styled.div`
 	box-shadow: #000 0px 0px ${style.sizeXs};
 
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 
 	&.active {
-	  box-shadow: #7f7 0px 0px ${style.sizeXs};
+	  box-shadow: #7f7 0px 0px ${style.sizeXs} -2px;
 	}
 `;
 
