@@ -6,6 +6,7 @@
 		  {
 			"ssr": false
 		  }
-		]
+		],
+		"@babel/plugin-proposal-class-properties"
 	  ]
 }

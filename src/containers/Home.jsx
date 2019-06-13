@@ -46,7 +46,7 @@ class HomeContainer extends React.Component {
   /**
    * Uses spotify utils to fetch top tracks then sets them to the state and the store
    */
-  getTopTracks() {
+  getTopTracks = () => {
     spotifyUtils
       .getSpotifyTopTracks(this.props.user.accessToken, this.abortController)
       .then(result => {
@@ -62,7 +62,7 @@ class HomeContainer extends React.Component {
   /**
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
    */
-  getRecommendations() {
+  getRecommendations = () => {
     spotifyUtils
       .getSpotifyRecommendations(
         this.props.user.accessToken,
@@ -79,7 +79,7 @@ class HomeContainer extends React.Component {
    * @param {Object} item 
    * @param {*} event 
    */
-  trackClicked(item, event) {
+  trackClicked = (item, event) => {
     if (event.target.checked) {
       this.setState({
         selectedTracks: [...this.state.selectedTracks, item.props.id]
@@ -105,13 +105,13 @@ class HomeContainer extends React.Component {
         />
         <Button
           disabled={this.state.tracks[0].length !== 0}
-          handleClick={this.getTopTracks.bind(this)}
+          handleClick={this.getTopTracks}
         >
           Load tops tracks
         </Button>
         <Button
           disabled={this.state.selectedTracks.length < 1}
-          handleClick={this.getRecommendations.bind(this)}
+          handleClick={this.getRecommendations}
         >
           Suggest tracks
         </Button>
@@ -121,7 +121,7 @@ class HomeContainer extends React.Component {
               key={index}
               id={index}
               tracks={trackList}
-              trackClicked={this.trackClicked.bind(this)}
+              trackClicked={this.trackClicked}
             />
           );
         })}

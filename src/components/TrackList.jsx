@@ -12,7 +12,7 @@ class TrackList extends React.Component {
     super(props);
   }
 
-  trackClicked(track, event) {
+  trackClicked = (track, event) => {
     this.props.trackClicked(track, event);
   }
 
@@ -22,7 +22,7 @@ class TrackList extends React.Component {
         {this.props.tracks.map(item => (
           <Track
             key={item.id}
-            handleClick={this.trackClicked.bind(this)}
+            handleClick={this.trackClicked}
             {...item}
           />
         ))}
