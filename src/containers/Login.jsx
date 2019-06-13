@@ -58,9 +58,9 @@ class LoginContainer extends React.Component {
       spotifyUtils
         .getSpotifyUserData(accessToken, this.abortController)
         .then(result => {
-          if (result.error) {
+          if (result.status !== 200) {
             this.props.setUserSpotifyDataError(result);
-            this.setState({ isLoading: false });
+            this.setState({ isLoading: false, isLoginFailed: true });
           } else {
             this.props.setUserSpotifyDataFinished(result);
             this.setState({ isLoading: false });
