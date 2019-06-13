@@ -25,7 +25,7 @@ class Header extends React.Component {
     return (
       <HeaderStyled>
         <HeaderTitle>{this.props.title}</HeaderTitle>
-        <HeaderVersion>{this.props.version}</HeaderVersion>
+        <HeaderVersion>v{this.props.version}</HeaderVersion>
       </HeaderStyled>
     );
   }
