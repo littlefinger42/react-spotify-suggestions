@@ -56,6 +56,14 @@ const spotifyUtils = {
       options = { ...options, ...(options.signal = abortController.signal) };
     }
 
+    if (seeds.length > 5) {
+      let newSeeds = [];
+      for (let i = 0; i < 5; i++) {
+        newSeeds.push(seeds[Math.floor(Math.random() * seeds.length)]);
+      }
+      seeds = newSeeds;
+    }
+
     return fetch(
       `https://api.spotify.com/v1/recommendations?seed_tracks=${seeds.join(
         ","
@@ -89,15 +97,23 @@ const spotifyUtils = {
     return fetch(
       `https://api.spotify.com/v1/users/${userId}/playlists`,
       options
-    ).then(response => response.json()).then(response => {
-      if (response.id) return this.addTracksToSpotifyPlaylist(accessToken, response.id, seeds, abortController)
-    });
+    )
+      .then(response => response.json())
+      .then(response => {
+        if (response.id)
+          return this.addTracksToSpotifyPlaylist(
+            accessToken,
+            response.id,
+            seeds,
+            abortController
+          );
+      });
   },
   /**
-   * @param {string} accessToken 
-   * @param {string} playlistId 
-   * @param {Array} seeds 
-   * @param {Object} abortController 
+   * @param {string} accessToken
+   * @param {string} playlistId
+   * @param {Array} seeds
+   * @param {Object} abortController
    * @returns {Promise<Object>}
    */
   addTracksToSpotifyPlaylist(accessToken, playlistId, seeds, abortController) {
@@ -108,7 +124,7 @@ const spotifyUtils = {
         Authorization: `Bearer ${accessToken}`
       },
       referrer: "no-referrer",
-      body: JSON.stringify({uris: seeds.map(seed => `spotify:track:${seed}`)})
+      body: JSON.stringify({ uris: seeds.map(seed => `spotify:track:${seed}`) })
     };
     if (abortController && abortController.signal) {
       options = { ...options, ...(options.signal = abortController.signal) };
@@ -117,7 +133,9 @@ const spotifyUtils = {
     return fetch(
       `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
       options
-    ).then(response => response.json()).then(response => response);
+    )
+      .then(response => response.json())
+      .then(response => response);
   },
 
   redirectToSpotifyLoginPage() {

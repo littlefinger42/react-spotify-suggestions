@@ -74,6 +74,11 @@ class HomeContainer extends React.Component {
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
    */
   getRecommendations = () => {
+    if (this.state.selectedTracks.length === 0) {
+      alert("Select some tracks as seeds first!")
+      return false;
+    }
+
     this.setState({ isLoading: true });
     spotifyUtils
       .getSpotifyRecommendations(
