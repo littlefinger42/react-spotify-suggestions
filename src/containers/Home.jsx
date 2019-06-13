@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components"
+
 import {
   getUserAccessToken,
   getSpotifyDisplayName,
@@ -9,6 +11,7 @@ import { updateTopTracks } from "../store/actions/index";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
+import Main from "../components/Main.jsx";
 import User from "../components/User.jsx";
 import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
@@ -83,7 +86,7 @@ class HomeContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <Main>
         <User
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
@@ -98,7 +101,7 @@ class HomeContainer extends React.Component {
           tracks={this.state.tracks}
           handleClick={this.trackClicked.bind(this)}
         />
-      </div>
+      </Main>
     );
   }
 }

@@ -1,16 +1,29 @@
 import React from "react";
-import style from "styled-components";
+import styled from "styled-components";
 
-const HeaderStyled = style.header`
-	height: 64px;
-	background-color: pink;
-`
+const HeaderStyled = styled.header`
+  height: 64px;
+  padding: 0 16px;
+  background-color: pink;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderTitle = styled.h1`
+  font-size: 24px;
+`;
+const HeaderVersion = styled.span`
+  font-size: 24px;
+`;
 
 class Header extends React.Component {
   render() {
     return (
       <HeaderStyled>
-        {this.props.children}
+        <HeaderTitle>{this.props.title}</HeaderTitle>
+        <HeaderVersion>{this.props.version}</HeaderVersion>
       </HeaderStyled>
     );
   }

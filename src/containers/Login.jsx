@@ -1,9 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Button from "../components/Button.jsx";
-import Alert from "../components/Alert.jsx";
-
 import {
   getSpotifyDisplayName,
   getUserAccessToken
@@ -17,6 +14,10 @@ import {
 
 import urlUtils from "../utils/urlUtils";
 import spotifyUtils from "../utils/spotifyUtils";
+
+import Main from "../components/Main.jsx";
+import Button from "../components/Button.jsx";
+import Alert from "../components/Alert.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -102,12 +103,12 @@ class LoginContainer extends React.Component {
       alert = <Alert>Failed login attempt.</Alert>;
     }
     return (
-      <div>
+      <Main>
         {alert}
         <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
           Authorize Spotify
         </Button>
-      </div>
+      </Main>
     );
   }
 }

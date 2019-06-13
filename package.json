@@ -1,6 +1,7 @@
 {
   "name": "react-spotify-suggestions",
-  "version": "0.0.0",
+  "friendlyName": "Spotify Suggestions Generator",
+  "version": "0.0.1",
   "description": "A spotify suggestion webapp in react",
   "main": "index.js",
   "scripts": {
@@ -9,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Laurie Copley",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.5",
