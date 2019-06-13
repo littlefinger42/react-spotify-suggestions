@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const TrackLi = styled.li`
+  background-color: #303030;
   list-style: none;
   margin: 8px 0;
   padding: 16px;
-  border: 1px #111 solid;
+  border: 1px #000 solid;
   border-radius: 4px;
   color: #CCC;
-  box-shadow: #111 0px 0px 8px;
+  box-shadow: #000 0px 0px 8px;
+  
   &.checked {
     box-shadow: #7f7 0px 0px 8px;
   }
