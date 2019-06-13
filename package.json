@@ -1,7 +1,7 @@
 {
   "name": "react-spotify-suggestions",
   "friendlyName": "Spotify Suggestions Generator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A spotify suggestion webapp in react",
   "main": "index.js",
   "scripts": {
