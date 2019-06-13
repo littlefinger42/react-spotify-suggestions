@@ -1,7 +1,8 @@
 import styled from "styled-components"
+import { style } from "../config"
 
 const Main = styled.main`
-	padding: 16px;
+	padding: ${style.sizeSm};
 `
 
 export default Main;

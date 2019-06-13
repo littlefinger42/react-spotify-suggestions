@@ -1,4 +1,4 @@
-import config from "../config";
+import { spotify } from "../config";
 
 const spotifyUtils = {
   getSpotifyUserData(accessToken, abortController) {
@@ -45,8 +45,8 @@ const spotifyUtils = {
   },
   redirectToSpotifyLoginPage() {
     window.location.href = `https://accounts.spotify.com/authorize?client_id=${
-      config.spotify.clientId
-    }&response_type=token&redirect_uri=${config.spotify.redirectUrl}&scope=user-top-read`;
+      spotify.clientId
+    }&response_type=token&redirect_uri=${spotify.redirectUrl}&scope=user-top-read`;
   }
 };
 

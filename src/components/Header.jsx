@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { style } from "../config";
 
 const HeaderStyled = styled.header`
-  height: 64px;
-  padding: 0 16px;
-  background-color: #212121;
+  height: ${style.sizeLg};
+  padding: 0 ${style.sizeSm};
+  background-color: ${style.blackLevelOne};
   color: white;
 
   display: flex;

@@ -28,8 +28,8 @@ class Track extends React.Component {
   render() {
     return (
       <label>
-        <TrackLi className={this.state.active ? "active" : ""}>
-          <Card>
+        <TrackLi>
+          <Card className={this.state.active ? "active" : ""}>
             <input
               type="checkbox"
               checked={this.state.active}

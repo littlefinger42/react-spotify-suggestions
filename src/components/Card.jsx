@@ -1,19 +1,20 @@
-import style from "styled-components";
+import styled from "styled-components";
+import { style } from "../config"
 
-const Card = style.div`
-	background-color: #303030;
-	padding: 16px;
-	margin: 8px 0;
+const Card = styled.div`
+	background-color: ${style.blackLevelTwo};
+	padding: ${style.sizeSm};
+	margin: ${style.sizeXs} 0;
 	border: 1px #000 solid;
-	border-radius: 4px;
-	box-shadow: #000 0px 0px 8px;
+	border-radius: ${style.borderRadius};
+	box-shadow: #000 0px 0px ${style.sizeXs};
 
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
 	&.active {
-	  box-shadow: #7f7 0px 0px 8px;
+	  box-shadow: #7f7 0px 0px ${style.sizeXs};
 	}
 `;
 

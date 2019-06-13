@@ -1,5 +1,7 @@
 import React from "react";
+
 import styled from "styled-components";
+import { style } from "../config"
 
 const ButtonStyled = styled.button`
   display: inline-flex;
@@ -7,12 +9,12 @@ const ButtonStyled = styled.button`
   justify-content: center;
   border: none;
   outline: none;
-  background-color: #6200ee;
+  background-color: ${style.primaryColor};
   color: #fff;
-  height: 32px;
-  padding: 0 16px;
-  margin-right: 16px;
-  border-radius: 4px;
+  height: ${style.sizeMd};
+  padding: 0 ${style.sizeSm};
+  margin-right: ${style.sizeSm};
+  border-radius: ${style.borderRadius};
   &:hover {
     cursor: pointer;
     background-color: #2700ee;
