@@ -41,6 +41,7 @@ class HomeContainer extends React.Component {
     super(props);
     this.abortController = new AbortController();
     this.state = {
+      isLoading: false,
       tracks: [[]],
       selectedTracks: [],
       tracksExportable: false
@@ -51,11 +52,13 @@ class HomeContainer extends React.Component {
    * Uses spotify utils to fetch top tracks then sets them to the state and the store
    */
   getTopTracks = () => {
+    this.setState({ isLoading: true });
     spotifyUtils
       .getSpotifyTopTracks(this.props.user.accessToken, this.abortController)
       .then(response => {
         if (response.error) {
           alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
           return false;
         }
         response = response.map(track => {
@@ -63,7 +66,7 @@ class HomeContainer extends React.Component {
           return track;
         });
         this.props.updateTopTracks(response);
-        this.setState({ tracks: [response] });
+        this.setState({ tracks: [response], isLoading: false });
       });
   };
 
@@ -71,6 +74,7 @@ class HomeContainer extends React.Component {
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
    */
   getRecommendations = () => {
+    this.setState({ isLoading: true });
     spotifyUtils
       .getSpotifyRecommendations(
         this.props.user.accessToken,
@@ -80,10 +84,14 @@ class HomeContainer extends React.Component {
       .then(response => {
         if (response.error) {
           alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
           return false;
         }
 
-        this.setState({ tracks: [...this.state.tracks, response] });
+        this.setState({
+          tracks: [...this.state.tracks, response],
+          isLoading: false
+        });
       });
   };
 
@@ -91,6 +99,7 @@ class HomeContainer extends React.Component {
    * Creates and fills a new spotify playlist with selected tracks
    */
   exportPlaylist = () => {
+    this.setState({ isLoading: true });
     spotifyUtils
       .createAndFillSpotifyPlaylist(
         this.props.user.accessToken,
@@ -101,10 +110,11 @@ class HomeContainer extends React.Component {
       .then(response => {
         if (response.error) {
           alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
           return false;
         }
 
-        this.setState({ tracksExportable: false });
+        this.setState({ tracksExportable: false, isLoading: false });
       });
   };
 
@@ -140,19 +150,21 @@ class HomeContainer extends React.Component {
         />
         <Toolbar>
           <Button
-            disabled={this.state.tracks[0].length !== 0}
+            disabled={this.state.tracks[0].length !== 0 || this.state.isLoading}
             handleClick={this.getTopTracks}
           >
             Load tops tracks
           </Button>
           <Button
-            disabled={this.state.selectedTracks.length < 1}
+            disabled={
+              this.state.selectedTracks.length < 1 || this.state.isLoading
+            }
             handleClick={this.getRecommendations}
           >
             Suggest tracks
           </Button>
           <Button
-            disabled={!this.state.tracksExportable}
+            disabled={!this.state.tracksExportable || this.state.isLoading}
             handleClick={this.exportPlaylist}
           >
             Export Playlist
