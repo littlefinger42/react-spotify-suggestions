@@ -15,6 +15,7 @@ import Main from "../components/Main.jsx";
 import User from "../components/User.jsx";
 import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
+import Toolbar from "../components/Toolbar.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -128,24 +129,26 @@ class HomeContainer extends React.Component {
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
         />
-        <Button
-          disabled={this.state.tracks[0].length !== 0}
-          handleClick={this.getTopTracks}
-        >
-          Load tops tracks
-        </Button>
-        <Button
-          disabled={this.state.selectedTracks.length < 1}
-          handleClick={this.getRecommendations}
-        >
-          Suggest tracks
-        </Button>
-        <Button
-          disabled={!this.state.tracksExportable}
-          handleClick={this.exportPlaylist}
-        >
-          Export Playlist
-        </Button>
+        <Toolbar>
+          <Button
+            disabled={this.state.tracks[0].length !== 0}
+            handleClick={this.getTopTracks}
+          >
+            Load tops tracks
+          </Button>
+          <Button
+            disabled={this.state.selectedTracks.length < 1}
+            handleClick={this.getRecommendations}
+          >
+            Suggest tracks
+          </Button>
+          <Button
+            disabled={!this.state.tracksExportable}
+            handleClick={this.exportPlaylist}
+          >
+            Export Playlist
+          </Button>
+        </Toolbar>
         {this.state.tracks.map((trackList, index) => {
           return (
             <TrackList
