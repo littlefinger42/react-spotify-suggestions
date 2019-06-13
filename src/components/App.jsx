@@ -15,6 +15,7 @@ const AppBody = styled.div`
   min-height: 100vh;
   color: ${style.textColor};
   background-color: ${style.blackBackground};
+  font-family: "Open Sans", Arial;
 `;
 
 class App extends React.Component {
