@@ -1,9 +1,9 @@
 const urlUtils = {
 	/**
 	 * Returns a string of a url param based on the seperator and name strings
-	 * @param {String} seperator 
-	 * @param {String} name 
-	 * @returns {String}
+	 * @param {string} seperator Seperator of the parameter and the domain
+	 * @param {string} name Name of the url parameter
+	 * @returns {Array<string>|boolean}
 	 */
 	getUrlParam(seperator, name) {
 		const regex = new RegExp(`(${seperator})(${name})(\=)([^#]*)`)

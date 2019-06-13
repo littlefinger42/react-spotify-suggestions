@@ -12,12 +12,9 @@ class TrackList extends React.Component {
     super(props);
   }
 
-
   trackClicked(track, event) {
     this.props.trackClicked(track, event);
   }
-
-  // this.tracks.setState
 
   render() {
     return (

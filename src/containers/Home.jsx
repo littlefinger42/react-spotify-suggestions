@@ -36,16 +36,19 @@ const mapDispatchToProps = dispatch => {
 class HomeContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.abortController = new AbortController();
     this.state = {
       tracks: [[]],
       selectedTracks: []
     };
   }
 
+  /**
+   * Uses spotify utils to fetch top tracks then sets them to the state and the store
+   */
   getTopTracks() {
-    //TODO: add abort handler
     spotifyUtils
-      .getSpotifyTopTracks(this.props.user.accessToken)
+      .getSpotifyTopTracks(this.props.user.accessToken, this.abortController)
       .then(result => {
         result = result.map(track => {
           track.selected = false;
@@ -56,18 +59,26 @@ class HomeContainer extends React.Component {
       });
   }
 
+  /**
+   * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
+   */
   getRecommendations() {
-    //TODO: add abort handler
     spotifyUtils
       .getSpotifyRecommendations(
         this.props.user.accessToken,
-        this.state.selectedTracks
+        this.state.selectedTracks,
+        this.abortController
       )
       .then(result => {
         this.setState({ tracks: [...this.state.tracks, result] });
       });
   }
 
+  /**
+   * CLick handler for track
+   * @param {Object} item 
+   * @param {*} event 
+   */
   trackClicked(item, event) {
     if (event.target.checked) {
       this.setState({
@@ -79,6 +90,10 @@ class HomeContainer extends React.Component {
       );
       this.setState({ selectedTracks: newList });
     }
+  }
+
+  componentWillUnmount() {
+    this.abortController.abort();
   }
 
   render() {

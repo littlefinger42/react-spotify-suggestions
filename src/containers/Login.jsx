@@ -45,7 +45,7 @@ class LoginContainer extends React.Component {
     super(props);
     this.abortController = new AbortController();
     this.state = {
-      isLoading: false,
+      isLoading: false, //TODO: Use loading state
       isLoginFailed: false,
     };
   }
@@ -75,6 +75,10 @@ class LoginContainer extends React.Component {
     this.abortController.abort();
   }
 
+  /**
+   * Returns the accessToken from the URL, otherwise false
+   * @returns {string|boolean}
+   */
   getAccessToken() {
     this.setState({ isLoading: true });
 
