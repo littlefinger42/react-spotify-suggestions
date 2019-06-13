@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Reset } from 'styled-reset'
 
 import Home from "../containers/Home.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -11,6 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Reset/>
         <Header>
           Spotify Suggestions Generator
         </Header>
