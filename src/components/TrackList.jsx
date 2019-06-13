@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { style } from "../config"
 
 import Track from "./Track.jsx";
 
 const StyledList = styled.ul`
-  padding: 0;
+  padding: 0 0 ${style.sizeSm} 0;
 `;
 
 class TrackList extends React.Component {
