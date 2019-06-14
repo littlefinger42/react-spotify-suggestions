@@ -18,6 +18,8 @@ const style = {
   blackLevelOne: "#212121",
   blackLevelTwo: "#303030",
   primaryColor: "#6200ee",
+  secondaryColor: "#2700ee",
+  disabledColor: "#756e80",
   textColor: "#fff",
   sizeXs: "8px",
   sizeSm: "16px",

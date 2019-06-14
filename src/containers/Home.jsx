@@ -16,6 +16,7 @@ import User from "../components/User.jsx";
 import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
 import Toolbar from "../components/Toolbar.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -42,8 +43,9 @@ class HomeContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
-      tracks: [[]],
+      tracks: [{ id: "", tracks: [] }],
       selectedTracks: [],
+      selectedTrackList: "",
       tracksExportable: false
     };
   }
@@ -66,7 +68,11 @@ class HomeContainer extends React.Component {
           return track;
         });
         this.props.updateTopTracks(response);
-        this.setState({ tracks: [response], isLoading: false });
+        this.setState({
+          tracks: [{ id: "Top", tracks: response }],
+          isLoading: false,
+          selectedTrackList: "Top"
+        });
       });
   };
 
@@ -75,7 +81,7 @@ class HomeContainer extends React.Component {
    */
   getRecommendations = () => {
     if (this.state.selectedTracks.length === 0) {
-      alert("Select some tracks as seeds first!")
+      alert("Select some tracks as seeds first!");
       return false;
     }
 
@@ -94,8 +100,12 @@ class HomeContainer extends React.Component {
         }
 
         this.setState({
-          tracks: [...this.state.tracks, response],
-          isLoading: false
+          tracks: [
+            ...this.state.tracks,
+            { id: this.state.tracks.length, tracks: response }
+          ],
+          isLoading: false,
+          selectedTrackList: this.state.tracks.length
         });
       });
   };
@@ -142,6 +152,15 @@ class HomeContainer extends React.Component {
     }
   };
 
+  /**
+   * Switches current selected list of tracks
+   * @param {*} event
+   * @param {string} id
+   */
+  switchList = (event, id) => {
+    this.setState({ selectedTrackList: id });
+  };
+
   componentWillUnmount() {
     this.abortController.abort();
   }
@@ -155,7 +174,9 @@ class HomeContainer extends React.Component {
         />
         <Toolbar>
           <Button
-            disabled={this.state.tracks[0].length !== 0 || this.state.isLoading}
+            disabled={
+              this.state.tracks[0].tracks.length !== 0 || this.state.isLoading
+            }
             handleClick={this.getTopTracks}
           >
             Load tops tracks
@@ -175,15 +196,17 @@ class HomeContainer extends React.Component {
             Export Playlist
           </Button>
         </Toolbar>
+        <Pagination handleClick={this.switchList} selectedPageId={this.state.selectedTrackList} pages={this.state.tracks} />
         {this.state.tracks.map((trackList, index) => {
-          return (
-            <TrackList
-              key={index}
-              id={index}
-              tracks={trackList}
-              trackClicked={this.trackClicked}
-            />
-          );
+          if (trackList.id === this.state.selectedTrackList)
+            return (
+              <TrackList
+                key={index}
+                id={index}
+                tracks={trackList.tracks}
+                trackClicked={this.trackClicked}
+              />
+            );
         })}
       </Main>
     );

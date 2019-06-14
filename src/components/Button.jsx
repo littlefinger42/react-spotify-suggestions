@@ -1,34 +1,64 @@
 import React from "react";
 
 import styled from "styled-components";
-import { style } from "../config"
+import { style } from "../config";
 
 const ButtonStyled = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
   outline: none;
-  background-color: ${style.primaryColor};
-  color: #fff;
-  height: ${style.sizeMd};
-  padding: 0 ${style.sizeSm};
+  padding: ${props => props.small ? `${style.sizeXs/2} ${style.sizeXs}` : `${style.sizeXs} ${style.sizeSm}`};
   margin-right: ${style.sizeSm};
   border-radius: ${style.borderRadius};
   &:hover {
     cursor: pointer;
-    background-color: #2700ee;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: #756e80;
   }
+
+  ${props => {
+    if (props.secondary) {
+      return `
+        border: ${style.primaryColor} solid 2px;
+        background-color: transparent;
+        color: ${style.primaryColor};
+        &:hover {
+          border: ${style.secondaryColor} solid 2px;
+          color: ${style.secondaryColor}
+        }
+        &:disabled {
+          border: ${style.disabledColor} solid 2px;
+          color: ${style.disabledColor};
+        }
+      `
+    } else {
+      return `
+        border: none;
+        background-color: ${style.primaryColor};
+        color: #fff;
+        &:hover {
+          background-color: ${style.secondaryColor};
+        }
+        &:disabled {
+          background-color: ${style.disabledColor}
+        }
+
+      `
+    }
+  }}
 `;
 
 class Button extends React.Component {
   render() {
     return (
-      <ButtonStyled disabled={this.props.disabled} onClick={this.props.handleClick}>
+      <ButtonStyled
+        secondary={this.props.secondary}
+        small={this.props.small}
+        disabled={this.props.disabled}
+        onClick={this.props.handleClick}
+      >
         {this.props.children}
       </ButtonStyled>
     );
