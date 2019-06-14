@@ -18,7 +18,7 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/", options)
       .then(response => response.json())
-      .then(response => response, error => error);
+      .then(response => response || {}, error => error || {});
   },
   /**
    * @param {string} accessToken retirevied from spotify authentication
@@ -37,7 +37,7 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/top/tracks", options)
       .then(response => response.json())
-      .then(response => response.items, error => error);
+      .then(response => response.items || [], error => error  || {});
   },
   /**
    * Fetch's spotify user's top tracks data based on array of seeds
@@ -71,7 +71,7 @@ const spotifyUtils = {
       options
     )
       .then(response => response.json())
-      .then(response => response.tracks, error => error);
+      .then(response => response.tracks || [], error => error || {});
   },
   /**
    * @param {string} accessToken retirevied from spotify authentication
@@ -135,7 +135,7 @@ const spotifyUtils = {
       options
     )
       .then(response => response.json())
-      .then(response => response);
+      .then(response => response || {});
   },
 
   redirectToSpotifyLoginPage() {
