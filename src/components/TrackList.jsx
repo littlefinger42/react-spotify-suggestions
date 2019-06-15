@@ -19,7 +19,7 @@ class TrackList extends React.Component {
 
   render() {
     return (
-      <StyledList>
+      <StyledList className={this.props.className}>
         {this.props.tracks.map((track, index) => (
           <Track
             key={track.id}

@@ -197,17 +197,23 @@ class HomeContainer extends React.Component {
             Export Playlist
           </Button>
         </Toolbar>
-        <Pagination handleClick={this.switchList} selectedPageId={this.state.selectedTrackList} pages={this.state.tracks} />
+        <Pagination
+          handleClick={this.switchList}
+          selectedPageId={this.state.selectedTrackList}
+          pages={this.state.tracks}
+        />
         {this.state.tracks.map((trackList, index) => {
-          if (trackList.id === this.state.selectedTrackList)
-            return (
-              <TrackList
-                key={index}
-                id={index}
-                tracks={trackList.tracks}
-                trackClicked={this.trackClicked}
-              />
-            );
+          return (
+            <TrackList
+              className={
+                trackList.id === this.state.selectedTrackList ? "" : "hidden"
+              }
+              key={index}
+              id={index}
+              tracks={trackList.tracks}
+              trackClicked={this.trackClicked}
+            />
+          );
         })}
       </Main>
     );

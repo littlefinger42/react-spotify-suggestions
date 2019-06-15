@@ -26,6 +26,12 @@ const AppBody = styled.div`
       text-decoration: none;
     }
   }
+  .hidden {
+    display: none;
+  }
+  strong {
+    font-weight: bold;
+  }
 `;
 
 class App extends React.Component {
