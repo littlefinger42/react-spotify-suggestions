@@ -12,7 +12,7 @@ import { updateTopTracks } from "../store/actions/index";
 import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
-import User from "../components/User.jsx";
+import UserInfo from "../components/UserInfo.jsx";
 import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
 import Toolbar from "../components/Toolbar.jsx";
@@ -168,9 +168,10 @@ class HomeContainer extends React.Component {
   render() {
     return (
       <Main>
-        <User
+        <UserInfo
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
+          tracksSelected={this.state.selectedTracks.length}
         />
         <Toolbar>
           <Button
