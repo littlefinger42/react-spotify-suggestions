@@ -8,7 +8,10 @@ const ButtonStyled = styled.button`
   align-items: center;
   justify-content: center;
   outline: none;
-  padding: ${props => props.small ? `${style.sizeXs/2} ${style.sizeXs}` : `${style.sizeXs} ${style.sizeSm}`};
+  padding: ${props =>
+    props.small
+      ? `${style.sizeXs / 2} ${style.sizeXs}`
+      : `${style.sizeXs} ${style.sizeSm}`};
   margin-right: ${style.sizeSm};
   border-radius: ${style.borderRadius};
   &:hover {
@@ -32,7 +35,7 @@ const ButtonStyled = styled.button`
           border: ${style.disabledColor} solid 2px;
           color: ${style.disabledColor};
         }
-      `
+      `;
     } else {
       return `
         border: none;
@@ -45,7 +48,7 @@ const ButtonStyled = styled.button`
           background-color: ${style.disabledColor}
         }
 
-      `
+      `;
     }
   }}
 `;
