@@ -5,8 +5,12 @@ import { style } from "../config";
 import Card from "./Card.jsx";
 import Audio from "./Audio.jsx";
 
+const TrackItem = styled(Card)`
+  padding-left: 80px;
+`
+
 const TrackAudio = styled.div`
-  padding-top: 8px;
+  padding-top: 4px;
   flex: 0 1 100%;
   @media ${style.device.tablet} {
     padding-top: 0px;
@@ -16,6 +20,14 @@ const TrackAudio = styled.div`
     flex: 0 1 30%;
   }
 `;
+
+const TrackImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`
 
 const TrackLi = styled.li`
   list-style: none;
@@ -38,7 +50,8 @@ class Track extends React.Component {
     return (
       <label>
         <TrackLi>
-          <Card className={this.state.active ? "active" : ""}>
+          <TrackItem className={this.state.active ? "active" : ""}>
+            <TrackImage src={this.props.album.images[2].url} async/>
             <input
               type="checkbox"
               checked={this.state.active}
@@ -72,7 +85,7 @@ class Track extends React.Component {
             <TrackAudio>
               <Audio src={this.props.preview_url} controls preload="metadata" />
             </TrackAudio>
-          </Card>
+          </TrackItem>
         </TrackLi>
       </label>
     );
