@@ -20,7 +20,7 @@ const Card = styled.div`
 	  }
 
 	&.active {
-	  box-shadow: ${style.primaryColor} 0px 0px ${style.sizeXs} -2px;
+	  box-shadow: ${style.primaryColor} 0px 0px ${style.sizeXs} 2px;
 	}
 `;
 

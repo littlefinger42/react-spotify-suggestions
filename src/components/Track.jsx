@@ -7,6 +7,9 @@ import Audio from "./Audio.jsx";
 
 const TrackItem = styled(Card)`
   padding-left: 80px;
+  @media ${style.device.tablet} {
+    padding-left: 80px;
+   }
 `
 
 const TrackAudio = styled.div`
@@ -31,6 +34,7 @@ const TrackImage = styled.img`
 
 const TrackLi = styled.li`
   list-style: none;
+  cursor: pointer;
 `;
 
 class Track extends React.Component {
@@ -41,53 +45,47 @@ class Track extends React.Component {
     };
   }
 
-  onChangeCheckbox(event) {
+  handleClick = () => {
     this.setState({ active: !this.state.active });
-    this.props.handleClick(this, event);
+    this.props.handleClick(this, !this.state.active);
   }
 
   render() {
     return (
-      <label>
-        <TrackLi>
-          <TrackItem className={this.state.active ? "active" : ""}>
-            <TrackImage src={this.props.album.images[2].url} async/>
-            <input
-              type="checkbox"
-              checked={this.state.active}
-              onChange={e => this.onChangeCheckbox(e)}
-            />
-            <a
-              href={this.props.external_urls.spotify}
-              title={"Find " + this.props.name + " on spotify"}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {this.props.name}
-            </a>
-            <span>
-              {this.props.artists.map(artist => {
-                return (
-                  <span key={artist.id}>
-                    <a
-                      href={artist.external_urls.spotify}
-                      title={"Find " + this.props.name + " on Spotify"}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {artist.name}
-                    </a>
-                    <span> </span>
-                  </span>
-                );
-              })}
-            </span>
-            <TrackAudio>
-              <Audio src={this.props.preview_url} controls preload="metadata" />
-            </TrackAudio>
-          </TrackItem>
-        </TrackLi>
-      </label>
+      <TrackLi onClick={this.handleClick}>
+        <TrackItem className={this.state.active ? "active" : ""}>
+          <TrackImage src={this.props.album.images[2].url} async />
+          <span></span>
+          <a
+            href={this.props.external_urls.spotify}
+            title={"Find " + this.props.name + " on spotify"}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {this.props.name}
+          </a>
+          <span>
+            {this.props.artists.map(artist => {
+              return (
+                <span key={artist.id}>
+                  <a
+                    href={artist.external_urls.spotify}
+                    title={"Find " + this.props.name + " on Spotify"}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {artist.name}
+                  </a>
+                  <span> </span>
+                </span>
+              );
+            })}
+          </span>
+          <TrackAudio>
+            <Audio src={this.props.preview_url} controls preload="metadata" />
+          </TrackAudio>
+        </TrackItem>
+      </TrackLi>
     );
   }
 }

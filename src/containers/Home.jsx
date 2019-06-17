@@ -136,10 +136,11 @@ class HomeContainer extends React.Component {
   /**
    * Click handler for track
    * @param {Object} item
+   * @param {Boolean} active
    * @param {*} event
    */
-  trackClicked = (item, event) => {
-    if (event.target.checked) {
+  trackClicked = (item, active) => {
+    if (active) {
       this.setState({
         selectedTracks: [...this.state.selectedTracks, item.props.id],
         tracksExportable: true
