@@ -47,8 +47,9 @@ class HomeContainer extends React.Component {
       tracks: [{ id: "", tracks: [] }],
       selectedTracks: [],
       selectedTrackList: "",
+      tracksExported: false,
       tracksExportable: false,
-      tracksExported: false
+      tracksExportedPlaylistId: null
     };
   }
 
@@ -137,8 +138,34 @@ class HomeContainer extends React.Component {
 
         this.setState({
           tracksExportable: false,
+          tracksExported: true,
           isLoading: false,
-          tracksExported: true
+          tracksExportedPlaylistId: response.playlistId
+        });
+      });
+  };
+  /**
+   * Adds to previously created playlist
+   */
+  addToPlaylist = () => {
+    this.setState({ isLoading: true });
+    spotifyUtils.addTracksToSpotifyPlaylist(
+      this.props.user.accessToken,
+      this.state.tracksExportedPlaylistId,
+      this.state.selectedTracks,
+      this.abortController
+    )
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
+          return false;
+        }
+
+        this.setState({
+          tracksExportable: false,
+          tracksExported: true,
+          isLoading: false
         });
       });
   };
@@ -177,10 +204,9 @@ class HomeContainer extends React.Component {
   }
 
   render() {
-
     let alert;
-    if (this.state.tracksExported) {
-      alert = <Alert>Track exported</Alert>
+    if (this.state.tracksExported && !this.state.tracksExportable) {
+      alert = <Alert>Track exported</Alert>;
     }
 
     return (
@@ -205,6 +231,16 @@ class HomeContainer extends React.Component {
             handleClick={this.exportPlaylist}
           >
             Export Playlist
+          </Button>
+          <Button
+            disabled={
+              !this.state.tracksExportable ||
+              this.state.isLoading ||
+              !this.state.tracksExported
+            }
+            handleClick={this.addToPlaylist}
+          >
+            Add to existing Playlist
           </Button>
         </Toolbar>
         <Pagination

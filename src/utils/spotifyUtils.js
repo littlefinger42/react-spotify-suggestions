@@ -37,7 +37,7 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/top/tracks", options)
       .then(response => response.json())
-      .then(response => response.items || [], error => error  || {});
+      .then(response => response.items || [], error => error || {});
   },
   /**
    * Fetch's spotify user's top tracks data based on array of seeds
@@ -135,7 +135,10 @@ const spotifyUtils = {
       options
     )
       .then(response => response.json())
-      .then(response => response || {});
+      .then(response => {
+        response.playlistId = playlistId;
+        return response || { playlistId: null };
+      });
   },
 
   redirectToSpotifyLoginPage() {
