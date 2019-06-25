@@ -9,8 +9,12 @@ const TrackItem = styled(Card)`
   padding-left: 80px;
   @media ${style.device.tablet} {
     padding-left: 80px;
-   }
-`
+  }
+`;
+
+const TrackText = styled.span`
+  flex: 1 1 0;
+`;
 
 const TrackAudio = styled.div`
   padding-top: 4px;
@@ -30,7 +34,7 @@ const TrackImage = styled.img`
   left: 0;
   right: 0;
   bottom: 0;
-`
+`;
 
 const TrackLi = styled.li`
   list-style: none;
@@ -48,23 +52,24 @@ class Track extends React.Component {
   handleClick = () => {
     this.setState({ active: !this.state.active });
     this.props.handleClick(this, !this.state.active);
-  }
+  };
 
   render() {
     return (
       <TrackLi onClick={this.handleClick}>
         <TrackItem className={this.state.active ? "active" : ""}>
           <TrackImage src={this.props.album.images[2].url} async />
-          <span></span>
-          <a
-            href={this.props.external_urls.spotify}
-            title={"Find " + this.props.name + " on spotify"}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {this.props.name}
-          </a>
-          <span>
+          <TrackText>
+            <a
+              href={this.props.external_urls.spotify}
+              title={"Find " + this.props.name + " on spotify"}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {this.props.name}
+            </a>
+          </TrackText>
+          <TrackText>
             {this.props.artists.map(artist => {
               return (
                 <span key={artist.id}>
@@ -80,7 +85,7 @@ class Track extends React.Component {
                 </span>
               );
             })}
-          </span>
+          </TrackText>
           <TrackAudio>
             <Audio src={this.props.preview_url} controls preload="metadata" />
           </TrackAudio>
