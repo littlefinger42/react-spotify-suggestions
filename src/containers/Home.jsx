@@ -17,6 +17,7 @@ import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
 import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
+import Alert from "../components/Alert.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -46,7 +47,8 @@ class HomeContainer extends React.Component {
       tracks: [{ id: "", tracks: [] }],
       selectedTracks: [],
       selectedTrackList: "",
-      tracksExportable: false
+      tracksExportable: false,
+      tracksExported: false
     };
   }
 
@@ -133,7 +135,11 @@ class HomeContainer extends React.Component {
           return false;
         }
 
-        this.setState({ tracksExportable: false, isLoading: false });
+        this.setState({
+          tracksExportable: false,
+          isLoading: false,
+          tracksExported: true
+        });
       });
   };
 
@@ -171,6 +177,12 @@ class HomeContainer extends React.Component {
   }
 
   render() {
+
+    let alert;
+    if (this.state.tracksExported) {
+      alert = <Alert>Track exported</Alert>
+    }
+
     return (
       <Main>
         <UserInfo
@@ -178,6 +190,7 @@ class HomeContainer extends React.Component {
           imgUrl={this.props.user.spotify.img_url}
           tracksSelected={this.state.selectedTracks.length}
         />
+        {alert}
         <Toolbar>
           <Button
             disabled={
