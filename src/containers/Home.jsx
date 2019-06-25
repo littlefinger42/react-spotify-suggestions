@@ -50,6 +50,10 @@ class HomeContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getTopTracks();
+  }
+
   /**
    * Uses spotify utils to fetch top tracks then sets them to the state and the store
    */
@@ -175,14 +179,6 @@ class HomeContainer extends React.Component {
           tracksSelected={this.state.selectedTracks.length}
         />
         <Toolbar>
-          <Button
-            disabled={
-              this.state.tracks[0].tracks.length !== 0 || this.state.isLoading
-            }
-            handleClick={this.getTopTracks}
-          >
-            Load tops tracks
-          </Button>
           <Button
             disabled={
               this.state.selectedTracks.length < 1 || this.state.isLoading
