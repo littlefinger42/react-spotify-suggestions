@@ -5,9 +5,13 @@ import {
   getUserAccessToken,
   getSpotifyDisplayName,
   getSpotifyDisplayImgUrl,
-  getSpotifyUserId
+  getSpotifyUserId,
+  getRecommendationParams
 } from "../store/selectors/index";
-import { updateTopTracks } from "../store/actions/index";
+import { 
+  updateTopTracks,
+  updateSearchParams
+} from "../store/actions/index";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
@@ -18,6 +22,7 @@ import TrackList from "../components/TrackList.jsx";
 import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import Alert from "../components/Alert.jsx";
+import Range from "../components/Range.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -27,14 +32,16 @@ const mapStateToProps = state => {
         display_name: getSpotifyDisplayName(state),
         img_url: getSpotifyDisplayImgUrl(state),
         id: getSpotifyUserId(state)
-      }
-    }
+      },
+      recommendationParams: getRecommendationParams(state)
+    },
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTopTracks: prop => dispatch(updateTopTracks(prop))
+    updateTopTracks: prop => dispatch(updateTopTracks(prop)),
+    updateSearchParams: prop => dispatch(updateSearchParams(prop))
   };
 };
 
@@ -92,11 +99,14 @@ class HomeContainer extends React.Component {
       return false;
     }
 
+    const touchedRecommendationParams = this.props.user.recommendationParams.filter(param => param.touched);
+
     this.setState({ isLoading: true });
     spotifyUtils
       .getSpotifyRecommendations(
         this.props.user.accessToken,
         this.state.selectedTracks,
+        touchedRecommendationParams,
         this.abortController
       )
       .then(response => {
@@ -190,6 +200,13 @@ class HomeContainer extends React.Component {
     }
   };
 
+  handleSuggestionsParameterChange = (value, param) => {
+    this.props.updateSearchParams({
+      id: param.props.id,
+      value
+    })
+  }
+
   /**
    * Switches current selected list of tracks
    * @param {*} event
@@ -208,6 +225,10 @@ class HomeContainer extends React.Component {
     if (this.state.tracksExported && !this.state.tracksExportable) {
       alert = <Alert>Track exported</Alert>;
     }
+
+    const rangeButtons = this.props.user.recommendationParams.map(param => 
+      <Range id={param.id} label={param.id} min={param.range[0]} max={param.range[1]} step={param.step} handleChange={this.handleSuggestionsParameterChange}/>
+    )
 
     return (
       <Main>
@@ -242,6 +263,7 @@ class HomeContainer extends React.Component {
           >
             Add to existing Playlist
           </Button>
+          {rangeButtons}
         </Toolbar>
         <Pagination
           handleClick={this.switchList}

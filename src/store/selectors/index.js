@@ -10,3 +10,6 @@ export const getUserAccessToken = state => {
 export const getSpotifyUserId = state => {
   return state.user.spotify.id;
 };
+export const getRecommendationParams = state => {
+  return state.user.recommendationParams;
+};

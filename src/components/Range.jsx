@@ -11,13 +11,13 @@ class Range extends React.Component {
 		this.setState({
 		  value: event.target.value
 		});
-		this.props.handleChange(event.target.value);
+		this.props.handleChange(event.target.value, this);
 	}
 	render() {
 		return (
 			<span>
 				<input type="range" id={this.props.id}
-						min={this.props.min} max={this.props.max} onMouseUp={this.onSliderChange}/>
+						min={this.props.min} max={this.props.max} step={this.props.step} onMouseUp={this.onSliderChange}/>
 				<label htmlFor={this.props.id}>{this.props.label}{this.state.value}</label>
 			</span>
 		)

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 
 import {
   getSpotifyDisplayName,
-  getUserAccessToken
+  getUserAccessToken,
+  getRecommendationParams
 } from "../store/selectors/index";
 import {
   setUserAccessToken,
@@ -26,7 +27,8 @@ const mapStateToProps = state => {
       spotify: {
         display_name: getSpotifyDisplayName(state)
       }
-    }
+    },
+    recommendationParams: getRecommendationParams(state)
   };
 };
 
