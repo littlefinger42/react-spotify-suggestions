@@ -17,6 +17,7 @@ import Button from "../components/Button.jsx";
 import TrackList from "../components/TrackList.jsx";
 import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
+import Alert from "../components/Alert.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -46,8 +47,14 @@ class HomeContainer extends React.Component {
       tracks: [{ id: "", tracks: [] }],
       selectedTracks: [],
       selectedTrackList: "",
-      tracksExportable: false
+      tracksExported: false,
+      tracksExportable: false,
+      tracksExportedPlaylistId: null
     };
+  }
+
+  componentDidMount() {
+    this.getTopTracks();
   }
 
   /**
@@ -129,7 +136,37 @@ class HomeContainer extends React.Component {
           return false;
         }
 
-        this.setState({ tracksExportable: false, isLoading: false });
+        this.setState({
+          tracksExportable: false,
+          tracksExported: true,
+          isLoading: false,
+          tracksExportedPlaylistId: response.playlistId
+        });
+      });
+  };
+  /**
+   * Adds to previously created playlist
+   */
+  addToPlaylist = () => {
+    this.setState({ isLoading: true });
+    spotifyUtils.addTracksToSpotifyPlaylist(
+      this.props.user.accessToken,
+      this.state.tracksExportedPlaylistId,
+      this.state.selectedTracks,
+      this.abortController
+    )
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
+          return false;
+        }
+
+        this.setState({
+          tracksExportable: false,
+          tracksExported: true,
+          isLoading: false
+        });
       });
   };
 
@@ -167,6 +204,11 @@ class HomeContainer extends React.Component {
   }
 
   render() {
+    let alert;
+    if (this.state.tracksExported && !this.state.tracksExportable) {
+      alert = <Alert>Track exported</Alert>;
+    }
+
     return (
       <Main>
         <UserInfo
@@ -174,15 +216,8 @@ class HomeContainer extends React.Component {
           imgUrl={this.props.user.spotify.img_url}
           tracksSelected={this.state.selectedTracks.length}
         />
+        {alert}
         <Toolbar>
-          <Button
-            disabled={
-              this.state.tracks[0].tracks.length !== 0 || this.state.isLoading
-            }
-            handleClick={this.getTopTracks}
-          >
-            Load tops tracks
-          </Button>
           <Button
             disabled={
               this.state.selectedTracks.length < 1 || this.state.isLoading
@@ -196,6 +231,16 @@ class HomeContainer extends React.Component {
             handleClick={this.exportPlaylist}
           >
             Export Playlist
+          </Button>
+          <Button
+            disabled={
+              !this.state.tracksExportable ||
+              this.state.isLoading ||
+              !this.state.tracksExported
+            }
+            handleClick={this.addToPlaylist}
+          >
+            Add to existing Playlist
           </Button>
         </Toolbar>
         <Pagination
