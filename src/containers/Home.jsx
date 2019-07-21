@@ -8,10 +8,7 @@ import {
   getSpotifyUserId,
   getRecommendationParams
 } from "../store/selectors/index";
-import { 
-  updateTopTracks,
-  updateSearchParams
-} from "../store/actions/index";
+import { updateTopTracks, updateSearchParams } from "../store/actions/index";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
@@ -23,6 +20,7 @@ import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import Alert from "../components/Alert.jsx";
 import Range from "../components/Range.jsx";
+import Select from "../components/Select.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -34,7 +32,7 @@ const mapStateToProps = state => {
         id: getSpotifyUserId(state)
       },
       recommendationParams: getRecommendationParams(state)
-    },
+    }
   };
 };
 
@@ -54,14 +52,26 @@ class HomeContainer extends React.Component {
       tracks: [{ id: "", tracks: [] }],
       selectedTracks: [],
       selectedTrackList: "",
+      selectedParameter: {
+        id: "",
+        label: "",
+        value: 0,
+        step: 0.1,
+        range: [0, 10],
+        touched: false
+      },
       tracksExported: false,
       tracksExportable: false,
       tracksExportedPlaylistId: null
     };
+    this.parameterRange = React.createRef();
   }
 
   componentDidMount() {
     this.getTopTracks();
+    this.setState({
+      selectedParameter: this.props.user.recommendationParams[0]
+    });
   }
 
   /**
@@ -99,7 +109,9 @@ class HomeContainer extends React.Component {
       return false;
     }
 
-    const touchedRecommendationParams = this.props.user.recommendationParams.filter(param => param.touched);
+    const touchedRecommendationParams = this.props.user.recommendationParams.filter(
+      param => param.touched
+    );
 
     this.setState({ isLoading: true });
     spotifyUtils
@@ -159,12 +171,13 @@ class HomeContainer extends React.Component {
    */
   addToPlaylist = () => {
     this.setState({ isLoading: true });
-    spotifyUtils.addTracksToSpotifyPlaylist(
-      this.props.user.accessToken,
-      this.state.tracksExportedPlaylistId,
-      this.state.selectedTracks,
-      this.abortController
-    )
+    spotifyUtils
+      .addTracksToSpotifyPlaylist(
+        this.props.user.accessToken,
+        this.state.tracksExportedPlaylistId,
+        this.state.selectedTracks,
+        this.abortController
+      )
       .then(response => {
         if (response.error) {
           alert(response.error); //TODO: add better error messages
@@ -200,12 +213,23 @@ class HomeContainer extends React.Component {
     }
   };
 
+  handleParameterSelectedChange = value => {
+    const selectedParameter = this.props.user.recommendationParams.find(
+      param => param.id === value
+    );
+    this.setState({
+      selectedParameter
+    });
+    this.parameterRange.current.setState({
+      value: selectedParameter.value
+    });
+  };
   handleSuggestionsParameterChange = (value, param) => {
     this.props.updateSearchParams({
       id: param.props.id,
       value
-    })
-  }
+    });
+  };
 
   /**
    * Switches current selected list of tracks
@@ -225,10 +249,6 @@ class HomeContainer extends React.Component {
     if (this.state.tracksExported && !this.state.tracksExportable) {
       alert = <Alert>Track exported</Alert>;
     }
-
-    const rangeButtons = this.props.user.recommendationParams.map(param => 
-      <Range id={param.id} label={param.id} min={param.range[0]} max={param.range[1]} step={param.step} handleChange={this.handleSuggestionsParameterChange}/>
-    )
 
     return (
       <Main>
@@ -263,7 +283,19 @@ class HomeContainer extends React.Component {
           >
             Add to existing Playlist
           </Button>
-          {rangeButtons}
+          <Select
+            id="reccomendationParamsSelector"
+            handleChange={this.handleParameterSelectedChange}
+            options={this.props.user.recommendationParams}
+          />
+          <Range
+            id={this.state.selectedParameter.id}
+            min={this.state.selectedParameter.range[0]}
+            max={this.state.selectedParameter.range[1]}
+            step={this.state.selectedParameter.step}
+            ref={this.parameterRange}
+            handleChange={this.handleSuggestionsParameterChange}
+          />
         </Toolbar>
         <Pagination
           handleClick={this.switchList}

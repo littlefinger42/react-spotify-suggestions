@@ -46,7 +46,12 @@ const spotifyUtils = {
    * @param {Object} abortController is used to cancel the fetch if the component is unloaded
    * @returns {Promise<Object>}
    */
-  getSpotifyRecommendations(accessToken, seeds, recommendationParams, abortController) {
+  getSpotifyRecommendations(
+    accessToken,
+    seeds,
+    recommendationParams,
+    abortController
+  ) {
     let options = {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -64,12 +69,11 @@ const spotifyUtils = {
       seeds = newSeeds;
     }
 
-    let queryParams = [
-      `seed_tracks=${seeds.join(",")}`
-    ];
+    let queryParams = [`seed_tracks=${seeds.join(",")}`];
+
     recommendationParams.forEach(param => {
       queryParams.push(`target_${param.id}=${param.value}`);
-    })
+    });
 
     return fetch(
       `https://api.spotify.com/v1/recommendations?${queryParams.join("&")}`,

@@ -48,7 +48,7 @@ class LoginContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false, //TODO: Use loading state
-      isLoginFailed: false,
+      isLoginFailed: false
     };
   }
 
@@ -103,11 +103,16 @@ class LoginContainer extends React.Component {
     return accessTokenParam.split("&")[0];
   }
 
+  doNothing = event => {
+    console.log("nothing", event);
+  };
+
   render() {
     let alert;
     if (this.state.isLoginFailed) {
       alert = <Alert>Failed login attempt.</Alert>;
     }
+
     return (
       <Main>
         {alert}
