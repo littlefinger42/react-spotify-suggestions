@@ -100,6 +100,10 @@ class HomeContainer extends React.Component {
       });
   };
 
+  getTouchedParams = () => {
+    return this.props.user.recommendationParams.filter(param => param.touched);
+  };
+
   /**
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
    */
@@ -109,16 +113,12 @@ class HomeContainer extends React.Component {
       return false;
     }
 
-    const touchedRecommendationParams = this.props.user.recommendationParams.filter(
-      param => param.touched
-    );
-
     this.setState({ isLoading: true });
     spotifyUtils
       .getSpotifyRecommendations(
         this.props.user.accessToken,
         this.state.selectedTracks,
-        touchedRecommendationParams,
+        this.getTouchedParams(),
         this.abortController
       )
       .then(response => {
@@ -256,6 +256,7 @@ class HomeContainer extends React.Component {
           username={this.props.user.spotify.display_name}
           imgUrl={this.props.user.spotify.img_url}
           tracksSelected={this.state.selectedTracks.length}
+          touchedParams={this.getTouchedParams()}
         />
         {alert}
         <Toolbar>

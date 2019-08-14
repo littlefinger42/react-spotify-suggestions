@@ -1,18 +1,18 @@
 const spotify = {
   clientId: "6a055beb5e304ad19bf4dc36a07e3fcd",
-  // redirectUrl: "http://localhost:8080/"
-  redirectUrl: "https://spotify-suggestions-generator.netlify.com/"
+  redirectUrl: "http://localhost:8080/"
+  // redirectUrl: "https://spotify-suggestions-generator.netlify.com/"
 };
 
 const sizes = {
-	mobileS: "320px",
-	mobileM: "375px",
-	mobileL: "425px",
-	tablet: "768px",
-	laptop: "1024px",
-	laptopL: "1440px",
-	desktop: "2560px"
-}
+  mobileS: "320px",
+  mobileM: "375px",
+  mobileL: "425px",
+  tablet: "768px",
+  laptop: "1024px",
+  laptopL: "1440px",
+  desktop: "2560px"
+};
 
 const style = {
   blackBackground: "#101010",

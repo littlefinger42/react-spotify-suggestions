@@ -106,6 +106,14 @@ function reducer(state = initialState, action) {
           })
         }
       };
+    case types.CLEAR_RECOMMENDATION_PARAM:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          recommendationParams: initialState.user.recommendationParams
+        }
+      };
   }
   return state;
 }
