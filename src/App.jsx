@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
-import { style } from "../config";
+import { style } from "./config";
 import { Reset } from "styled-reset";
 
-import Home from "../containers/Home.jsx";
-import PrivateRoute from "./PrivateRoute.jsx";
-import Login from "../containers/Login.jsx";
-import Header from "../components/Header.jsx";
+import Home from "./screens/Home.jsx";
+import Login from "./screens/Login.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import Header from "./components/Header.jsx";
 
-import config from "../../package.json";
+import config from "../package.json";
 
 const AppBody = styled.div`
   min-height: 100vh;

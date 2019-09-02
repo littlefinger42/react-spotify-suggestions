@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { style } from "../config";
 
-import Card from "./Card.jsx";
-import Audio from "./Audio.jsx";
+import Card from "../components/Card.jsx";
+import Audio from "../components/Audio.jsx";
 
 const TrackItem = styled(Card)`
   padding-left: 80px;

@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { getTouchedRecommendationParams } from "../store/selectors/index";
-import { updateTopTracks, updateSearchParams } from "../store/actions/index";
+import { clearSearchParams } from "../store/actions/index";
 
 import Button from "../components/Button.jsx";
-import Card from "./Card.jsx";
-import Avatar from "./Avatar.jsx";
+import Card from "../components/Card.jsx";
+import Avatar from "../components/Avatar.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearSearchParams: prop => dispatch(clearSearchParams())
+    clearSearchParams: prop => dispatch(clearSearchParams(prop))
   };
 };
 
