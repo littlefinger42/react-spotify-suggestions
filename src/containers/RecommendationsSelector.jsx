@@ -63,12 +63,14 @@ class RecommendationSelector extends React.Component {
 
   render() {
     return (
-      <div>
+      <span>
         <Select
           id="reccomendationParamsSelector"
           handleChange={this.handleParameterSelectedChange}
           options={this.props.user.recommendationParams}
         />
+        {this.state.selectedParameter.range[0] /
+          this.state.selectedParameter.step}
         <Range
           id={this.state.selectedParameter.id}
           min={this.state.selectedParameter.range[0]}
@@ -77,7 +79,9 @@ class RecommendationSelector extends React.Component {
           ref={this.parameterRange}
           handleChange={this.handleSuggestionsParameterChange}
         />
-      </div>
+        {this.state.selectedParameter.range[1] /
+          this.state.selectedParameter.step}
+      </span>
     );
   }
 }
