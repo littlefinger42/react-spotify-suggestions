@@ -67,6 +67,20 @@ const initialState = {
         step: 0.1,
         range: [0, 10],
         touched: false
+      },
+      {
+        id: "key",
+        label: "Key",
+        value: 0,
+        step: 1,
+        range: [0, 11]
+      },
+      {
+        id: "tempo",
+        label: "BPM",
+        value: 120,
+        step: 1,
+        range: [60, 200]
       }
     ]
   },
