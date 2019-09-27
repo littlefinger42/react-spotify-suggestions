@@ -23,13 +23,20 @@ const mapDispatchToProps = dispatch => {
 };
 
 class UserInfo extends React.Component {
+  notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+
   render() {
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
-      param => (
-        <li key={param.id}>
-          {param.label}: {Math.round(param.value / param.step)}
-        </li>
-      )
+      param => {
+        return (
+          <li key={param.id}>
+            {param.label}:{" "}
+            {param.id === "key"
+              ? this.notes[param.value - 1]
+              : Math.round(param.value / param.step)}
+          </li>
+        );
+      }
     );
     return (
       <Card>
