@@ -18,7 +18,35 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/", options)
       .then(response => response.json())
-      .then(response => response || {}, error => error || {});
+      .then(
+        response => response || {},
+        error => error || {}
+      );
+  },
+  /**
+   * @param {string} accessToken retirevied from spotify authentication
+   * @param {Object} abortController is used to cancel the fetch if the component is unloaded
+   * @returns {Promise<Array><Object>}
+   */
+  searchSpotifyTracks(accessToken, abortController, searchQuery) {
+    let options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+    if (abortController && abortController.signal) {
+      options = { ...options, ...(options.signal = abortController.signal) };
+    }
+
+    return fetch(
+      `https://api.spotify.com/v1/search?q=${searchQuery}&type=track`,
+      options
+    )
+      .then(response => response.json())
+      .then(
+        response => response.tracks.items || [],
+        error => error || {}
+      );
   },
   /**
    * @param {string} accessToken retirevied from spotify authentication
@@ -37,7 +65,10 @@ const spotifyUtils = {
 
     return fetch("https://api.spotify.com/v1/me/top/tracks", options)
       .then(response => response.json())
-      .then(response => response.items || [], error => error || {});
+      .then(
+        response => response.items || [],
+        error => error || {}
+      );
   },
   /**
    * Fetch's spotify user's top tracks data based on array of seeds
@@ -80,7 +111,10 @@ const spotifyUtils = {
       options
     )
       .then(response => response.json())
-      .then(response => response.tracks || [], error => error || {});
+      .then(
+        response => response.tracks || [],
+        error => error || {}
+      );
   },
   /**
    * @param {string} accessToken retirevied from spotify authentication
@@ -151,11 +185,7 @@ const spotifyUtils = {
   },
 
   redirectToSpotifyLoginPage() {
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=${
-      spotify.clientId
-    }&response_type=token&redirect_uri=${
-      spotify.redirectUrl
-    }&scope=user-top-read,playlist-modify-public`;
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${spotify.clientId}&response_type=token&redirect_uri=${spotify.redirectUrl}&scope=user-top-read,playlist-modify-public`;
   }
 };
 

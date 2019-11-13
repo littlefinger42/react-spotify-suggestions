@@ -14,9 +14,13 @@ import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
 import UserInfo from "../containers/UserInfo.jsx";
-import RecommendationsSelector from "../containers/RecommendationsSelector.jsx"
+import TopTracks from "../containers/TopTracks.jsx";
 import TrackList from "../containers/TrackList.jsx";
+import SearchTracks from "../containers/SearchTracks.jsx";
+import RecommendationsSelector from "../containers/RecommendationsSelector.jsx";
 import Button from "../components/Button.jsx";
+import Card from "../components/Card.jsx";
+import FlexContainer from "../components/FlexContainer.jsx";
 import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import Alert from "../components/Alert.jsx";
@@ -47,7 +51,7 @@ class HomeContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
-      tracks: [{ id: "", tracks: [] }],
+      tracks: [],
       selectedTracks: [],
       selectedTrackList: "",
       tracksExported: false,
@@ -55,36 +59,6 @@ class HomeContainer extends React.Component {
       tracksExportedPlaylistId: null
     };
   }
-
-  componentDidMount() {
-    this.getTopTracks();
-  }
-
-  /**
-   * Uses spotify utils to fetch top tracks then sets them to the state and the store
-   */
-  getTopTracks = () => {
-    this.setState({ isLoading: true });
-    spotifyUtils
-      .getSpotifyTopTracks(this.props.user.accessToken, this.abortController)
-      .then(response => {
-        if (response.error) {
-          alert(response.error); //TODO: add better error messages
-          this.setState({ isLoading: false });
-          return false;
-        }
-        response = response.map(track => {
-          track.selected = false;
-          return track;
-        });
-        this.props.updateTopTracks(response);
-        this.setState({
-          tracks: [{ id: "Top", tracks: response }],
-          isLoading: false,
-          selectedTrackList: "Top"
-        });
-      });
-  };
 
   /**
    * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
@@ -252,30 +226,43 @@ class HomeContainer extends React.Component {
           </Button>
           <RecommendationsSelector />
         </Toolbar>
-        <Pagination
-          handleClick={this.switchList}
-          selectedPageId={this.state.selectedTrackList}
-          pages={this.state.tracks}
-        />
-        {this.state.tracks.map((trackList, index) => {
-          return (
-            <TrackList
-              className={
-                trackList.id === this.state.selectedTrackList ? "" : "hidden"
-              }
-              key={index}
-              id={index}
-              tracks={trackList.tracks}
-              trackClicked={this.trackClicked}
+
+        <FlexContainer>
+          <Card>
+            <TopTracks trackClicked={this.trackClicked} />
+          </Card>
+          <Card>
+            <SearchTracks trackClicked={this.trackClicked} />
+          </Card>
+        </FlexContainer>
+
+        {this.state.tracks && (
+          <Card>
+            <Pagination
+              handleClick={this.switchList}
+              selectedPageId={this.state.selectedTrackList}
+              pages={this.state.tracks}
             />
-          );
-        })}
+            {this.state.tracks.map((trackList, index) => {
+              return (
+                <TrackList
+                  className={
+                    trackList.id === this.state.selectedTrackList
+                      ? ""
+                      : "hidden"
+                  }
+                  key={index}
+                  id={index}
+                  tracks={trackList.tracks}
+                  trackClicked={this.trackClicked}
+                />
+              );
+            })}
+          </Card>
+        )}
       </Main>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

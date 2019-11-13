@@ -6,14 +6,13 @@ import Card from "../components/Card.jsx";
 import Audio from "../components/Audio.jsx";
 
 const TrackItem = styled(Card)`
-  padding-left: 80px;
-  @media ${style.device.tablet} {
-    padding-left: 80px;
-  }
+  margin-bottom: ${style.sizeXs};
+  padding: ${style.sizeXs} 0 ${style.sizeXs} 80px;
 `;
 
 const TrackText = styled.span`
   flex: 1 1 0;
+  font-size: ${style.fontSize};
 `;
 
 const TrackAudio = styled.div`
@@ -55,10 +54,17 @@ class Track extends React.Component {
   };
 
   render() {
+    const { album } = this.props;
+
     return (
       <TrackLi onClick={this.handleClick}>
         <TrackItem className={this.state.active ? "active" : ""}>
-          <TrackImage src={this.props.album.images[2].url} async />
+          {album &&
+            Array.isArray(album.images) &&
+            album.images.length > 1 &&
+            album.images[2].url && (
+              <TrackImage src={album.images[2].url} async />
+            )}
           <TrackText>
             <a
               href={this.props.external_urls.spotify}
