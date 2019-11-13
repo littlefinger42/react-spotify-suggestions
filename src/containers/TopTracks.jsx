@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { style } from "../config";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
@@ -13,6 +14,14 @@ const TopTracksList = styled(TrackList)`
   width: 100%;
   max-height: 300px;
   overflow-y: auto;
+`;
+
+const TopTracksContainer = styled.div`
+  flex: 1;
+`;
+
+const TopTracksHeader = styled.div`
+  padding: ${style.sizeSm};
 `;
 
 const mapStateToProps = state => {
@@ -75,14 +84,19 @@ class TopTracks extends React.Component {
 
   render() {
     const { tracks } = this.state;
-    if (tracks)
-      return (
-        <TopTracksList
-          className=""
-          tracks={tracks}
-          trackClicked={this.props.trackClicked}
-        />
-      );
+
+    return (
+      <TopTracksContainer>
+        <TopTracksHeader>Top Tracks</TopTracksHeader>
+        {tracks && (
+          <TopTracksList
+            className=""
+            tracks={tracks}
+            trackClicked={this.props.trackClicked}
+          />
+        )}
+      </TopTracksContainer>
+    );
   }
 }
 

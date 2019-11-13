@@ -15,7 +15,7 @@ const SearchTracksContainer = styled.div`
 `;
 
 const SearchTracksHeader = styled.div`
-  margin: 0 0 ${style.sizeSm} 0;
+  padding: ${style.sizeSm};
 `;
 
 const SearchTracksTracksList = styled(TrackList)`

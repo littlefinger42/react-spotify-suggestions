@@ -7,6 +7,7 @@ import Audio from "../components/Audio.jsx";
 
 const TrackItem = styled(Card)`
   margin-bottom: ${style.sizeXs};
+  align-items: center;
   padding: ${style.sizeXs} 0 ${style.sizeXs} 80px;
 `;
 

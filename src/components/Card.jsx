@@ -13,7 +13,6 @@ const Card = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
 
   &.active {
     box-shadow: ${style.primaryColor} 0px 0px ${style.sizeXs} 2px;
