@@ -116,6 +116,15 @@ class LoginContainer extends React.Component {
     return (
       <Main>
         {alert}
+        <p>
+          Spotify Suggestions Generator doesn't store any of your information.
+        </p>
+        <br></br>
+        <p>
+          The purpose of Spotify Suggestions Generator is to utilise the spotify
+          API to give the user more control over their recommendations than they
+          can in the desktop or mobile client.
+        </p>
         <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
           Authorize Spotify
         </Button>
@@ -124,7 +133,4 @@ class LoginContainer extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
