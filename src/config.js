@@ -18,6 +18,7 @@ const style = {
   blackBackground: "#101010",
   blackLevelOne: "#212121",
   blackLevelTwo: "#303030",
+  blackLevelThree: "#525252",
   primaryColor: "#6200ee",
   secondaryColor: "#2700ee",
   disabledColor: "#756e80",
