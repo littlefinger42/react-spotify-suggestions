@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { style } from "../config";
 
 import Button from "./Button.jsx";
 
 const ButtonsContainer = styled.div`
   display: flex;
-  align-itemns: center;
+  align-items: center;
   justify-content: center;
+  margin-bottom: ${style.sizeXs};
 `;
 
 class Pagination extends React.Component {

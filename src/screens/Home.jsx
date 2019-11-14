@@ -224,26 +224,28 @@ class HomeContainer extends React.Component {
 
         {this.state.tracks && (
           <Card>
-            <Pagination
-              handleClick={this.switchList}
-              selectedPageId={this.state.selectedTrackList}
-              pages={this.state.tracks}
-            />
-            {this.state.tracks.map((trackList, index) => {
-              return (
-                <TrackList
-                  className={
-                    trackList.id === this.state.selectedTrackList
-                      ? ""
-                      : "hidden"
-                  }
-                  key={index}
-                  id={index}
-                  tracks={trackList.tracks}
-                  trackClicked={this.trackClicked}
-                />
-              );
-            })}
+            <div style={{ width: "100%" }}>
+              <Pagination
+                handleClick={this.switchList}
+                selectedPageId={this.state.selectedTrackList}
+                pages={this.state.tracks}
+              />
+              {this.state.tracks.map((trackList, index) => {
+                return (
+                  <TrackList
+                    className={
+                      trackList.id === this.state.selectedTrackList
+                        ? ""
+                        : "hidden"
+                    }
+                    key={index}
+                    id={index}
+                    tracks={trackList.tracks}
+                    trackClicked={this.trackClicked}
+                  />
+                );
+              })}
+            </div>
           </Card>
         )}
       </Main>
