@@ -15,7 +15,7 @@ const Card = styled.div`
   justify-content: space-between;
 
   &.active {
-    box-shadow: ${style.primaryColor} 0px 0px ${style.sizeXs} 2px;
+    background-color: ${style.blackLevelThree};
   }
 `;
 
