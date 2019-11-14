@@ -84,7 +84,8 @@ const initialState = {
       }
     ]
   },
-  topTracks: []
+  topTracks: [],
+  selectedTracks: []
 };
 
 function reducer(state = initialState, action) {
@@ -107,6 +108,18 @@ function reducer(state = initialState, action) {
     //TRACKS
     case types.UPDATE_TOP_TRACKS:
       return { ...state, topTracks: action.payload };
+    case types.ADD_SELECTED_TRACK:
+      return {
+        ...state,
+        selectedTracks: [...state.selectedTracks, action.payload]
+      };
+    case types.REMOVE_SELECTED_TRACK:
+      return {
+        ...state,
+        selectedTracks: state.selectedTracks.filter(
+          track => track != action.payload
+        )
+      };
     //RECOMMENDATION PARAMS
     case types.UPDATE_RECOMMENDATION_PARAM:
       return {

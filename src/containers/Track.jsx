@@ -1,6 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { style } from "../config";
+
+import { addSelectedTrack, removeSelectedTrack } from "../store/actions/index";
 
 import Card from "../components/Card.jsx";
 import Audio from "../components/Audio.jsx";
@@ -41,6 +44,13 @@ const TrackLi = styled.li`
   cursor: pointer;
 `;
 
+const mapDispatchToProps = dispatch => {
+  return {
+    addSelectedTrack: prop => dispatch(addSelectedTrack(prop)),
+    removeSelectedTrack: prop => dispatch(removeSelectedTrack(prop))
+  };
+};
+
 class Track extends React.Component {
   constructor(props) {
     super(props);
@@ -52,6 +62,11 @@ class Track extends React.Component {
   handleClick = () => {
     this.setState({ active: !this.state.active });
     this.props.handleClick(this, !this.state.active);
+    if (!this.state.active) {
+      this.props.addSelectedTrack(this.props.id);
+    } else {
+      this.props.removeSelectedTrack(this.props.id);
+    }
   };
 
   render() {
@@ -102,4 +117,4 @@ class Track extends React.Component {
   }
 }
 
-export default Track;
+export default connect(null, mapDispatchToProps)(Track);

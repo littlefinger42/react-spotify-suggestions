@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import {
   getUserAccessToken,
   getSpotifyUserId,
-  getTouchedRecommendationParams
+  getTouchedRecommendationParams,
+  getSelectedTracks
 } from "../store/selectors/index";
 import { updateTopTracks } from "../store/actions/index";
 
@@ -31,7 +32,8 @@ const mapStateToProps = state => {
         id: getSpotifyUserId(state)
       },
       touchedRecommendationParams: getTouchedRecommendationParams(state)
-    }
+    },
+    selectedTracks: getSelectedTracks(state)
   };
 };
 
@@ -48,7 +50,6 @@ class HomeContainer extends React.Component {
     this.state = {
       isLoading: false,
       tracks: [],
-      selectedTracks: [],
       selectedTrackList: "",
       tracksExported: false,
       tracksExportable: false,
@@ -62,7 +63,7 @@ class HomeContainer extends React.Component {
   getRecommendations = () => {
     const { user } = this.props;
 
-    if (this.state.selectedTracks.length === 0) {
+    if (this.props.selectedTracks.length === 0) {
       alert("Select some tracks as seeds first!");
       return false;
     }
@@ -71,7 +72,7 @@ class HomeContainer extends React.Component {
     spotifyUtils
       .getSpotifyRecommendations(
         user.accessToken,
-        this.state.selectedTracks,
+        this.props.selectedTracks,
         user.touchedRecommendationParams,
         this.abortController
       )
@@ -102,7 +103,7 @@ class HomeContainer extends React.Component {
       .createAndFillSpotifyPlaylist(
         this.props.user.accessToken,
         this.props.user.spotify.id,
-        this.state.selectedTracks,
+        this.props.selectedTracks,
         this.abortController
       )
       .then(response => {
@@ -129,7 +130,7 @@ class HomeContainer extends React.Component {
       .addTracksToSpotifyPlaylist(
         this.props.user.accessToken,
         this.state.tracksExportedPlaylistId,
-        this.state.selectedTracks,
+        this.props.selectedTracks,
         this.abortController
       )
       .then(response => {
@@ -149,22 +150,9 @@ class HomeContainer extends React.Component {
 
   /**
    * Click handler for track
-   * @param {Object} item
-   * @param {Boolean} active
-   * @param {*} event
    */
-  trackClicked = (item, active) => {
-    if (active) {
-      this.setState({
-        selectedTracks: [...this.state.selectedTracks, item.props.id],
-        tracksExportable: true
-      });
-    } else {
-      const newList = this.state.selectedTracks.filter(
-        trackId => trackId !== item.props.id
-      );
-      this.setState({ selectedTracks: newList, tracksExportable: true });
-    }
+  trackClicked = () => {
+    this.setState({ tracksExportable: true });
   };
 
   /**
@@ -189,14 +177,14 @@ class HomeContainer extends React.Component {
     return (
       <Main>
         <UserInfo
-          tracksSelected={this.state.selectedTracks.length}
+          tracksSelected={this.props.selectedTracks.length}
           touchedParams={this.props.touchedRecommendationParams}
         />
         {alert}
         <Toolbar>
           <Button
             disabled={
-              this.state.selectedTracks.length < 1 || this.state.isLoading
+              this.props.selectedTracks.length < 1 || this.state.isLoading
             }
             handleClick={this.getRecommendations}
           >

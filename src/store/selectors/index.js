@@ -13,6 +13,9 @@ export const getSpotifyUserId = state => {
 export const getRecommendationParams = state => {
   return state.user.recommendationParams;
 };
+export const getSelectedTracks = state => {
+  return state.selectedTracks;
+};
 export const getTouchedRecommendationParams = state => {
   return state.user.recommendationParams.filter(param => param.touched);
 };
