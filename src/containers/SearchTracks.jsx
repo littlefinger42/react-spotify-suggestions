@@ -15,6 +15,8 @@ const SearchTracksContainer = styled.div`
 `;
 
 const SearchTracksHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding: ${style.sizeSm};
 `;
 
@@ -80,7 +82,7 @@ class SearchTracks extends React.Component {
     return (
       <SearchTracksContainer>
         <SearchTracksHeader>
-          Search
+          <span>Search</span>
           <TextInput
             onChange={this.onSearchQueryChange}
             onEnterDown={this.searchTracks}

@@ -1,4 +1,6 @@
 import React from "react";
+import styled from "styled-components";
+import { style } from "../config";
 import { connect } from "react-redux";
 
 import { getTouchedRecommendationParams } from "../store/selectors/index";
@@ -6,6 +8,10 @@ import { clearSearchParams } from "../store/actions/index";
 
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
+
+const UserInfoContainer = styled(Card)`
+  padding: ${style.sizeSm};
+`;
 
 const mapStateToProps = state => {
   return {
@@ -38,7 +44,7 @@ class UserInfo extends React.Component {
       }
     );
     return (
-      <Card>
+      <UserInfoContainer>
         <span>
           <strong>Tracks Selected:</strong> {this.props.tracksSelected}
         </span>
@@ -58,7 +64,7 @@ class UserInfo extends React.Component {
             )}
           </ul>
         </span>
-      </Card>
+      </UserInfoContainer>
     );
   }
 }
