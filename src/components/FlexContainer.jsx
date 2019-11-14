@@ -5,9 +5,8 @@ const FlexContainer = styled.div`
   display: flex;
   margin: 0 -${style.sizeSm} 0 -${style.sizeSm};
   flex-wrap: wrap;
-  flex-basis: 100%;
   > * {
-    flex: 1;
+    flex-basis: 100%;
     > * {
       margin: ${style.sizeSm};
     }
