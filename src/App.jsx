@@ -7,7 +7,7 @@ import { Reset } from "styled-reset";
 import Home from "./screens/Home.jsx";
 import Login from "./screens/Login.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import Header from "./components/Header.jsx";
+import Header from "./containers/Header.jsx";
 
 import config from "../package.json";
 
@@ -17,7 +17,7 @@ const AppBody = styled.div`
   background-color: ${style.blackBackground};
   font-family: "Open Sans", Arial;
   font-size: 12px;
-  @media ${style.device.tablet} { 
+  @media ${style.device.tablet} {
     font-size: 14px;
   }
   a {

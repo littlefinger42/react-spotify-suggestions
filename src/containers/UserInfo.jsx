@@ -6,7 +6,6 @@ import { clearSearchParams } from "../store/actions/index";
 
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
-import Avatar from "../components/Avatar.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -41,9 +40,6 @@ class UserInfo extends React.Component {
     return (
       <Card>
         <span>
-          <strong>Username:</strong> {this.props.username}
-        </span>
-        <span>
           <strong>Tracks Selected:</strong> {this.props.tracksSelected}
         </span>
         <span>
@@ -62,16 +58,9 @@ class UserInfo extends React.Component {
             )}
           </ul>
         </span>
-        <Avatar
-          imgSrc={this.props.imgUrl}
-          alt={this.props.username + " avatar"}
-        />
       </Card>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

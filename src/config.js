@@ -1,7 +1,7 @@
 const spotify = {
   clientId: "6a055beb5e304ad19bf4dc36a07e3fcd",
-  redirectUrl: "http://localhost:8080/"
-  // redirectUrl: "https://spotify-suggestions-generator.netlify.com/"
+  // redirectUrl: "http://localhost:8080/"
+  redirectUrl: "https://spotify-suggestions-generator.netlify.com/"
 };
 
 const sizes = {

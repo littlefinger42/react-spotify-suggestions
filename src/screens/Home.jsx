@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 
 import {
   getUserAccessToken,
-  getSpotifyDisplayName,
-  getSpotifyDisplayImgUrl,
   getSpotifyUserId,
   getTouchedRecommendationParams
 } from "../store/selectors/index";
@@ -30,8 +28,6 @@ const mapStateToProps = state => {
     user: {
       accessToken: getUserAccessToken(state),
       spotify: {
-        display_name: getSpotifyDisplayName(state),
-        img_url: getSpotifyDisplayImgUrl(state),
         id: getSpotifyUserId(state)
       },
       touchedRecommendationParams: getTouchedRecommendationParams(state)
@@ -193,8 +189,6 @@ class HomeContainer extends React.Component {
     return (
       <Main>
         <UserInfo
-          username={this.props.user.spotify.display_name}
-          imgUrl={this.props.user.spotify.img_url}
           tracksSelected={this.state.selectedTracks.length}
           touchedParams={this.props.touchedRecommendationParams}
         />
@@ -228,12 +222,16 @@ class HomeContainer extends React.Component {
         </Toolbar>
 
         <FlexContainer>
-          <Card>
-            <TopTracks trackClicked={this.trackClicked} />
-          </Card>
-          <Card>
-            <SearchTracks trackClicked={this.trackClicked} />
-          </Card>
+          <div>
+            <Card>
+              <TopTracks trackClicked={this.trackClicked} />
+            </Card>
+          </div>
+          <div>
+            <Card>
+              <SearchTracks trackClicked={this.trackClicked} />
+            </Card>
+          </div>
         </FlexContainer>
 
         {this.state.tracks && (
