@@ -222,7 +222,7 @@ class HomeContainer extends React.Component {
           </div>
         </FlexContainer>
 
-        {this.state.tracks && (
+        {this.state.tracks && this.state.tracks.length > 0 && (
           <Card>
             <div style={{ width: "100%" }}>
               <Pagination
