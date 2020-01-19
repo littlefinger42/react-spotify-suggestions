@@ -12,14 +12,10 @@ import { updateTopTracks } from "../store/actions/index";
 import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
-import UserInfo from "../containers/UserInfo.jsx";
-import TopTracks from "../containers/TopTracks.jsx";
+import InputContainer from "../containers/InputContainer.jsx";
 import TrackList from "../containers/TrackList.jsx";
-import SearchTracks from "../containers/SearchTracks.jsx";
-import RecommendationsSelector from "../containers/RecommendationsSelector.jsx";
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
-import FlexContainer from "../components/FlexContainer.jsx";
 import Toolbar from "../components/Toolbar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import Alert from "../components/Alert.jsx";
@@ -149,13 +145,6 @@ class HomeContainer extends React.Component {
   };
 
   /**
-   * Click handler for track
-   */
-  trackClicked = () => {
-    this.setState({ tracksExportable: true });
-  };
-
-  /**
    * Switches current selected list of tracks
    * @param {*} event
    * @param {string} id
@@ -176,7 +165,7 @@ class HomeContainer extends React.Component {
 
     return (
       <Main>
-        <UserInfo
+        <InputContainer
           tracksSelected={this.props.selectedTracks.length}
           touchedParams={this.props.touchedRecommendationParams}
         />
@@ -191,14 +180,16 @@ class HomeContainer extends React.Component {
             Suggest tracks
           </Button>
           <Button
-            disabled={!this.state.tracksExportable || this.state.isLoading}
+            disabled={
+              this.props.selectedTracks.length < 1 || this.state.isLoading
+            }
             handleClick={this.exportPlaylist}
           >
             Export Playlist
           </Button>
           <Button
             disabled={
-              !this.state.tracksExportable ||
+              !this.props.selectedTracks ||
               this.state.isLoading ||
               !this.state.tracksExported
             }
@@ -206,21 +197,7 @@ class HomeContainer extends React.Component {
           >
             Add to existing Playlist
           </Button>
-          <RecommendationsSelector />
         </Toolbar>
-
-        <FlexContainer>
-          <div>
-            <Card>
-              <TopTracks trackClicked={this.trackClicked} />
-            </Card>
-          </div>
-          <div>
-            <Card>
-              <SearchTracks trackClicked={this.trackClicked} />
-            </Card>
-          </div>
-        </FlexContainer>
 
         {this.state.tracks && this.state.tracks.length > 0 && (
           <Card>

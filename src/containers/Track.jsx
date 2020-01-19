@@ -61,7 +61,6 @@ class Track extends React.Component {
 
   handleClick = () => {
     this.setState({ active: !this.state.active });
-    this.props.handleClick(this, !this.state.active);
     if (!this.state.active) {
       this.props.addSelectedTrack(this.props.id);
     } else {

@@ -10,21 +10,11 @@ const StyledList = styled.ul`
 `;
 
 class TrackList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  trackClicked = (track, event) => {
-    this.props.trackClicked(track, event);
-  };
-
   render() {
     return (
       <StyledList className={this.props.className}>
         {this.props.tracks.map((track, index) => {
-          return (
-            <Track key={track.id} handleClick={this.trackClicked} {...track} />
-          );
+          return <Track key={track.id} {...track} />;
         })}
       </StyledList>
     );
