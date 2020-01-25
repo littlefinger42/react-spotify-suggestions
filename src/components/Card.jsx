@@ -10,10 +10,6 @@ const Card = styled.div`
   box-sizing: border-box;
   box-shadow: #000 0px 0px ${style.sizeXs};
 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
   &.active {
     background-color: ${style.blackLevelThree};
   }

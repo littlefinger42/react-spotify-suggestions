@@ -13,7 +13,6 @@ const ButtonStyled = styled.button`
       ? `${style.sizeXs / 2} ${style.sizeXs}`
       : `${style.sizeXs} ${style.sizeSm}`};
   margin-right: ${style.sizeSm};
-  margin-top: ${style.sizeXs};
   border-radius: ${style.borderRadius};
   &:hover {
     cursor: pointer;

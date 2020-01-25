@@ -13,12 +13,11 @@ import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
 import InputContainer from "../containers/InputContainer.jsx";
-import TrackList from "../containers/TrackList.jsx";
+import OutputContainer from "../containers/OutputContainer.jsx";
 import Button from "../components/Button.jsx";
-import Card from "../components/Card.jsx";
 import Toolbar from "../components/Toolbar.jsx";
-import Pagination from "../components/Pagination.jsx";
 import Alert from "../components/Alert.jsx";
+import FlexContainer from "../components/FlexContainer.jsx";
 
 const mapStateToProps = state => {
   return {
@@ -46,7 +45,6 @@ class HomeContainer extends React.Component {
     this.state = {
       isLoading: false,
       tracks: [],
-      selectedTrackList: "",
       tracksExported: false,
       tracksExportable: false,
       tracksExportedPlaylistId: null
@@ -84,8 +82,7 @@ class HomeContainer extends React.Component {
             ...this.state.tracks,
             { id: this.state.tracks.length, tracks: response }
           ],
-          isLoading: false,
-          selectedTrackList: this.state.tracks.length
+          isLoading: false
         });
       });
   };
@@ -144,15 +141,6 @@ class HomeContainer extends React.Component {
       });
   };
 
-  /**
-   * Switches current selected list of tracks
-   * @param {*} event
-   * @param {string} id
-   */
-  switchList = (event, id) => {
-    this.setState({ selectedTrackList: id });
-  };
-
   componentWillUnmount() {
     this.abortController.abort();
   }
@@ -165,11 +153,6 @@ class HomeContainer extends React.Component {
 
     return (
       <Main>
-        <InputContainer
-          tracksSelected={this.props.selectedTracks.length}
-          touchedParams={this.props.touchedRecommendationParams}
-        />
-        {alert}
         <Toolbar>
           <Button
             disabled={
@@ -198,33 +181,16 @@ class HomeContainer extends React.Component {
             Add to existing Playlist
           </Button>
         </Toolbar>
-
-        {this.state.tracks && this.state.tracks.length > 0 && (
-          <Card>
-            <div style={{ width: "100%" }}>
-              <Pagination
-                handleClick={this.switchList}
-                selectedPageId={this.state.selectedTrackList}
-                pages={this.state.tracks}
-              />
-              {this.state.tracks.map((trackList, index) => {
-                return (
-                  <TrackList
-                    className={
-                      trackList.id === this.state.selectedTrackList
-                        ? ""
-                        : "hidden"
-                    }
-                    key={index}
-                    id={index}
-                    tracks={trackList.tracks}
-                    trackClicked={this.trackClicked}
-                  />
-                );
-              })}
-            </div>
-          </Card>
-        )}
+        <FlexContainer>
+          <InputContainer
+            tracksSelected={this.props.selectedTracks.length}
+            touchedParams={this.props.touchedRecommendationParams}
+          />
+          {this.state.tracks && this.state.tracks.length > 0 && (
+            <OutputContainer tracks={this.state.tracks} />
+          )}
+        </FlexContainer>
+        {alert}
       </Main>
     );
   }

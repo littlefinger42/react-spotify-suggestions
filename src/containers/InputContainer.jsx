@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { style } from "../config";
 import { connect } from "react-redux";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
 
 import { getTouchedRecommendationParams } from "../store/selectors/index";
 import { clearSearchParams } from "../store/actions/index";
@@ -14,9 +15,21 @@ import RecommendationsSelector from "./RecommendationsSelector.jsx";
 
 const InputContainerContainer = styled(Card)`
   padding: ${style.sizeSm};
+  max-width: 400px;
 `;
 const InputItem = styled.div`
   flex: 1;
+  margin-bottom: ${style.sizeSm};
+`;
+const InputItemHeader = styled.h3`
+  margin-bottom: ${style.sizeXs};
+  cursor: pointer;
+`;
+const InputContainerHeader = styled.div`
+  height: 50px;
+  padding-bottom: ${style.sizeSm};
+  display: flex;
+  justify-content: space-between;
 `;
 
 const mapStateToProps = state => {
@@ -35,6 +48,17 @@ const mapDispatchToProps = dispatch => {
 
 class InputContainer extends React.Component {
   notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  constructor(props) {
+    super(props);
+    this.abortController = new AbortController();
+    this.state = {
+      tabsOpen: {
+        topTracks: true,
+        searchTracks: false,
+        suggestionParameters: false
+      }
+    };
+  }
 
   render() {
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
@@ -49,38 +73,91 @@ class InputContainer extends React.Component {
         );
       }
     );
+
+    const toggleTab = tab =>
+      this.setState(prevState => ({
+        tabsOpen: {
+          ...prevState.tabsOpen,
+          [tab]: !prevState.tabsOpen[tab]
+        }
+      }));
+
     return (
       <InputContainerContainer>
+        <InputContainerHeader>
+          <span className="h2">Input</span>
+          <span style={{ flexBasis: "50%" }}>
+            <div>
+              <strong>Seed Tracks: </strong>
+              {this.props.tracksSelected}
+            </div>
+            <div>
+              <strong>Suggestion Parameters: </strong>
+              {this.props.user.touchedRecommendationParams.length > 0 ? (
+                <span>
+                  {this.props.user.touchedRecommendationParams
+                    .map(param => param.label)
+                    .join(", ")}
+                </span>
+              ) : (
+                "None"
+              )}
+            </div>
+          </span>
+        </InputContainerHeader>
+
         <InputItem>
-          <h1>Top Tracks</h1>
-          <TopTracks />
+          <InputItemHeader onClick={() => toggleTab("topTracks")}>
+            Top Tracks
+            {this.state.tabsOpen.topTracks ? (
+              <MdExpandLess />
+            ) : (
+              <MdExpandMore />
+            )}
+          </InputItemHeader>
+          {this.state.tabsOpen.topTracks && <TopTracks />}
         </InputItem>
         <InputItem>
-          <h1>Search Tracks</h1>
-          <SearchTracks />
+          <InputItemHeader onClick={() => toggleTab("searchTracks")}>
+            Search Tracks
+            {this.state.tabsOpen.searchTracks ? (
+              <MdExpandLess />
+            ) : (
+              <MdExpandMore />
+            )}
+          </InputItemHeader>
+          {this.state.tabsOpen.searchTracks && <SearchTracks />}
         </InputItem>
         <InputItem>
-          <strong>Seed tracks selected:</strong>
-          <p>{this.props.tracksSelected}</p>
-          <strong>Suggestion Parameters:</strong>
-          <div>
-            <RecommendationsSelector />
-          </div>
-          <p>
-            <ul>
-              {touchedParamsList && touchedParamsList.length === 0 && (
-                <li>None Selected</li>
-              )}
-              {touchedParamsList}
-              {touchedParamsList && touchedParamsList.length > 0 && (
-                <li>
-                  <Button handleClick={this.props.clearSearchParams}>
-                    Clear
-                  </Button>
-                </li>
-              )}
-            </ul>
-          </p>
+          <InputItemHeader onClick={() => toggleTab("suggestionParameters")}>
+            Suggestion Parameters{" "}
+            {this.state.tabsOpen.suggestionParameters ? (
+              <MdExpandLess />
+            ) : (
+              <MdExpandMore />
+            )}
+          </InputItemHeader>
+          {this.state.tabsOpen.suggestionParameters && (
+            <div>
+              <div>
+                <RecommendationsSelector />
+              </div>
+
+              <ul>
+                {touchedParamsList && touchedParamsList.length === 0 && (
+                  <li>None Selected</li>
+                )}
+                {touchedParamsList}
+                {touchedParamsList && touchedParamsList.length > 0 && (
+                  <li>
+                    <Button handleClick={this.props.clearSearchParams}>
+                      Clear
+                    </Button>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </InputItem>
       </InputContainerContainer>
     );

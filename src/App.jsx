@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
+import { IconContext } from "react-icons";
 import { style } from "./config";
 import { Reset } from "styled-reset";
 
@@ -37,16 +38,18 @@ const AppBody = styled.div`
 class App extends React.Component {
   render() {
     return (
-      <AppBody>
-        <Reset />
-        <Header title={config.friendlyName} version={config.version} />
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <PrivateRoute path="/home" component={Home} />
-          </Switch>
-        </Router>
-      </AppBody>
+      <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
+        <AppBody>
+          <Reset />
+          <Header title={config.friendlyName} version={config.version} />
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <PrivateRoute path="/home" component={Home} />
+            </Switch>
+          </Router>
+        </AppBody>
+      </IconContext.Provider>
     );
   }
 }

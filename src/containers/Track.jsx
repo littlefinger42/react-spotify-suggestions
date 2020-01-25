@@ -8,20 +8,24 @@ import { addSelectedTrack, removeSelectedTrack } from "../store/actions/index";
 import Card from "../components/Card.jsx";
 import Audio from "../components/Audio.jsx";
 
-const TrackItem = styled(Card)`
+const TrackItem = styled.div`
   margin-bottom: ${style.sizeXs};
+  position: relative;
   align-items: center;
   padding: ${style.sizeXs} 0 ${style.sizeXs} 80px;
+  &.active {
+    background-color: ${style.blackLevelThree};
+  }
 `;
 
 const TrackText = styled.span`
   flex: 1 1 0;
+  padding-bottom: 8px;
   font-size: ${style.fontSize};
 `;
 
-const TrackAudio = styled.div`
-  padding-top: 4px;
-  flex: 0 1 100%;
+const TrackAudio = styled.span`
+  max-width: 400px;
   @media ${style.device.tablet} {
     padding-top: 0px;
     flex: 0 1 40%;
@@ -83,11 +87,11 @@ class Track extends React.Component {
           <TrackText>
             <a
               href={this.props.external_urls.spotify}
-              title={"Find " + this.props.name + " on spotify"}
+              title={"Find " + this.props.name + " on Spotify"}
               rel="noreferrer"
               target="_blank"
             >
-              {this.props.name}
+              {this.props.name} {" - "}
             </a>
           </TrackText>
           <TrackText>

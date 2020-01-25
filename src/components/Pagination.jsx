@@ -19,20 +19,21 @@ class Pagination extends React.Component {
   render() {
     return (
       <ButtonsContainer>
-        {this.props.pages.map((page, index) => {
-          if (page.id)
-            return (
-              <Button
-                secondary="true"
-                small="true"
-                key={index}
-                disabled={this.props.selectedPageId === page.id}
-                handleClick={e => this.props.handleClick(e, page.id)}
-              >
-                {page.id}
-              </Button>
-            );
-        })}
+        {this.props.pages.length > 1 &&
+          this.props.pages.map((page, index) => {
+            if (page.id !== undefined)
+              return (
+                <Button
+                  secondary="true"
+                  small="true"
+                  key={index}
+                  disabled={this.props.selectedPageId === page.id}
+                  handleClick={e => this.props.handleClick(e, page.id)}
+                >
+                  {page.id}
+                </Button>
+              );
+          })}
       </ButtonsContainer>
     );
   }

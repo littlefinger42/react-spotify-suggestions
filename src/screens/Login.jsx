@@ -125,6 +125,7 @@ class LoginContainer extends React.Component {
           API to give the user more control over their recommendations than they
           can in the desktop or mobile client.
         </p>
+        <br></br>
         <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
           Authorize Spotify
         </Button>

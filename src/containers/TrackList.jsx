@@ -5,7 +5,7 @@ import { style } from "../config";
 import Track from "../containers/Track.jsx";
 
 const StyledList = styled.ul`
-  flex: 1;
+  // flex: 1;
   padding: 0 0 ${style.sizeSm} 0;
 `;
 

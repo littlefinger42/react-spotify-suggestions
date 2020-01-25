@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { style } from "../config"
+import { style } from "../config";
 
 const Toolbar = styled.div`
   position: sticky;
   top: 0;
-  padding: ${style.sizeXs} 0;
+  padding: 0 0 ${style.sizeSm} 0;
   background: ${style.blackBackground};
   z-index: 1;
 `;
