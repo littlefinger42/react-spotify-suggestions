@@ -14,6 +14,8 @@ import config from "../package.json";
 
 const AppBody = styled.div`
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: ${style.textColor};
   background-color: ${style.blackBackground};
   font-family: "Open Sans", Arial;

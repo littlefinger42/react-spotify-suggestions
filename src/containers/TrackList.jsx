@@ -5,8 +5,9 @@ import { style } from "../config";
 import Track from "../containers/Track.jsx";
 
 const StyledList = styled.ul`
-  // flex: 1;
   padding: 0 0 ${style.sizeSm} 0;
+  max-height: 400px;
+  overflow-y: scroll;
 `;
 
 class TrackList extends React.Component {
