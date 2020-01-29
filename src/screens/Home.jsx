@@ -10,7 +10,6 @@ import {
 import Main from "../components/Main.jsx";
 import InputContainer from "../containers/InputContainer.jsx";
 import OutputContainer from "../containers/OutputContainer.jsx";
-import Button from "../components/Button.jsx";
 import FlexContainer from "../components/FlexContainer.jsx";
 
 const mapStateToProps = state => {
@@ -37,7 +36,6 @@ class HomeContainer extends React.Component {
               <OutputContainer tracks={this.props.recommendedTracks} />
             )}
         </FlexContainer>
-        {alert}
       </Main>
     );
   }

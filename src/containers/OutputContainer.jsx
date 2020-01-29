@@ -148,7 +148,7 @@ class OutputContainer extends React.Component {
             />
           </div>
         </OutputContainerHeader>
-
+        {alert}
         <OutputItem>
           <div style={{ width: "100%" }}>
             {this.props.tracks.map((trackList, index) => (
