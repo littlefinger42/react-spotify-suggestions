@@ -4,7 +4,7 @@ import { style } from "../config";
 const Card = styled.div`
   flex: 1;
   position: relative;
-  background-color: ${style.blackLevelTwo};
+  background-color: ${style.blackLevelOne};
   margin: ${style.sizeXs};
   padding: ${style.sizeSm};
   border: 1px #000 solid;
