@@ -15,7 +15,10 @@ import RecommendationsSelector from "./RecommendationsSelector.jsx";
 
 const InputContainerContainer = styled(Card)`
   padding: ${style.sizeSm};
-  max-width: 400px;
+
+  @media ${style.device.tablet} {
+    max-width: 400px;
+  }
 `;
 const InputItem = styled.div`
   flex: 1;

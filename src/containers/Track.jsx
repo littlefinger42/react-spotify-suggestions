@@ -18,13 +18,12 @@ const TrackItem = styled.div`
   }
 `;
 
-const TrackText = styled.span`
-  flex: 1 1 0;
+const TrackText = styled.div`
   padding-bottom: 8px;
   font-size: ${style.fontSize};
 `;
 
-const TrackAudio = styled.span`
+const TrackAudio = styled.div`
   max-width: 400px;
   @media ${style.device.tablet} {
     padding-top: 0px;
@@ -93,8 +92,7 @@ class Track extends React.Component {
             >
               {this.props.name} {" - "}
             </a>
-          </TrackText>
-          <TrackText>
+
             {this.props.artists.map(artist => {
               return (
                 <span key={artist.id}>
@@ -111,6 +109,7 @@ class Track extends React.Component {
               );
             })}
           </TrackText>
+
           <TrackAudio>
             <Audio src={this.props.preview_url} controls preload="metadata" />
           </TrackAudio>
