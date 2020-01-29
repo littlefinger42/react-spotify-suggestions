@@ -1,4 +1,81 @@
 import React from "react";
+import styled from "styled-components";
+
+const StyledRange = styled.input`
+  background: transparent;
+  -webkit-appearance: none;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -9px;
+    background: #444;
+    cursor: pointer;
+    ...;
+  }
+  &::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -9px;
+    background: #444;
+    cursor: pointer;
+  }
+  &::-ms-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    margin-top: -9px;
+    background: #444;
+    cursor: pointer;
+  }
+  &::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #ccc;
+  }
+  &:active::-webkit-slider-runnable-track {
+    background: #d6d6d6;
+  }
+  &::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #ccc;
+  }
+  &::-ms-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  &::-ms-fill-lower {
+    background: #ccc;
+  }
+  &:focus::-ms-fill-lower {
+    background: #ddd;
+  }
+  &::-ms-fill-upper {
+    background: #ccc;
+  }
+  &:focus::-ms-fill-upper {
+    background: #ddd;
+  }
+`;
 
 class Range extends React.Component {
   constructor(props) {
@@ -23,7 +100,7 @@ class Range extends React.Component {
 
     return (
       <span>
-        <input
+        <StyledRange
           type="range"
           id={this.props.id}
           min={this.props.min}

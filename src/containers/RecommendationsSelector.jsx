@@ -1,11 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
 import { getRecommendationParams } from "../store/selectors/index";
 import { updateSearchParams } from "../store/actions/index";
 
 import Range from "../components/Range.jsx";
 import Select from "../components/Select.jsx";
+
+const RecommendationSelectorContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const mapStateToProps = state => {
   return {
@@ -63,25 +69,27 @@ class RecommendationSelector extends React.Component {
 
   render() {
     return (
-      <span>
+      <RecommendationSelectorContainer>
         <Select
           id="reccomendationParamsSelector"
           handleChange={this.handleParameterSelectedChange}
           options={this.props.user.recommendationParams}
         />
-        {this.state.selectedParameter.range[0] /
-          this.state.selectedParameter.step}
-        <Range
-          id={this.state.selectedParameter.id}
-          min={this.state.selectedParameter.range[0]}
-          max={this.state.selectedParameter.range[1]}
-          step={this.state.selectedParameter.step}
-          ref={this.parameterRange}
-          handleChange={this.handleSuggestionsParameterChange}
-        />
-        {this.state.selectedParameter.range[1] /
-          this.state.selectedParameter.step}
-      </span>
+        <span>
+          {this.state.selectedParameter.range[0] /
+            this.state.selectedParameter.step}
+          <Range
+            id={this.state.selectedParameter.id}
+            min={this.state.selectedParameter.range[0]}
+            max={this.state.selectedParameter.range[1]}
+            step={this.state.selectedParameter.step}
+            ref={this.parameterRange}
+            handleChange={this.handleSuggestionsParameterChange}
+          />
+          {this.state.selectedParameter.range[1] /
+            this.state.selectedParameter.step}
+        </span>
+      </RecommendationSelectorContainer>
     );
   }
 }

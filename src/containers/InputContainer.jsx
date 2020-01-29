@@ -203,23 +203,25 @@ class InputContainer extends React.Component {
           </InputItemHeader>
           {this.state.tabsOpen.suggestionParameters && (
             <div>
-              <div>
+              <InputItem>
                 <RecommendationsSelector />
-              </div>
+              </InputItem>
 
-              <ul>
-                {touchedParamsList && touchedParamsList.length === 0 && (
-                  <li>None Selected</li>
-                )}
-                {touchedParamsList}
-                {touchedParamsList && touchedParamsList.length > 0 && (
-                  <li>
-                    <Button handleClick={this.props.clearSearchParams}>
-                      Clear
-                    </Button>
-                  </li>
-                )}
-              </ul>
+              <InputItem>
+                <ul>
+                  {touchedParamsList && touchedParamsList.length === 0 && (
+                    <li>None Selected</li>
+                  )}
+                  {touchedParamsList}
+                  {touchedParamsList && touchedParamsList.length > 0 && (
+                    <li>
+                      <Button handleClick={this.props.clearSearchParams}>
+                        Clear
+                      </Button>
+                    </li>
+                  )}
+                </ul>
+              </InputItem>
             </div>
           )}
         </InputItem>
