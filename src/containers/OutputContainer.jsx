@@ -50,17 +50,14 @@ class InputContainer extends React.Component {
         <OutputItem>
           <div style={{ width: "100%" }}>
             {this.props.tracks.map((trackList, index) => {
-              console.log(this.props.tracks);
               return (
                 <TrackList
                   className={
-                    trackList.id === this.state.selectedTrackList
-                      ? ""
-                      : "hidden"
+                    index === this.state.selectedTrackList ? "" : "hidden"
                   }
                   key={index}
                   id={index}
-                  tracks={trackList.tracks}
+                  tracks={trackList}
                 />
               );
             })}

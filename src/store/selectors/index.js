@@ -16,6 +16,9 @@ export const getRecommendationParams = state => {
 export const getSelectedTracks = state => {
   return state.selectedTracks;
 };
+export const getRecommendedTracks = state => {
+  return state.recommendedTracks;
+};
 export const getTouchedRecommendationParams = state => {
   return state.user.recommendationParams.filter(param => param.touched);
 };

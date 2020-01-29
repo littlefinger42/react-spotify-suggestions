@@ -32,6 +32,10 @@ export const removeSelectedTrack = payload => ({
   type: types.REMOVE_SELECTED_TRACK,
   payload
 });
+export const addRecommendedTracks = payload => ({
+  type: types.ADD_RECOMMENDED_TRACKS,
+  payload
+});
 export const updateSearchParams = payload => ({
   type: types.UPDATE_RECOMMENDATION_PARAM,
   payload

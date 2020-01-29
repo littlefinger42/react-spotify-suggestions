@@ -4,8 +4,17 @@ import { style } from "../config";
 import { connect } from "react-redux";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 
-import { getTouchedRecommendationParams } from "../store/selectors/index";
-import { clearSearchParams } from "../store/actions/index";
+import {
+  getTouchedRecommendationParams,
+  getSelectedTracks,
+  getUserAccessToken
+} from "../store/selectors/index";
+import {
+  clearSearchParams,
+  addRecommendedTracks
+} from "../store/actions/index";
+
+import spotifyUtils from "../utils/spotifyUtils";
 
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
@@ -38,14 +47,17 @@ const InputContainerHeader = styled.div`
 const mapStateToProps = state => {
   return {
     user: {
+      accessToken: getUserAccessToken(state),
       touchedRecommendationParams: getTouchedRecommendationParams(state)
-    }
+    },
+    selectedTracks: getSelectedTracks(state)
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearSearchParams: prop => dispatch(clearSearchParams(prop))
+    clearSearchParams: prop => dispatch(clearSearchParams(prop)),
+    addRecommendedTracks: prop => dispatch(addRecommendedTracks(prop))
   };
 };
 
@@ -55,6 +67,7 @@ class InputContainer extends React.Component {
     super(props);
     this.abortController = new AbortController();
     this.state = {
+      isLoading: false,
       tabsOpen: {
         topTracks: true,
         searchTracks: false,
@@ -62,6 +75,46 @@ class InputContainer extends React.Component {
       }
     };
   }
+
+  /**
+   * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
+   */
+  getRecommendations = () => {
+    const { user, addRecommendedTracks } = this.props;
+
+    if (this.props.selectedTracks.length === 0) {
+      alert("Select some tracks as seeds first!");
+      return false;
+    }
+
+    this.setState({ isLoading: true });
+    spotifyUtils
+      .getSpotifyRecommendations(
+        user.accessToken,
+        this.props.selectedTracks,
+        user.touchedRecommendationParams,
+        this.abortController
+      )
+      .then(response => {
+        if (response.error) {
+          alert(response.error); //TODO: add better error messages
+          this.setState({ isLoading: false });
+          return false;
+        }
+        addRecommendedTracks(response);
+        this.setState({
+          isLoading: false
+        });
+      });
+  };
+
+  toggleTab = tab =>
+    this.setState(prevState => ({
+      tabsOpen: {
+        ...prevState.tabsOpen,
+        [tab]: !prevState.tabsOpen[tab]
+      }
+    }));
 
   render() {
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
@@ -76,14 +129,6 @@ class InputContainer extends React.Component {
         );
       }
     );
-
-    const toggleTab = tab =>
-      this.setState(prevState => ({
-        tabsOpen: {
-          ...prevState.tabsOpen,
-          [tab]: !prevState.tabsOpen[tab]
-        }
-      }));
 
     return (
       <InputContainerContainer>
@@ -110,7 +155,7 @@ class InputContainer extends React.Component {
         </InputContainerHeader>
 
         <InputItem>
-          <InputItemHeader onClick={() => toggleTab("topTracks")}>
+          <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
             Top Tracks
             {this.state.tabsOpen.topTracks ? (
               <MdExpandLess />
@@ -121,7 +166,7 @@ class InputContainer extends React.Component {
           {this.state.tabsOpen.topTracks && <TopTracks />}
         </InputItem>
         <InputItem>
-          <InputItemHeader onClick={() => toggleTab("searchTracks")}>
+          <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
             Search Tracks
             {this.state.tabsOpen.searchTracks ? (
               <MdExpandLess />
@@ -132,7 +177,9 @@ class InputContainer extends React.Component {
           {this.state.tabsOpen.searchTracks && <SearchTracks />}
         </InputItem>
         <InputItem>
-          <InputItemHeader onClick={() => toggleTab("suggestionParameters")}>
+          <InputItemHeader
+            onClick={() => this.toggleTab("suggestionParameters")}
+          >
             Suggestion Parameters{" "}
             {this.state.tabsOpen.suggestionParameters ? (
               <MdExpandLess />
@@ -161,6 +208,16 @@ class InputContainer extends React.Component {
               </ul>
             </div>
           )}
+        </InputItem>
+        <InputItem>
+          <Button
+            disabled={
+              this.props.selectedTracks.length < 1 || this.state.isLoading
+            }
+            handleClick={this.getRecommendations}
+          >
+            Suggest tracks
+          </Button>
         </InputItem>
       </InputContainerContainer>
     );

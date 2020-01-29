@@ -5,7 +5,8 @@ import {
   getUserAccessToken,
   getSpotifyUserId,
   getTouchedRecommendationParams,
-  getSelectedTracks
+  getSelectedTracks,
+  getRecommendedTracks
 } from "../store/selectors/index";
 import { updateTopTracks } from "../store/actions/index";
 
@@ -28,7 +29,8 @@ const mapStateToProps = state => {
       },
       touchedRecommendationParams: getTouchedRecommendationParams(state)
     },
-    selectedTracks: getSelectedTracks(state)
+    selectedTracks: getSelectedTracks(state),
+    recommendedTracks: getRecommendedTracks(state)
   };
 };
 
@@ -44,48 +46,11 @@ class HomeContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
-      tracks: [],
       tracksExported: false,
       tracksExportable: false,
       tracksExportedPlaylistId: null
     };
   }
-
-  /**
-   * Uses spotify utils to fetch recommendations based on selected tracks in the state, then sets them to the state
-   */
-  getRecommendations = () => {
-    const { user } = this.props;
-
-    if (this.props.selectedTracks.length === 0) {
-      alert("Select some tracks as seeds first!");
-      return false;
-    }
-
-    this.setState({ isLoading: true });
-    spotifyUtils
-      .getSpotifyRecommendations(
-        user.accessToken,
-        this.props.selectedTracks,
-        user.touchedRecommendationParams,
-        this.abortController
-      )
-      .then(response => {
-        if (response.error) {
-          alert(response.error); //TODO: add better error messages
-          this.setState({ isLoading: false });
-          return false;
-        }
-
-        this.setState({
-          tracks: [
-            ...this.state.tracks,
-            { id: this.state.tracks.length, tracks: response }
-          ],
-          isLoading: false
-        });
-      });
-  };
 
   /**
    * Creates and fills a new spotify playlist with selected tracks
@@ -150,18 +115,10 @@ class HomeContainer extends React.Component {
     if (this.state.tracksExported && !this.state.tracksExportable) {
       alert = <Alert>Track exported</Alert>;
     }
-
+    console.log("recommended tracks", this.props.recommendedTracks);
     return (
       <Main>
         <Toolbar>
-          <Button
-            disabled={
-              this.props.selectedTracks.length < 1 || this.state.isLoading
-            }
-            handleClick={this.getRecommendations}
-          >
-            Suggest tracks
-          </Button>
           <Button
             disabled={
               this.props.selectedTracks.length < 1 || this.state.isLoading
@@ -186,9 +143,10 @@ class HomeContainer extends React.Component {
             tracksSelected={this.props.selectedTracks.length}
             touchedParams={this.props.touchedRecommendationParams}
           />
-          {this.state.tracks && this.state.tracks.length > 0 && (
-            <OutputContainer tracks={this.state.tracks} />
-          )}
+          {this.props.recommendedTracks &&
+            this.props.recommendedTracks.length > 0 && (
+              <OutputContainer tracks={this.props.recommendedTracks} />
+            )}
         </FlexContainer>
         {alert}
       </Main>

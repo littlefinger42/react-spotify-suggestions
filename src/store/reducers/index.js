@@ -85,7 +85,8 @@ const initialState = {
     ]
   },
   topTracks: [],
-  selectedTracks: []
+  selectedTracks: [],
+  recommendedTracks: []
 };
 
 function reducer(state = initialState, action) {
@@ -119,6 +120,11 @@ function reducer(state = initialState, action) {
         selectedTracks: state.selectedTracks.filter(
           track => track != action.payload
         )
+      };
+    case types.ADD_RECOMMENDED_TRACKS:
+      return {
+        ...state,
+        recommendedTracks: [...state.recommendedTracks, action.payload]
       };
     //RECOMMENDATION PARAMS
     case types.UPDATE_RECOMMENDATION_PARAM:
