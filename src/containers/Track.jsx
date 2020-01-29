@@ -92,21 +92,19 @@ class Track extends React.Component {
               {this.props.name} {" - "}
             </a>
 
-            {this.props.artists.map(artist => {
-              return (
-                <span key={artist.id}>
-                  <a
-                    href={artist.external_urls.spotify}
-                    title={"Find " + this.props.name + " on Spotify"}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {artist.name}
-                  </a>
-                  <span> </span>
-                </span>
-              );
-            })}
+            {this.props.artists.map(artist => (
+              <span key={artist.id}>
+                <a
+                  href={artist.external_urls.spotify}
+                  title={"Find " + this.props.name + " on Spotify"}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {artist.name}
+                </a>
+                <span> </span>
+              </span>
+            ))}
           </TrackText>
 
           <TrackAudio>

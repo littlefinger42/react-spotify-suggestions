@@ -151,18 +151,16 @@ class OutputContainer extends React.Component {
 
         <OutputItem>
           <div style={{ width: "100%" }}>
-            {this.props.tracks.map((trackList, index) => {
-              return (
-                <TrackList
-                  className={
-                    index === this.state.selectedTrackList ? "" : "hidden"
-                  }
-                  key={index}
-                  id={index}
-                  tracks={trackList}
-                />
-              );
-            })}
+            {this.props.tracks.map((trackList, index) => (
+              <TrackList
+                className={
+                  index === this.state.selectedTrackList ? "" : "hidden"
+                }
+                key={index}
+                id={index}
+                tracks={trackList}
+              />
+            ))}
           </div>
         </OutputItem>
         <OutputItem>

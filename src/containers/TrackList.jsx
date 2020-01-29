@@ -14,9 +14,9 @@ class TrackList extends React.Component {
   render() {
     return (
       <StyledList className={this.props.className}>
-        {this.props.tracks.map((track, index) => {
-          return <Track key={track.id} {...track} />;
-        })}
+        {this.props.tracks.map((track, index) => (
+          <Track key={track.id} {...track} />
+        ))}
       </StyledList>
     );
   }
