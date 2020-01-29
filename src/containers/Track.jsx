@@ -5,7 +5,6 @@ import { style } from "../config";
 
 import { addSelectedTrack, removeSelectedTrack } from "../store/actions/index";
 
-import Card from "../components/Card.jsx";
 import Audio from "../components/Audio.jsx";
 
 const TrackItem = styled.div`
