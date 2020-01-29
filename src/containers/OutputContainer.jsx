@@ -134,7 +134,9 @@ class OutputContainer extends React.Component {
   render() {
     let alert;
     if (this.state.tracksExported && !this.state.tracksExportable) {
-      alert = <Alert>Track exported</Alert>;
+      alert = (
+        <Alert>{`Tracks successfully exported as a spotify playlist`}</Alert>
+      );
     }
     return (
       <OutputContainerCountainer>
@@ -148,7 +150,6 @@ class OutputContainer extends React.Component {
             />
           </div>
         </OutputContainerHeader>
-        {alert}
         <OutputItem>
           <div style={{ width: "100%" }}>
             {this.props.tracks.map((trackList, index) => (
@@ -163,6 +164,7 @@ class OutputContainer extends React.Component {
             ))}
           </div>
         </OutputItem>
+        {alert && <OutputItem>{alert}</OutputItem>}
         <OutputItem>
           <Button
             disabled={
