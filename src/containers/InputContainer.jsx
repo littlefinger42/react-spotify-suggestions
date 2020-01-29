@@ -32,6 +32,9 @@ const InputContainerContainer = styled(Card)`
 const InputItem = styled.div`
   flex: 1;
   margin-bottom: ${style.sizeSm};
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 const InputItemHeader = styled.h3`
   margin-bottom: ${style.sizeXs};
@@ -115,6 +118,10 @@ class InputContainer extends React.Component {
         [tab]: !prevState.tabsOpen[tab]
       }
     }));
+
+  componentWillUnmount() {
+    this.abortController.abort();
+  }
 
   render() {
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
