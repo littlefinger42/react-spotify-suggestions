@@ -17,6 +17,7 @@ import urlUtils from "../utils/urlUtils";
 import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
+import Card from "../components/Card.jsx";
 import Button from "../components/Button.jsx";
 import Alert from "../components/Alert.jsx";
 
@@ -116,19 +117,21 @@ class LoginContainer extends React.Component {
     return (
       <Main>
         {alert}
-        <p>
-          Spotify Suggestions Generator doesn't store any of your information.
-        </p>
-        <br></br>
-        <p>
-          The purpose of Spotify Suggestions Generator is to utilise the spotify
-          API to give the user more control over their recommendations than they
-          can in the desktop or mobile client.
-        </p>
-        <br></br>
-        <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
-          Authorize Spotify
-        </Button>
+        <Card>
+          <p>
+            Spotify Suggestions Generator doesn't store any of your information.
+          </p>
+          <br></br>
+          <p>
+            The purpose of Spotify Suggestions Generator is to utilise the
+            spotify API to give the user more control over their recommendations
+            than they can in the desktop or mobile client.
+          </p>
+          <br></br>
+          <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
+            Authorize Spotify
+          </Button>
+        </Card>
       </Main>
     );
   }

@@ -18,7 +18,6 @@ import Alert from "../components/Alert.jsx";
 import Pagination from "../components/Pagination.jsx";
 
 const OutputContainerCountainer = styled(Card)`
-  padding: ${style.sizeSm};
   flex: 1;
 `;
 const OutputItem = styled.div`
@@ -33,6 +32,15 @@ const OutputContainerHeader = styled.div`
   padding-bottom: ${style.sizeSm};
   display: flex;
   justify-content: space-between;
+`;
+const OutputContainerTitle = styled.h2`
+  font-size: 14px;
+  @media ${style.device.tablet} {
+    font-size: 16px;
+  }
+  @media ${style.device.laptop} {
+    font-size: 18px;
+  }
 `;
 
 const mapStateToProps = state => {
@@ -131,7 +139,7 @@ class OutputContainer extends React.Component {
     return (
       <OutputContainerCountainer>
         <OutputContainerHeader>
-          <span className="h2">Output</span>
+          <OutputContainerTitle>Output</OutputContainerTitle>
           <div>
             <Pagination
               handleClick={this.switchList}

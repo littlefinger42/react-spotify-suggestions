@@ -23,8 +23,6 @@ import SearchTracks from "./SearchTracks.jsx";
 import RecommendationsSelector from "./RecommendationsSelector.jsx";
 
 const InputContainerContainer = styled(Card)`
-  padding: ${style.sizeSm};
-
   @media ${style.device.tablet} {
     max-width: 400px;
   }
@@ -45,6 +43,15 @@ const InputContainerHeader = styled.div`
   padding-bottom: ${style.sizeSm};
   display: flex;
   justify-content: space-between;
+`;
+const InputContainerTitle = styled.h2`
+  font-size: 14px;
+  @media ${style.device.tablet} {
+    font-size: 16px;
+  }
+  @media ${style.device.laptop} {
+    font-size: 18px;
+  }
 `;
 
 const mapStateToProps = state => {
@@ -140,7 +147,7 @@ class InputContainer extends React.Component {
     return (
       <InputContainerContainer>
         <InputContainerHeader>
-          <span className="h2">Input</span>
+          <InputContainerTitle>Input</InputContainerTitle>
           <span style={{ flexBasis: "50%" }}>
             <div>
               <strong>Seed Tracks: </strong>

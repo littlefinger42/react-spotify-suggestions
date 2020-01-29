@@ -5,6 +5,8 @@ const Card = styled.div`
   flex: 1;
   position: relative;
   background-color: ${style.blackLevelTwo};
+  margin: ${style.sizeXs};
+  padding: ${style.sizeSm};
   border: 1px #000 solid;
   border-radius: ${style.borderRadius};
   box-sizing: border-box;
