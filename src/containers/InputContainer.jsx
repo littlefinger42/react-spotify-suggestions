@@ -23,8 +23,10 @@ import SearchTracks from "./SearchTracks.jsx";
 import RecommendationsSelector from "./RecommendationsSelector.jsx";
 
 const InputContainerContainer = styled(Card)`
+  flex-basis: 100%;
+  flex-grow: 0;
   @media ${style.device.tablet} {
-    max-width: 400px;
+    flex-basis: 50%;
   }
 `;
 const InputItem = styled.div`
