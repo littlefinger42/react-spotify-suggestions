@@ -68,6 +68,16 @@ class OutputContainer extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    this.abortController.abort();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tracks.length - 1 !== this.state.selectedTrackList) {
+      this.setState({ selectedTrackList: nextProps.tracks.length - 1 });
+    }
+  }
+
   /**
    * Creates and fills a new spotify playlist with selected tracks
    */
@@ -123,14 +133,9 @@ class OutputContainer extends React.Component {
       });
   };
 
-  componentWillUnmount() {
-    this.abortController.abort();
-  }
-
   switchList = (event, id) => {
     this.setState({ selectedTrackList: id });
   };
-
   render() {
     let alert;
     if (this.state.tracksExported && !this.state.tracksExportable) {
