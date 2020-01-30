@@ -16,6 +16,7 @@ import {
 
 import spotifyUtils from "../utils/spotifyUtils";
 
+import Alert from "../components/Alert.jsx";
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
 import TopTracks from "./TopTracks.jsx";
@@ -80,6 +81,10 @@ class InputContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
+      alert: {
+        type: "",
+        message: ""
+      },
       tabsOpen: {
         topTracks: true,
         searchTracks: false,
@@ -95,7 +100,12 @@ class InputContainer extends React.Component {
     const { user, addRecommendedTracks } = this.props;
 
     if (this.props.selectedTracks.length === 0) {
-      alert("Select some tracks as seeds first!");
+      this.setState({
+        alert: {
+          type: "warning",
+          message: "Select some tracks as seeds first!"
+        }
+      });
       return false;
     }
 
@@ -109,8 +119,10 @@ class InputContainer extends React.Component {
       )
       .then(response => {
         if (response.error) {
-          alert(response.error); //TODO: add better error messages
-          this.setState({ isLoading: false });
+          this.setState({
+            isLoading: false,
+            alert: { type: "danger", message: response.error }
+          });
           return false;
         }
         addRecommendedTracks(response);
@@ -169,7 +181,13 @@ class InputContainer extends React.Component {
             </div>
           </span>
         </InputContainerHeader>
-
+        {this.state.alert.type && this.state.alert.message && (
+          <InputItem>
+            <Alert type={this.state.alert.type}>
+              {this.state.alert.message}
+            </Alert>
+          </InputItem>
+        )}
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
             Top Tracks

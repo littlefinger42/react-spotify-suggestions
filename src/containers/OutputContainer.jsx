@@ -61,6 +61,10 @@ class OutputContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
+      alert: {
+        type: "",
+        message: ""
+      },
       selectedTrackList: this.props.tracks.length - 1,
       tracksExported: false,
       tracksExportable: false,
@@ -92,14 +96,23 @@ class OutputContainer extends React.Component {
       )
       .then(response => {
         if (response.error) {
-          alert(response.error); //TODO: add better error messages
-          this.setState({ isLoading: false });
+          this.setState({
+            isLoading: false,
+            alert: {
+              type: "danger",
+              message: response.error
+            }
+          });
           return false;
         }
 
         this.setState({
           tracksExportable: false,
           tracksExported: true,
+          alert: {
+            type: "success",
+            message: "Tracks exported!"
+          },
           isLoading: false,
           tracksExportedPlaylistId: response.playlistId
         });
@@ -121,13 +134,23 @@ class OutputContainer extends React.Component {
       .then(response => {
         if (response.error) {
           alert(response.error); //TODO: add better error messages
-          this.setState({ isLoading: false });
+          this.setState({
+            isLoading: false,
+            alert: {
+              type: "danger",
+              message: respomse.error
+            }
+          });
           return false;
         }
 
         this.setState({
           tracksExportable: false,
           tracksExported: true,
+          alert: {
+            type: "success",
+            message: "Tracks added to playlist!"
+          },
           isLoading: false
         });
       });
@@ -137,12 +160,6 @@ class OutputContainer extends React.Component {
     this.setState({ selectedTrackList: id });
   };
   render() {
-    let alert;
-    if (this.state.tracksExported && !this.state.tracksExportable) {
-      alert = (
-        <Alert>{`Tracks successfully exported as a spotify playlist`}</Alert>
-      );
-    }
     return (
       <OutputContainerCountainer>
         <OutputContainerHeader>
@@ -155,6 +172,13 @@ class OutputContainer extends React.Component {
             />
           </div>
         </OutputContainerHeader>
+        {this.state.alert.type && this.state.alert.message && (
+          <OutputItem>
+            <Alert type={this.state.alert.type}>
+              {this.state.alert.message}
+            </Alert>
+          </OutputItem>
+        )}
         <OutputItem>
           <div style={{ width: "100%" }}>
             {this.props.tracks.map((trackList, index) => (
@@ -169,7 +193,6 @@ class OutputContainer extends React.Component {
             ))}
           </div>
         </OutputItem>
-        {alert && <OutputItem>{alert}</OutputItem>}
         <OutputItem>
           <Button
             disabled={

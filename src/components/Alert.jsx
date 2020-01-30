@@ -1,9 +1,32 @@
-import React from 'react'
+import React from "react";
+import styled from "styled-components";
+import { style } from "../config";
 
-class Alert extends React.Component {
-	render() {
-		return <div>{this.props.children}</div>
-	}
+const AlertContainer = styled.div`
+  padding: 5px;
+  border-top: 2px ${props => getAlertColour(props.type)} solid;
+  background-color: ${style.blackLevelThree};
+`;
+
+function getAlertColour(alertType) {
+  switch (alertType) {
+    case "danger":
+      return "red";
+    case "warning":
+      return "orange";
+    case "success":
+      return "green";
+  }
 }
 
-export default Alert
+class Alert extends React.Component {
+  render() {
+    return (
+      <AlertContainer type={this.props.type}>
+        {this.props.children}
+      </AlertContainer>
+    );
+  }
+}
+
+export default Alert;
