@@ -6,6 +6,7 @@ import spotifyUtils from "../utils/spotifyUtils";
 
 import { getUserAccessToken } from "../store/selectors/index";
 
+import Button from "../components/Button.jsx";
 import TextInput from "../components/TextInput.jsx";
 import TrackList from "./TrackList.jsx";
 
@@ -79,6 +80,7 @@ class SearchTracks extends React.Component {
           onEnterDown={this.searchTracks}
           value={searchQuery}
         />
+        <Button handleClick={this.searchTracks}>Search</Button>
         {tracks && <SearchTracksTracksList className="" tracks={tracks} />}
       </SearchTracksContainer>
     );
