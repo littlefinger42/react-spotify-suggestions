@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { style } from "../config";
 
 const AlertContainer = styled.div`
-  padding: ${style.sizeSx};
+  padding: ${style.sizeXs};
   border-top: 2px ${props => getAlertColour(props.type)} solid;
   background-color: ${style.blackLevelThree};
 `;
