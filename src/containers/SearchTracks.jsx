@@ -9,6 +9,7 @@ import { getUserAccessToken } from "../store/selectors/index";
 
 import Button from "../components/Button.jsx";
 import TextInput from "../components/TextInput.jsx";
+import Spinner from "../components/Spinner.jsx";
 import TrackList from "./TrackList.jsx";
 
 const SearchTracksContainer = styled.div`
@@ -77,7 +78,8 @@ class SearchTracks extends React.Component {
   };
 
   render() {
-    const { tracks, searchQuery } = this.state;
+    const { tracks, searchQuery, isLoading } = this.state;
+
     return (
       <SearchTracksContainer>
         <TextInput
@@ -86,9 +88,10 @@ class SearchTracks extends React.Component {
           value={searchQuery}
         />
         <SearchTracksButtonContainer>
-          <Button small handleClick={this.searchTracks}>
+          <Button small handleClick={this.searchTracks} disabled={isLoading}>
             Search
           </Button>
+          {isLoading && <Spinner />}
         </SearchTracksButtonContainer>
         {tracks && <SearchTracksTracksList className="" tracks={tracks} />}
       </SearchTracksContainer>

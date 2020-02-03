@@ -7,6 +7,7 @@ import spotifyUtils from "../utils/spotifyUtils";
 import { getUserAccessToken } from "../store/selectors/index";
 import { updateTopTracks } from "../store/actions/index";
 
+import Spinner from "../components/Spinner.jsx";
 import TrackList from "./TrackList.jsx";
 
 const TopTracksList = styled(TrackList)`
@@ -78,10 +79,11 @@ class TopTracks extends React.Component {
   };
 
   render() {
-    const { tracks } = this.state;
+    const { tracks, isLoading } = this.state;
 
     return (
       <TopTracksContainer>
+        {isLoading && <Spinner />}
         {tracks && <TopTracksList className="" tracks={tracks} />}
       </TopTracksContainer>
     );
