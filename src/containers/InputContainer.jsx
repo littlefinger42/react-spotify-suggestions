@@ -19,6 +19,7 @@ import spotifyUtils from "../utils/spotifyUtils";
 import Alert from "../components/Alert.jsx";
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
+import Spinner from "../components/Spinner.jsx";
 import TopTracks from "./TopTracks.jsx";
 import SearchTracks from "./SearchTracks.jsx";
 import RecommendationsSelector from "./RecommendationsSelector.jsx";
@@ -44,6 +45,7 @@ const InputItemHeader = styled.h3`
 const InputContainerHeader = styled.div`
   height: 50px;
   padding-bottom: ${style.sizeSm};
+  margin-bottom: ${style.sizeSm};
   display: flex;
   justify-content: space-between;
 `;
@@ -145,6 +147,8 @@ class InputContainer extends React.Component {
   }
 
   render() {
+    const { isLoading, alert, tabsOpen } = this.state;
+
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
       param => {
         return (
@@ -163,11 +167,11 @@ class InputContainer extends React.Component {
         <InputContainerHeader>
           <InputContainerTitle>Input</InputContainerTitle>
           <span style={{ flexBasis: "50%" }}>
-            <div>
+            <InputItem>
               <strong>Seed Tracks: </strong>
               {this.props.tracksSelected}
-            </div>
-            <div>
+            </InputItem>
+            <InputItem>
               <strong>Suggestion Parameters: </strong>
               {this.props.user.touchedRecommendationParams.length > 0 ? (
                 <span>
@@ -178,50 +182,40 @@ class InputContainer extends React.Component {
               ) : (
                 "None"
               )}
-            </div>
+            </InputItem>
           </span>
         </InputContainerHeader>
-        {this.state.alert.type && this.state.alert.message && (
+        {alert.type && alert.message && (
           <InputItem>
-            <Alert type={this.state.alert.type}>
-              {this.state.alert.message}
-            </Alert>
+            <Alert type={alert.type}>{alert.message}</Alert>
           </InputItem>
         )}
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
             Top Tracks
-            {this.state.tabsOpen.topTracks ? (
-              <MdExpandLess />
-            ) : (
-              <MdExpandMore />
-            )}
+            {tabsOpen.topTracks ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {this.state.tabsOpen.topTracks && <TopTracks />}
+          {tabsOpen.topTracks && <TopTracks />}
         </InputItem>
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
             Search Tracks
-            {this.state.tabsOpen.searchTracks ? (
-              <MdExpandLess />
-            ) : (
-              <MdExpandMore />
-            )}
+            {tabsOpen.searchTracks ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {this.state.tabsOpen.searchTracks && <SearchTracks />}
+          {tabsOpen.searchTracks && <SearchTracks />}
         </InputItem>
         <InputItem>
           <InputItemHeader
             onClick={() => this.toggleTab("suggestionParameters")}
           >
             Suggestion Parameters{" "}
-            {this.state.tabsOpen.suggestionParameters ? (
+            {tabsOpen.suggestionParameters ? (
               <MdExpandLess />
             ) : (
               <MdExpandMore />
             )}
           </InputItemHeader>
-          {this.state.tabsOpen.suggestionParameters && (
+          {tabsOpen.suggestionParameters && (
             <div>
               <InputItem>
                 <RecommendationsSelector />
@@ -247,13 +241,12 @@ class InputContainer extends React.Component {
         </InputItem>
         <InputItem>
           <Button
-            disabled={
-              this.props.selectedTracks.length < 1 || this.state.isLoading
-            }
+            disabled={this.props.selectedTracks.length < 1 || isLoading}
             handleClick={this.getRecommendations}
           >
             Suggest tracks
           </Button>
+          {isLoading && <Spinner />}
         </InputItem>
       </InputContainerContainer>
     );
