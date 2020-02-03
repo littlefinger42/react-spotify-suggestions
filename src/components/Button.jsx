@@ -10,7 +10,7 @@ const ButtonStyled = styled.button`
   outline: none;
   padding: ${props =>
     props.small
-      ? `${style.sizeXs / 2} ${style.sizeXs}`
+      ? `${style.sizeXs.split("px")[0] / 2}px ${style.sizeXs}`
       : `${style.sizeXs} ${style.sizeSm}`};
   margin-right: ${style.sizeSm};
   border-radius: ${style.borderRadius};
