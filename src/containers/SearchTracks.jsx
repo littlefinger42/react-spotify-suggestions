@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { style } from "../config";
 import styled from "styled-components";
 
 import spotifyUtils from "../utils/spotifyUtils";
@@ -12,6 +13,10 @@ import TrackList from "./TrackList.jsx";
 
 const SearchTracksContainer = styled.div`
   flex: 1;
+`;
+
+const SearchTracksButtonContainer = styled.span`
+  margin-left: ${style.sizeXs};
 `;
 
 const SearchTracksTracksList = styled(TrackList)`
@@ -80,7 +85,11 @@ class SearchTracks extends React.Component {
           onEnterDown={this.searchTracks}
           value={searchQuery}
         />
-        <Button handleClick={this.searchTracks}>Search</Button>
+        <SearchTracksButtonContainer>
+          <Button small handleClick={this.searchTracks}>
+            Search
+          </Button>
+        </SearchTracksButtonContainer>
         {tracks && <SearchTracksTracksList className="" tracks={tracks} />}
       </SearchTracksContainer>
     );
