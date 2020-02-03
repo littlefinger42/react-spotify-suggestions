@@ -7,7 +7,7 @@ import Track from "../containers/Track.jsx";
 const StyledList = styled.ul`
   padding: 0 0 ${style.sizeSm} 0;
   max-height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 class TrackList extends React.Component {
