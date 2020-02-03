@@ -23,7 +23,6 @@ const TrackText = styled.div`
 `;
 
 const TrackAudio = styled.div`
-  max-width: 400px;
   @media ${style.device.tablet} {
     padding-top: 0px;
     flex: 0 1 40%;
