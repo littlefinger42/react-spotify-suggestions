@@ -16,6 +16,9 @@ export const getRecommendationParams = state => {
 export const getSelectedTracks = state => {
   return state.selectedTracks;
 };
+export const getTopTracks = state => {
+  return state.topTracks;
+};
 export const getSelectedTrackIds = state => {
   return state.selectedTracks.map(selectedTrack => selectedTrack.id);
 };

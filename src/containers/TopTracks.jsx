@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import spotifyUtils from "../utils/spotifyUtils";
 
-import { getUserAccessToken } from "../store/selectors/index";
+import { getUserAccessToken, getTopTracks } from "../store/selectors/index";
 import { updateTopTracks } from "../store/actions/index";
 
 import Spinner from "../components/Spinner.jsx";
@@ -24,7 +24,8 @@ const mapStateToProps = state => {
   return {
     user: {
       accessToken: getUserAccessToken(state)
-    }
+    },
+    tracks: getTopTracks(state)
   };
 };
 
@@ -39,16 +40,14 @@ class TopTracks extends React.Component {
     super(props);
     this.abortController = new AbortController();
     this.state = {
-      isLoading: false,
-      tracks: []
+      isLoading: false
     };
     this.parameterRange = React.createRef();
   }
 
   componentDidMount() {
-    this.getTopTracks();
+    if (this.props.tracks.length < 1) this.getTopTracks();
   }
-
   componentWillUnmount() {
     this.abortController.abort();
   }
@@ -66,20 +65,16 @@ class TopTracks extends React.Component {
           this.setState({ isLoading: false });
           return false;
         }
-        response = response.map(track => {
-          track.selected = false;
-          return track;
-        });
         this.props.updateTopTracks(response);
         this.setState({
-          tracks: response,
           isLoading: false
         });
       });
   };
 
   render() {
-    const { tracks, isLoading } = this.state;
+    const { isLoading } = this.state;
+    const { tracks } = this.props;
 
     return (
       <TopTracksContainer>

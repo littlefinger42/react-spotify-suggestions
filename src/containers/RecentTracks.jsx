@@ -66,10 +66,6 @@ class RecentTracks extends React.Component {
           });
           return false;
         }
-        response = response.map(track => {
-          track.selected = false;
-          return track;
-        });
         this.setState({
           tracks: response,
           isLoading: false
