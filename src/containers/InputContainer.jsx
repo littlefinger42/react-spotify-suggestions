@@ -43,17 +43,24 @@ const InputItem = styled.div`
 const InputItemHeader = styled.h3`
   margin-bottom: ${style.sizeXs};
   cursor: pointer;
-`;
-const InputContainerHeader = styled.div`
-  margin-bottom: ${style.sizeSm};
-`;
-const InputContainerTitle = styled.h2`
   font-size: 14px;
   @media ${style.device.tablet} {
     font-size: 16px;
   }
   @media ${style.device.laptop} {
     font-size: 18px;
+  }
+`;
+const InputContainerHeader = styled.div`
+  margin-bottom: ${style.sizeSm};
+`;
+const InputContainerTitle = styled.h2`
+  font-size: 16px;
+  @media ${style.device.tablet} {
+    font-size: 18px;
+  }
+  @media ${style.device.laptop} {
+    font-size: 20px;
   }
 `;
 
