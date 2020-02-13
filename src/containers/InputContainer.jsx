@@ -170,9 +170,14 @@ class InputContainer extends React.Component {
             {tabOpen === "selectedTracks" ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
           {tabOpen === "selectedTracks" &&
-            this.props.selectedTracks.length > 0 && (
+            (this.props.selectedTracks.length > 0 ? (
               <TrackList min tracks={this.props.selectedTracks} />
-            )}
+            ) : (
+              <Alert type="warning">
+                Select some tracks from search, top tracks or recent track lists
+                to use as seeds to suggestions.
+              </Alert>
+            ))}
         </InputItem>
         <InputItem>
           <InputItemHeader
