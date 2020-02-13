@@ -30,9 +30,9 @@ class TrackList extends React.Component {
           );
 
           return min ? (
-            <TrackMin key={track.id} {...track} selected={selected} />
+            <TrackMin key={track.id + index} {...track} selected={selected} />
           ) : (
-            <Track key={track.id} {...track} selected={selected} />
+            <Track key={track.id + index} {...track} selected={selected} />
           );
         })}
       </StyledList>

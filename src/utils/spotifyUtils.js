@@ -71,6 +71,31 @@ const spotifyUtils = {
       );
   },
   /**
+   * @param {string} accessToken retirevied from spotify authentication
+   * @param {Object} abortController is used to cancel the fetch if the component is unloaded
+   * @returns {Promise<Array><Object>}
+   */
+  getSpotifyRecentTracks(accessToken, abortController) {
+    let options = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+    if (abortController && abortController.signal) {
+      options = { ...options, ...(options.signal = abortController.signal) };
+    }
+
+    return fetch(
+      "https://api.spotify.com/v1/me/player/recently-played?type=track",
+      options
+    )
+      .then(response => response.json())
+      .then(
+        response => response.items.map(item => item.track) || [],
+        error => error || {}
+      );
+  },
+  /**
    * Fetch's spotify user's top tracks data based on array of seeds
    * @param {string} accessToken retirevied from spotify authentication
    * @param {Array} seeds an array of string song IDs
@@ -185,7 +210,7 @@ const spotifyUtils = {
   },
 
   redirectToSpotifyLoginPage() {
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=${spotify.clientId}&response_type=token&redirect_uri=${spotify.redirectUrl}&scope=user-top-read,playlist-modify-public`;
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${spotify.clientId}&response_type=token&redirect_uri=${spotify.redirectUrl}&scope=user-top-read,playlist-modify-public,user-read-recently-played`;
   }
 };
 

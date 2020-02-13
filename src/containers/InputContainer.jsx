@@ -22,6 +22,7 @@ import Card from "../components/Card.jsx";
 import Spinner from "../components/Spinner.jsx";
 import TrackList from "../containers/TrackList.jsx";
 import TopTracks from "./TopTracks.jsx";
+import RecentTracks from "./RecentTracks.jsx";
 import SearchTracks from "./SearchTracks.jsx";
 import RecommendationsSelector from "./RecommendationsSelector.jsx";
 
@@ -178,6 +179,13 @@ class InputContainer extends React.Component {
             {tabOpen === "topTracks" ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
           {tabOpen === "topTracks" && <TopTracks />}
+        </InputItem>
+        <InputItem>
+          <InputItemHeader onClick={() => this.toggleTab("recentTracks")}>
+            Recent Tracks
+            {tabOpen === "recentTracks" ? <MdExpandLess /> : <MdExpandMore />}
+          </InputItemHeader>
+          {tabOpen === "recentTracks" && <RecentTracks />}
         </InputItem>
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
