@@ -175,27 +175,6 @@ class InputContainer extends React.Component {
             )}
         </InputItem>
         <InputItem>
-          <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
-            Top Tracks
-            {tabOpen === "topTracks" ? <MdExpandLess /> : <MdExpandMore />}
-          </InputItemHeader>
-          {tabOpen === "topTracks" && <TopTracks />}
-        </InputItem>
-        <InputItem>
-          <InputItemHeader onClick={() => this.toggleTab("recentTracks")}>
-            Recent Tracks
-            {tabOpen === "recentTracks" ? <MdExpandLess /> : <MdExpandMore />}
-          </InputItemHeader>
-          {tabOpen === "recentTracks" && <RecentTracks />}
-        </InputItem>
-        <InputItem>
-          <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
-            Search Tracks
-            {tabOpen === "searchTracks" ? <MdExpandLess /> : <MdExpandMore />}
-          </InputItemHeader>
-          {tabOpen === "searchTracks" && <SearchTracks />}
-        </InputItem>
-        <InputItem>
           <InputItemHeader
             onClick={() => this.toggleTab("suggestionParameters")}
           >
@@ -230,6 +209,27 @@ class InputContainer extends React.Component {
               </InputItem>
             </div>
           )}
+        </InputItem>
+        <InputItem>
+          <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
+            Top Tracks
+            {tabOpen === "topTracks" ? <MdExpandLess /> : <MdExpandMore />}
+          </InputItemHeader>
+          {tabOpen === "topTracks" && <TopTracks />}
+        </InputItem>
+        <InputItem>
+          <InputItemHeader onClick={() => this.toggleTab("recentTracks")}>
+            Recent Tracks
+            {tabOpen === "recentTracks" ? <MdExpandLess /> : <MdExpandMore />}
+          </InputItemHeader>
+          {tabOpen === "recentTracks" && <RecentTracks />}
+        </InputItem>
+        <InputItem>
+          <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
+            Search Tracks
+            {tabOpen === "searchTracks" ? <MdExpandLess /> : <MdExpandMore />}
+          </InputItemHeader>
+          {tabOpen === "searchTracks" && <SearchTracks />}
         </InputItem>
         <InputItem>
           <Button
