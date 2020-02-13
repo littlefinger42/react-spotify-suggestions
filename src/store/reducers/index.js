@@ -117,7 +117,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         selectedTracks: state.selectedTracks.filter(
-          track => track != action.payload
+          track => track.id != action.payload
         )
       };
     case types.ADD_RECOMMENDED_TRACKS:

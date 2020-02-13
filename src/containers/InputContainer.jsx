@@ -20,6 +20,7 @@ import Alert from "../components/Alert.jsx";
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
 import Spinner from "../components/Spinner.jsx";
+import TrackList from "../containers/TrackList.jsx";
 import TopTracks from "./TopTracks.jsx";
 import SearchTracks from "./SearchTracks.jsx";
 import RecommendationsSelector from "./RecommendationsSelector.jsx";
@@ -90,7 +91,8 @@ class InputContainer extends React.Component {
       tabsOpen: {
         topTracks: true,
         searchTracks: false,
-        suggestionParameters: false
+        suggestionParameters: false,
+        selectedTracks: false
       }
     };
   }
@@ -115,7 +117,7 @@ class InputContainer extends React.Component {
     spotifyUtils
       .getSpotifyRecommendations(
         user.accessToken,
-        this.props.selectedTracks,
+        this.props.selectedTracks.map(track => track.id),
         user.touchedRecommendationParams,
         this.abortController
       )
@@ -190,6 +192,15 @@ class InputContainer extends React.Component {
             <Alert type={alert.type}>{alert.message}</Alert>
           </InputItem>
         )}
+        <InputItem>
+          <InputItemHeader onClick={() => this.toggleTab("selectedTracks")}>
+            Selected Tracks ({this.props.selectedTracks.length})
+            {tabsOpen.selectedTracks ? <MdExpandLess /> : <MdExpandMore />}
+          </InputItemHeader>
+          {tabsOpen.selectedTracks && (
+            <TrackList min tracks={this.props.selectedTracks} />
+          )}
+        </InputItem>
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
             Top Tracks

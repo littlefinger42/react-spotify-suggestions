@@ -55,26 +55,22 @@ const mapDispatchToProps = dispatch => {
 class Track extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      active: false
-    };
   }
 
   handleClick = () => {
-    this.setState({ active: !this.state.active });
-    if (!this.state.active) {
-      this.props.addSelectedTrack(this.props.id);
+    if (!this.props.selected) {
+      this.props.addSelectedTrack(this.props);
     } else {
       this.props.removeSelectedTrack(this.props.id);
     }
   };
 
   render() {
-    const { album } = this.props;
+    const { album, selected } = this.props;
 
     return (
       <TrackLi onClick={this.handleClick}>
-        <TrackItem className={this.state.active ? "active" : ""}>
+        <TrackItem className={selected ? "active" : ""}>
           {album &&
             Array.isArray(album.images) &&
             album.images.length > 1 &&
@@ -99,9 +95,8 @@ class Track extends React.Component {
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {artist.name}
+                  {artist.name}&nbsp;
                 </a>
-                <span> </span>
               </span>
             ))}
           </TrackText>
