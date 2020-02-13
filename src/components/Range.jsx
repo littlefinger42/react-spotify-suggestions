@@ -89,10 +89,11 @@ class Range extends React.Component {
     this.setState({
       value
     });
-  };
-  onMouseUp = event => {
     this.props.handleChange(parseFloat(event.target.value), this);
   };
+  // onMouseUp = event => {
+  //    this.props.handleMouseUp(parseFloat(event.target.value), this);
+  // };
   render() {
     let label;
     if (this.props.label)
@@ -107,7 +108,7 @@ class Range extends React.Component {
           max={this.props.max}
           step={this.props.step}
           onChange={this.onChange}
-          onMouseUp={this.onMouseUp}
+          // onMouseUp={this.onMouseUp}
           value={this.state.value}
         />
         {label}

@@ -143,11 +143,12 @@ class InputContainer extends React.Component {
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
       param => {
         return (
-          <li key={param.id}>
+          <li key={param.id} style={{ marginTop: 10 }}>
             {param.label}:{" "}
             {param.id === "key"
               ? this.notes[param.value - 1]
-              : Math.round(param.value / param.step)}
+              : `${Math.round(param.value / param.step)}/${param.range[1] /
+                  param.step}`}
           </li>
         );
       }
@@ -219,7 +220,7 @@ class InputContainer extends React.Component {
                   )}
                   {touchedParamsList}
                   {touchedParamsList && touchedParamsList.length > 0 && (
-                    <li>
+                    <li style={{ marginTop: 10 }}>
                       <Button handleClick={this.props.clearSearchParams}>
                         Clear
                       </Button>
