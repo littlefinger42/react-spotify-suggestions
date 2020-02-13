@@ -28,8 +28,6 @@ const OutputItem = styled.div`
   }
 `;
 const OutputContainerHeader = styled.div`
-  height: 50px;
-  padding-bottom: ${style.sizeSm};
   margin-bottom: ${style.sizeSm};
   display: flex;
   justify-content: space-between;

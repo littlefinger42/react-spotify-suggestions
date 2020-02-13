@@ -44,11 +44,7 @@ const InputItemHeader = styled.h3`
   cursor: pointer;
 `;
 const InputContainerHeader = styled.div`
-  height: 50px;
-  padding-bottom: ${style.sizeSm};
   margin-bottom: ${style.sizeSm};
-  display: flex;
-  justify-content: space-between;
 `;
 const InputContainerTitle = styled.h2`
   font-size: 14px;
@@ -168,24 +164,6 @@ class InputContainer extends React.Component {
       <InputContainerContainer>
         <InputContainerHeader>
           <InputContainerTitle>Input</InputContainerTitle>
-          <span style={{ flexBasis: "50%" }}>
-            <InputItem>
-              <strong>Seed Tracks: </strong>
-              {this.props.tracksSelected}
-            </InputItem>
-            <InputItem>
-              <strong>Suggestion Parameters: </strong>
-              {this.props.user.touchedRecommendationParams.length > 0 ? (
-                <span>
-                  {this.props.user.touchedRecommendationParams
-                    .map(param => param.label)
-                    .join(", ")}
-                </span>
-              ) : (
-                "None"
-              )}
-            </InputItem>
-          </span>
         </InputContainerHeader>
         {alert.type && alert.message && (
           <InputItem>
@@ -219,7 +197,8 @@ class InputContainer extends React.Component {
           <InputItemHeader
             onClick={() => this.toggleTab("suggestionParameters")}
           >
-            Suggestion Parameters{" "}
+            Suggestion Parameters (
+            {this.props.user.touchedRecommendationParams.length})
             {tabsOpen.suggestionParameters ? (
               <MdExpandLess />
             ) : (
