@@ -84,12 +84,7 @@ class InputContainer extends React.Component {
         type: "",
         message: ""
       },
-      tabsOpen: {
-        topTracks: true,
-        searchTracks: false,
-        suggestionParameters: false,
-        selectedTracks: false
-      }
+      tabOpen: "topTracks"
     };
   }
 
@@ -134,10 +129,7 @@ class InputContainer extends React.Component {
 
   toggleTab = tab =>
     this.setState(prevState => ({
-      tabsOpen: {
-        ...prevState.tabsOpen,
-        [tab]: !prevState.tabsOpen[tab]
-      }
+      tabOpen: prevState.tabOpen === tab ? "" : tab
     }));
 
   componentWillUnmount() {
@@ -145,7 +137,7 @@ class InputContainer extends React.Component {
   }
 
   render() {
-    const { isLoading, alert, tabsOpen } = this.state;
+    const { isLoading, alert, tabOpen } = this.state;
 
     const touchedParamsList = this.props.user.touchedRecommendationParams.map(
       param => {
@@ -173,25 +165,26 @@ class InputContainer extends React.Component {
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("selectedTracks")}>
             Selected Tracks ({this.props.selectedTracks.length})
-            {tabsOpen.selectedTracks ? <MdExpandLess /> : <MdExpandMore />}
+            {tabOpen === "selectedTracks" ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {tabsOpen.selectedTracks && this.props.selectedTracks.length > 0 && (
-            <TrackList min tracks={this.props.selectedTracks} />
-          )}
+          {tabOpen === "selectedTracks" &&
+            this.props.selectedTracks.length > 0 && (
+              <TrackList min tracks={this.props.selectedTracks} />
+            )}
         </InputItem>
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("topTracks")}>
             Top Tracks
-            {tabsOpen.topTracks ? <MdExpandLess /> : <MdExpandMore />}
+            {tabOpen === "topTracks" ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {tabsOpen.topTracks && <TopTracks />}
+          {tabOpen === "topTracks" && <TopTracks />}
         </InputItem>
         <InputItem>
           <InputItemHeader onClick={() => this.toggleTab("searchTracks")}>
             Search Tracks
-            {tabsOpen.searchTracks ? <MdExpandLess /> : <MdExpandMore />}
+            {tabOpen === "searchTracks" ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {tabsOpen.searchTracks && <SearchTracks />}
+          {tabOpen === "searchTracks" && <SearchTracks />}
         </InputItem>
         <InputItem>
           <InputItemHeader
@@ -199,13 +192,13 @@ class InputContainer extends React.Component {
           >
             Suggestion Parameters (
             {this.props.user.touchedRecommendationParams.length})
-            {tabsOpen.suggestionParameters ? (
+            {tabOpen === "suggestionParameters" ? (
               <MdExpandLess />
             ) : (
               <MdExpandMore />
             )}
           </InputItemHeader>
-          {tabsOpen.suggestionParameters && (
+          {tabOpen === "suggestionParameters" && (
             <div>
               <InputItem>
                 <RecommendationsSelector />
