@@ -13,6 +13,7 @@ import spotifyUtils from "../utils/spotifyUtils";
 
 import Main from "../components/Main.jsx";
 import Card from "../components/Card.jsx";
+import Spinner from "../components/Spinner.jsx";
 import Button from "../components/Button.jsx";
 import Alert from "../components/Alert.jsx";
 
@@ -40,7 +41,7 @@ class LoginContainer extends React.Component {
     super(props);
     this.abortController = new AbortController();
     this.state = {
-      isLoading: false, //TODO: Use loading state
+      isLoading: false,
       alert: {
         type: "",
         message: ""
@@ -52,8 +53,8 @@ class LoginContainer extends React.Component {
     const accessToken = this.getAccessToken();
     this.props.setUserAccessToken(accessToken);
 
-    this.setState({ isLoading: true });
     if (accessToken && !this.props.user.spotify.displayName) {
+      this.setState({ isLoading: true });
       spotifyUtils
         .getSpotifyUserData(accessToken, this.abortController)
         .then(response => {
@@ -110,7 +111,7 @@ class LoginContainer extends React.Component {
   }
 
   render() {
-    const { alert } = this.state;
+    const { alert, isLoading } = this.state;
 
     return (
       <Main>
@@ -131,6 +132,7 @@ class LoginContainer extends React.Component {
           <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
             Authorize Spotify
           </Button>
+          {isLoading && <Spinner />}
         </Card>
       </Main>
     );
