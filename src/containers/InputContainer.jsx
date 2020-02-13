@@ -175,7 +175,7 @@ class InputContainer extends React.Component {
             Selected Tracks ({this.props.selectedTracks.length})
             {tabsOpen.selectedTracks ? <MdExpandLess /> : <MdExpandMore />}
           </InputItemHeader>
-          {tabsOpen.selectedTracks && (
+          {tabsOpen.selectedTracks && this.props.selectedTracks.length > 0 && (
             <TrackList min tracks={this.props.selectedTracks} />
           )}
         </InputItem>
