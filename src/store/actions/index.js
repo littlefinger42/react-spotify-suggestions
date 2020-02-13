@@ -5,18 +5,8 @@ export const setUserAccessToken = payload => ({
   payload
 });
 
-export const setUserSpotifyDataStarted = () => ({
+export const setUserSpotifyData = payload => ({
   type: types.SET_USER_SPOTIFY_DATA,
-  status: "started"
-});
-export const setUserSpotifyDataError = payload => ({
-  type: types.SET_USER_SPOTIFY_DATA,
-  status: "error",
-  payload
-});
-export const setUserSpotifyDataFinished = payload => ({
-  type: types.SET_USER_SPOTIFY_DATA,
-  status: "success",
   payload
 });
 

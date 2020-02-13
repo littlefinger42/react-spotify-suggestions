@@ -101,8 +101,7 @@ function reducer(state = initialState, action) {
           ...state.user,
           spotify: {
             ...state.user.spotify,
-            ...action.payload,
-            status: action.status
+            ...action.payload
           }
         }
       };

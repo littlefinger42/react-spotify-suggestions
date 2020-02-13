@@ -6,12 +6,7 @@ import {
   getUserAccessToken,
   getRecommendationParams
 } from "../store/selectors/index";
-import {
-  setUserAccessToken,
-  setUserSpotifyDataStarted,
-  setUserSpotifyDataFinished,
-  setUserSpotifyDataError
-} from "../store/actions/index";
+import { setUserAccessToken, setUserSpotifyData } from "../store/actions/index";
 
 import urlUtils from "../utils/urlUtils";
 import spotifyUtils from "../utils/spotifyUtils";
@@ -36,10 +31,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setUserAccessToken: prop => dispatch(setUserAccessToken(prop)),
-    setUserSpotifyDataStarted: () => dispatch(setUserSpotifyDataStarted()),
-    setUserSpotifyDataError: prop => dispatch(setUserSpotifyDataError(prop)),
-    setUserSpotifyDataFinished: prop =>
-      dispatch(setUserSpotifyDataFinished(prop))
+    setUserSpotifyData: prop => dispatch(setUserSpotifyData(prop))
   };
 };
 
@@ -49,7 +41,10 @@ class LoginContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false, //TODO: Use loading state
-      isLoginFailed: false
+      alert: {
+        type: "",
+        message: ""
+      }
     };
   }
 
@@ -57,17 +52,22 @@ class LoginContainer extends React.Component {
     const accessToken = this.getAccessToken();
     this.props.setUserAccessToken(accessToken);
 
+    this.setState({ isLoading: true });
     if (accessToken && !this.props.user.spotify.displayName) {
-      this.props.setUserSpotifyDataStarted();
       spotifyUtils
         .getSpotifyUserData(accessToken, this.abortController)
         .then(response => {
           if (!response.display_name) {
-            this.props.setUserSpotifyDataError(response);
-            this.setState({ isLoading: false, isLoginFailed: true });
+            this.setState({
+              isLoading: false,
+              alert: {
+                type: "danger",
+                message: "Failed to fetch spotify user data"
+              }
+            });
           } else {
-            this.props.setUserSpotifyDataFinished(response);
-            this.setState({ isLoading: false, isLoginFailed: true });
+            this.props.setUserSpotifyData(response);
+            this.setState({ isLoading: false });
             this.props.history.push("/home");
           }
         });
@@ -93,7 +93,12 @@ class LoginContainer extends React.Component {
     const accessTokenParam = urlUtils.getUrlParam("#", "access_token");
     if (!accessTokenParam) {
       if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
-        this.setState({ isLoginFailed: true });
+        this.setState({
+          alert: {
+            type: "danger",
+            message: "Spotify Access Denied"
+          }
+        });
       }
       //TODO: Check for accessToken in local storage and check to see if it is expired
       this.setState({ isLoading: false });
@@ -104,19 +109,14 @@ class LoginContainer extends React.Component {
     return accessTokenParam.split("&")[0];
   }
 
-  doNothing = event => {
-    console.log("nothing", event);
-  };
-
   render() {
-    let alert;
-    if (this.state.isLoginFailed) {
-      alert = <Alert>Failed login attempt.</Alert>;
-    }
+    const { alert } = this.state;
 
     return (
       <Main>
-        {alert}
+        {alert.type && alert.message && (
+          <Alert type={alert.type}>{alert.message}</Alert>
+        )}
         <Card>
           <p>
             Spotify Suggestions Generator doesn't store any of your information.
