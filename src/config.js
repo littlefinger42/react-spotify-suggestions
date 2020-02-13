@@ -15,12 +15,12 @@ const sizes = {
 };
 
 const style = {
-  blackBackground: "#101010",
+  blackBackground: "#191414",
   blackLevelOne: "#212121",
   blackLevelTwo: "#303030",
   blackLevelThree: "#525252",
-  primaryColor: "#6200ee",
-  secondaryColor: "#2700ee",
+  primaryColor: "#1DB954",
+  secondaryColor: "#10760B",
   disabledColor: "#756e80",
   textColor: "#fff",
   sizeXs: "8px",
