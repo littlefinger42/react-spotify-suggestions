@@ -1,12 +1,19 @@
 {
-	"presets": ["@babel/preset-env", "@babel/preset-react"],
-	"plugins": [
-		[
-		  "babel-plugin-styled-components",
-		  {
-			"ssr": false
-		  }
-		],
-		"@babel/plugin-proposal-class-properties"
-	  ]
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": false
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ],
+
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
