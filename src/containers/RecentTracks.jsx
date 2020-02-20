@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
@@ -28,64 +28,45 @@ const mapStateToProps = state => {
   };
 };
 
-class RecentTracks extends React.Component {
-  constructor(props) {
-    super(props);
-    this.abortController = new AbortController();
-    this.state = {
-      isLoading: false,
-      tracks: [],
-      alert: {
-        type: "",
-        message: ""
-      }
+function RecentTracks(props) {
+  const [isLoading, setLoading] = useState(false);
+  const [tracks, setTracks] = useState([]);
+  const [alert, setAlert] = useState({ type: "", message: "" });
+  const abortController = new AbortController();
+
+  useEffect(() => {
+    async function fetchRecentTracks() {
+      setLoading(true);
+      await setTracks(await doFetchRecentTracks());
+      setLoading(false);
+    }
+    fetchRecentTracks();
+
+    return () => {
+      abortController.abort();
     };
-    this.parameterRange = React.createRef();
-  }
+  }, []);
 
-  componentDidMount() {
-    this.getTopTracks();
-  }
-
-  componentWillUnmount() {
-    this.abortController.abort();
-  }
-
-  /**
-   * Uses spotify utils to fetch top tracks then sets them to the state and the store
-   */
-  getTopTracks = () => {
-    this.setState({ isLoading: true });
+  const doFetchRecentTracks = () =>
     spotifyUtils
-      .getSpotifyRecentTracks(this.props.user.accessToken, this.abortController)
+      .getSpotifyRecentTracks(props.user.accessToken, abortController)
       .then(response => {
         if (response.error) {
-          this.setState({
-            isLoading: false,
-            alert: { type: "danger", message: response.error }
-          });
-          return false;
+          setAlert({ type: "danger", message: response.error });
+          return [];
         }
-        this.setState({
-          tracks: response,
-          isLoading: false
-        });
+        return response;
       });
-  };
 
-  render() {
-    const { tracks, isLoading, alert } = this.state;
-
-    return (
-      <RecentTracksContainer>
-        {alert.type && alert.message && (
-          <Alert type={alert.type}>{alert.message}</Alert>
-        )}
-        {isLoading && <Spinner />}
-        {tracks && <RecentTracksList className="" tracks={tracks} />}
-      </RecentTracksContainer>
-    );
-  }
+  return (
+    <RecentTracksContainer>
+      {alert.type && alert.message && (
+        <Alert type={alert.type}>{alert.message}</Alert>
+      )}
+      {isLoading && <Spinner />}
+      {tracks && <RecentTracksList className="" tracks={tracks} />}
+    </RecentTracksContainer>
+  );
 }
 
 export default connect(mapStateToProps)(RecentTracks);
