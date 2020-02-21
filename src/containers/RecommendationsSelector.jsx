@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
@@ -27,71 +27,50 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class RecommendationSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedParameter: {
-        id: "",
-        label: "",
-        value: 0,
-        step: 0.1,
-        range: [0, 10],
-        touched: false
-      }
-    };
-    this.parameterRange = React.createRef();
-  }
+function RecommendationSelector(props) {
+  const [selectedParameter, setSelectedParamater] = useState(
+    props.user.recommendationParams[0]
+  );
+  const parameterRange = React.createRef();
 
-  componentDidMount() {
-    this.setState({
-      selectedParameter: this.props.user.recommendationParams[0]
-    });
-  }
-
-  handleParameterSelectedChange = value => {
-    const selectedParameter = this.props.user.recommendationParams.find(
+  const handleParameterSelectedChange = value => {
+    const selectedParameter = props.user.recommendationParams.find(
       param => param.id === value
     );
-    this.setState({
-      selectedParameter
-    });
-    this.parameterRange.current.setState({
+    setSelectedParamater(selectedParameter);
+    parameterRange.current.setState({
       value: selectedParameter.value
     });
   };
-  handleSuggestionsParameterChange = (value, param) => {
-    this.props.updateSearchParams({
+
+  const handleSuggestionsParameterChange = (value, param) => {
+    props.updateSearchParams({
       id: param.props.id,
       value
     });
   };
 
-  render() {
-    return (
-      <RecommendationSelectorContainer>
-        <Select
-          id="reccomendationParamsSelector"
-          handleChange={this.handleParameterSelectedChange}
-          options={this.props.user.recommendationParams}
+  return (
+    <RecommendationSelectorContainer>
+      <Select
+        id="reccomendationParamsSelector"
+        handleChange={handleParameterSelectedChange}
+        options={props.user.recommendationParams}
+      />
+      <span>
+        {selectedParameter.range[0] / selectedParameter.step}
+        <Range
+          id={selectedParameter.id}
+          min={selectedParameter.range[0]}
+          max={selectedParameter.range[1]}
+          step={selectedParameter.step}
+          ref={parameterRange}
+          handleChange={handleSuggestionsParameterChange}
         />
-        <span>
-          {this.state.selectedParameter.range[0] /
-            this.state.selectedParameter.step}
-          <Range
-            id={this.state.selectedParameter.id}
-            min={this.state.selectedParameter.range[0]}
-            max={this.state.selectedParameter.range[1]}
-            step={this.state.selectedParameter.step}
-            ref={this.parameterRange}
-            handleChange={this.handleSuggestionsParameterChange}
-          />
-          {this.state.selectedParameter.range[1] /
-            this.state.selectedParameter.step}
-        </span>
-      </RecommendationSelectorContainer>
-    );
-  }
+        {selectedParameter.range[1] / selectedParameter.step}
+      </span>
+    </RecommendationSelectorContainer>
+  );
 }
 
 export default connect(
