@@ -42,20 +42,20 @@ function TopTracks(props) {
   const abortController = new AbortController();
 
   useEffect(() => {
-    async function fetchTopTracks() {
+    async function doFetchTopTracks() {
       setLoading(true);
-      const tracks = await doFetchTopTracks();
+      const tracks = await fetchTopTracks();
       props.updateTopTracks(tracks);
       setLoading(false);
     }
-    if (props.tracks.length < 1) fetchTopTracks();
+    if (props.tracks.length < 1) doFetchTopTracks();
 
     return () => {
       abortController.abort();
     };
   }, []);
 
-  const doFetchTopTracks = () =>
+  const fetchTopTracks = () =>
     spotifyUtils
       .getSpotifyTopTracks(props.user.accessToken, abortController)
       .then(response => {

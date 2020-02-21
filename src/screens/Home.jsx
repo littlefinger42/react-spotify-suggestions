@@ -22,7 +22,7 @@ const mapStateToProps = state => {
   };
 };
 
-function HomeContainer(props) {
+function HomeScreen(props) {
   return (
     <Main>
       <FlexContainer>
@@ -38,4 +38,4 @@ function HomeContainer(props) {
   );
 }
 
-export default connect(mapStateToProps)(HomeContainer);
+export default connect(mapStateToProps)(HomeScreen);
