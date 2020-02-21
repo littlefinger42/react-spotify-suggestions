@@ -22,23 +22,20 @@ const mapStateToProps = state => {
   };
 };
 
-class HomeContainer extends React.Component {
-  render() {
-    return (
-      <Main>
-        <FlexContainer>
-          <InputContainer
-            tracksSelected={this.props.selectedTracks.length}
-            touchedParams={this.props.touchedRecommendationParams}
-          />
-          {this.props.recommendedTracks &&
-            this.props.recommendedTracks.length > 0 && (
-              <OutputContainer tracks={this.props.recommendedTracks} />
-            )}
-        </FlexContainer>
-      </Main>
-    );
-  }
+function HomeContainer(props) {
+  return (
+    <Main>
+      <FlexContainer>
+        <InputContainer
+          tracksSelected={props.selectedTracks.length}
+          touchedParams={props.touchedRecommendationParams}
+        />
+        {props.recommendedTracks && props.recommendedTracks.length > 0 && (
+          <OutputContainer tracks={props.recommendedTracks} />
+        )}
+      </FlexContainer>
+    </Main>
+  );
 }
 
 export default connect(mapStateToProps)(HomeContainer);
