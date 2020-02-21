@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -36,107 +36,86 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class LoginContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.abortController = new AbortController();
-    this.state = {
-      isLoading: false,
-      alert: {
-        type: "",
-        message: ""
-      }
-    };
-  }
-
-  componentDidMount() {
-    const accessToken = this.getAccessToken();
-    this.props.setUserAccessToken(accessToken);
-
-    if (accessToken && !this.props.user.spotify.displayName) {
-      this.setState({ isLoading: true });
-      spotifyUtils
-        .getSpotifyUserData(accessToken, this.abortController)
-        .then(response => {
-          if (!response.display_name) {
-            this.setState({
-              isLoading: false,
-              alert: {
-                type: "danger",
-                message: "Failed to fetch spotify user data"
-              }
-            });
-          } else {
-            this.props.setUserSpotifyData(response);
-            this.setState({ isLoading: false });
-            this.props.history.push("/home");
-          }
-        });
-    }
-  }
-
-  componentWillUnmount() {
-    this.abortController.abort();
-  }
+function LoginScreen(props) {
+  const [isLoading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ type: "", message: "" });
+  const abortController = new AbortController();
 
   /**
    * Returns the accessToken from the URL, otherwise false
    * @returns {string|boolean}
    */
-  getAccessToken() {
-    this.setState({ isLoading: true });
-
-    if (this.props.user.accessToken) {
-      this.setState({ isLoading: false });
-      return this.props.user.accessToken;
+  const getAccessToken = () => {
+    if (props.user.accessToken) {
+      return props.user.accessToken;
     }
 
     const accessTokenParam = urlUtils.getUrlParam("#", "access_token");
     if (!accessTokenParam) {
       if (urlUtils.getUrlParam("\\?", "error") === "access_denied") {
-        this.setState({
-          alert: {
-            type: "danger",
-            message: "Spotify Access Denied"
-          }
+        setAlert({
+          type: "danger",
+          message: "Spotify Access Denied"
         });
       }
-      //TODO: Check for accessToken in local storage and check to see if it is expired
-      this.setState({ isLoading: false });
       return false;
     }
 
-    this.setState({ isLoading: false });
     return accessTokenParam.split("&")[0];
-  }
+  };
 
-  render() {
-    const { alert, isLoading } = this.state;
+  const accessToken = getAccessToken();
 
-    return (
-      <Main>
-        {alert.type && alert.message && (
-          <Alert type={alert.type}>{alert.message}</Alert>
-        )}
-        <Card>
-          <p>
-            Spotify Suggestions Generator doesn't store any of your information.
-          </p>
-          <br></br>
-          <p>
-            The purpose of Spotify Suggestions Generator is to utilise the
-            spotify API to give the user more control over their recommendations
-            than they can in the desktop or mobile client.
-          </p>
-          <br></br>
-          <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
-            Authorize Spotify
-          </Button>
-          {isLoading && <Spinner />}
-        </Card>
-      </Main>
-    );
-  }
+  useEffect(() => {
+    async function doFetchUserData(accessToken) {
+      await setLoading(true);
+      const userData = await spotifyUtils
+        .getSpotifyUserData(accessToken, abortController)
+        .then(response => response);
+      await setLoading(false);
+      if (!userData.display_name) {
+        await setAlert({
+          type: "danger",
+          message: "Failed to fetch spotify user data"
+        });
+      } else {
+        await props.setUserSpotifyData(userData);
+        props.history.push("/home");
+      }
+    }
+
+    props.setUserAccessToken(accessToken);
+    if (accessToken && !props.user.spotify.displayName) {
+      doFetchUserData(accessToken);
+    }
+    return () => {
+      abortController.abort();
+    };
+  }, [accessToken]);
+
+  return (
+    <Main>
+      {alert.type && alert.message && (
+        <Alert type={alert.type}>{alert.message}</Alert>
+      )}
+      <Card>
+        <p>
+          Spotify Suggestions Generator doesn't store any of your information.
+        </p>
+        <br></br>
+        <p>
+          The purpose of Spotify Suggestions Generator is to utilise the spotify
+          API to give the user more control over their recommendations than they
+          can in the desktop or mobile client.
+        </p>
+        <br></br>
+        <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
+          Authorize Spotify
+        </Button>
+        {isLoading && <Spinner />}
+      </Card>
+    </Main>
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
