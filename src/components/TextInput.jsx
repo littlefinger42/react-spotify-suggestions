@@ -1,9 +1,8 @@
 import React from "react";
 
 import styled from "styled-components";
-import { style } from "../config";
 
-const TextInputStyled = styled.input``;
+const TextInputStyled = styled.input``; //TODO add text input styling
 
 class TextInput extends React.Component {
   handleKeyDown = e => {

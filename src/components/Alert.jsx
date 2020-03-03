@@ -19,13 +19,9 @@ function getAlertColour(alertType) {
   }
 }
 
-function Alert(props) {
-  return (
-    <AlertContainer type={props.type}>
-      {props.children}
-      {props.message}
-    </AlertContainer>
-  );
-}
-
-export default Alert;
+export default props => (
+  <AlertContainer type={props.type}>
+    {props.children}
+    {props.message}
+  </AlertContainer>
+);
