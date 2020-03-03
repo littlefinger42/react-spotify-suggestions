@@ -149,6 +149,7 @@ const spotifyUtils = {
    * @returns {Promise<Object>}
    */
   createAndFillSpotifyPlaylist(accessToken, userId, seeds, abortController) {
+    const date = new Date();
     let options = {
       method: "POST",
       headers: {
@@ -156,7 +157,9 @@ const spotifyUtils = {
         Authorization: `Bearer ${accessToken}`
       },
       referrer: "no-referrer",
-      body: JSON.stringify({ name: "Generated Playlist" })
+      body: JSON.stringify({
+        name: `Generated Playlist ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+      })
     };
     if (abortController && abortController.signal) {
       options = { ...options, ...(options.signal = abortController.signal) };
@@ -192,7 +195,9 @@ const spotifyUtils = {
         Authorization: `Bearer ${accessToken}`
       },
       referrer: "no-referrer",
-      body: JSON.stringify({ uris: seeds.map(seed => `spotify:track:${seed}`) })
+      body: JSON.stringify({
+        uris: seeds.map(seed => `spotify:track:${seed.id}`)
+      })
     };
     if (abortController && abortController.signal) {
       options = { ...options, ...(options.signal = abortController.signal) };
