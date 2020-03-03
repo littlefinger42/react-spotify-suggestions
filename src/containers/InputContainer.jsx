@@ -44,6 +44,7 @@ const InputItemHeader = styled.h3`
   margin-bottom: ${style.sizeXs};
   cursor: pointer;
   font-size: 14px;
+  ${props => (props.strong ? "font-weight: bold;" : "")}
   @media ${style.device.tablet} {
     font-size: 16px;
   }
@@ -157,7 +158,7 @@ function InputContainer(props) {
         </InputItem>
       )}
       <InputItem>
-        <InputItemHeader onClick={() => setTabOpen("selectedTracks")}>
+        <InputItemHeader onClick={() => setTabOpen("selectedTracks")} strong>
           Selected Tracks ({props.selectedTracks.length})
           {tabOpen === "selectedTracks" ? <MdExpandLess /> : <MdExpandMore />}
         </InputItemHeader>
