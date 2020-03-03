@@ -6,13 +6,13 @@ import { style } from "../config";
 import { addSelectedTrack, removeSelectedTrack } from "../store/actions/index";
 
 const TrackItem = styled.div`
-  margin-bottom: ${style.sizeXs};
+  margin-bottom: 4px;
   align-items: center;
   padding: ${style.sizeXs / 2} 0;
 `;
 
 const TrackText = styled.div`
-  padding-bottom: 8px;
+  padding-bottom: 4;
   display: flex;
   justify-content: space-between;
   font-size: ${style.fontSize};
