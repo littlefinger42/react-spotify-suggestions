@@ -7,11 +7,11 @@ const TextInputStyled = styled.input``; //TODO add text input styling
 function TextInput(props) {
   const handleKeyDown = e => {
     if (e.key === "Enter") {
-      this.props.onEnterDown();
+      props.onEnterDown();
     }
   };
   const onChange = e => {
-    this.props.onChange(e.target.value);
+    props.onChange(e.target.value);
   };
 
   const { name, value } = props;
