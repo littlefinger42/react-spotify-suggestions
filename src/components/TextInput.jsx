@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const TextInputStyled = styled.input``; //TODO add text input styling
 
-function TextInputStyled(props) {
+function TextInput(props) {
   const handleKeyDown = e => {
     if (e.key === "Enter") {
       this.props.onEnterDown();
