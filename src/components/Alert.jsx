@@ -19,14 +19,13 @@ function getAlertColour(alertType) {
   }
 }
 
-class Alert extends React.Component {
-  render() {
-    return (
-      <AlertContainer type={this.props.type}>
-        {this.props.children}
-      </AlertContainer>
-    );
-  }
+function Alert(props) {
+  return (
+    <AlertContainer type={props.type}>
+      {props.children}
+      {props.message}
+    </AlertContainer>
+  );
 }
 
 export default Alert;
