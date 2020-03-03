@@ -3,17 +3,10 @@ import styled from "styled-components";
 import { style } from "../config";
 import { connect } from "react-redux";
 
-import {
-  getUserAccessToken,
-  getSpotifyUserId,
-  getSelectedTracks
-} from "../store/selectors/index";
-
-import spotifyUtils from "../utils/spotifyUtils";
+import { getUserAccessToken, getSpotifyUserId } from "../store/selectors/index";
 
 import TrackList from "./TrackList.jsx";
 import Card from "../components/Card.jsx";
-import Button from "../components/Button.jsx";
 import Alert from "../components/Alert.jsx";
 import Pagination from "../components/Pagination.jsx";
 
@@ -49,8 +42,7 @@ const mapStateToProps = state => {
       spotify: {
         id: getSpotifyUserId(state)
       }
-    },
-    selectedTracks: getSelectedTracks(state)
+    }
   };
 };
 
@@ -60,14 +52,11 @@ class OutputContainer extends React.Component {
     this.abortController = new AbortController();
     this.state = {
       isLoading: false,
+      selectedTrackList: this.props.tracks.length - 1,
       alert: {
         type: "",
         message: ""
-      },
-      selectedTrackList: this.props.tracks.length - 1,
-      tracksExported: false,
-      tracksExportable: false,
-      tracksExportedPlaylistId: null
+      }
     };
   }
 
@@ -80,81 +69,6 @@ class OutputContainer extends React.Component {
       this.setState({ selectedTrackList: nextProps.tracks.length - 1 });
     }
   }
-
-  /**
-   * Creates and fills a new spotify playlist with selected tracks
-   */
-  exportPlaylist = () => {
-    this.setState({ isLoading: true });
-    spotifyUtils
-      .createAndFillSpotifyPlaylist(
-        this.props.user.accessToken,
-        this.props.user.spotify.id,
-        this.props.selectedTracks,
-        this.abortController
-      )
-      .then(response => {
-        if (response.error) {
-          this.setState({
-            isLoading: false,
-            alert: {
-              type: "danger",
-              message: response.error
-            }
-          });
-          return false;
-        }
-
-        this.setState({
-          tracksExportable: false,
-          tracksExported: true,
-          alert: {
-            type: "success",
-            message: "Tracks exported!"
-          },
-          isLoading: false,
-          tracksExportedPlaylistId: response.playlistId
-        });
-      });
-  };
-
-  /**
-   * Adds to previously created playlist
-   */
-  addToPlaylist = () => {
-    this.setState({ isLoading: true });
-    spotifyUtils
-      .addTracksToSpotifyPlaylist(
-        this.props.user.accessToken,
-        this.state.tracksExportedPlaylistId,
-        this.props.selectedTracks,
-        this.abortController
-      )
-      .then(response => {
-        if (response.error) {
-          alert(response.error); //TODO: add better error messages
-          this.setState({
-            isLoading: false,
-            alert: {
-              type: "danger",
-              message: respomse.error
-            }
-          });
-          return false;
-        }
-
-        this.setState({
-          tracksExportable: false,
-          tracksExported: true,
-          alert: {
-            type: "success",
-            message: "Tracks added to playlist!"
-          },
-          isLoading: false
-        });
-      });
-  };
-
   switchList = (event, id) => {
     this.setState({ selectedTrackList: id });
   };
@@ -162,7 +76,7 @@ class OutputContainer extends React.Component {
     return (
       <OutputContainerCountainer>
         <OutputContainerHeader>
-          <OutputContainerTitle>Output</OutputContainerTitle>
+          <OutputContainerTitle>Suggested Tracks</OutputContainerTitle>
           <div>
             <Pagination
               handleClick={this.switchList}
@@ -191,26 +105,6 @@ class OutputContainer extends React.Component {
               />
             ))}
           </div>
-        </OutputItem>
-        <OutputItem>
-          <Button
-            disabled={
-              this.props.selectedTracks.length < 1 || this.state.isLoading
-            }
-            handleClick={this.exportPlaylist}
-          >
-            Export selected tracks to a spotify playlist
-          </Button>
-          <Button
-            disabled={
-              !this.props.selectedTracks ||
-              this.state.isLoading ||
-              !this.state.tracksExported
-            }
-            handleClick={this.addToPlaylist}
-          >
-            Add to existing Playlist
-          </Button>
         </OutputItem>
       </OutputContainerCountainer>
     );

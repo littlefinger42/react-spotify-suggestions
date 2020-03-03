@@ -12,7 +12,6 @@ const ButtonStyled = styled.button`
     props.small
       ? `${style.sizeXs.split("px")[0] / 2}px ${style.sizeXs}`
       : `${style.sizeXs} ${style.sizeSm}`};
-  margin-right: ${style.sizeSm};
   border-radius: ${style.borderRadius};
   &:hover {
     cursor: pointer;
