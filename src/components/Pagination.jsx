@@ -3,37 +3,31 @@ import styled from "styled-components";
 import { style } from "../config";
 
 import Button from "./Button.jsx";
+import Controls from "./Controls.jsx";
 
 const ButtonsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: ${style.sizeXs};
 `;
 
-class Pagination extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <ButtonsContainer>
-        {this.props.pages.length > 1 &&
-          this.props.pages.map((page, index) => (
+function Pagination(props) {
+  return (
+    <ButtonsContainer>
+      <Controls>
+        {props.pages.length > 1 &&
+          props.pages.map((page, index) => (
             <Button
               secondary="true"
               small="true"
               key={index}
-              disabled={this.props.selectedPageId === index}
-              handleClick={e => this.props.handleClick(e, index)}
+              disabled={props.selectedPageId === index}
+              handleClick={e => props.handleClick(e, index)}
             >
               {index}
             </Button>
           ))}
-      </ButtonsContainer>
-    );
-  }
+      </Controls>
+    </ButtonsContainer>
+  );
 }
 
 export default Pagination;
