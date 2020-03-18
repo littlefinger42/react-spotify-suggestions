@@ -89,9 +89,7 @@ function SelectedTracks(props) {
           message="Select some tracks to use as seeds for suggestions."
         />
       )}
-      {alert && alert.message && (
-        <Alert type={alert.type} message={alert.message}></Alert>
-      )}
+      {alert && alert.message && <Alert {...alert} />}
     </div>
   );
 }

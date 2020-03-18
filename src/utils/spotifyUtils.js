@@ -148,8 +148,12 @@ const spotifyUtils = {
    * @param {Object} abortController is used to cancel the fetch if the component is unloaded
    * @returns {Promise<Object>}
    */
-  createAndFillSpotifyPlaylist(accessToken, userId, seeds, abortController) {
-    const date = new Date();
+  createAndFillSpotifyPlaylist(
+    accessToken,
+    userId,
+    { seeds, name },
+    abortController
+  ) {
     let options = {
       method: "POST",
       headers: {
@@ -158,7 +162,7 @@ const spotifyUtils = {
       },
       referrer: "no-referrer",
       body: JSON.stringify({
-        name: `Generated Playlist ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+        name
       })
     };
     if (abortController && abortController.signal) {

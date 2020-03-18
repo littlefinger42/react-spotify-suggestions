@@ -95,9 +95,7 @@ function LoginScreen(props) {
 
   return (
     <Main>
-      {alert.type && alert.message && (
-        <Alert type={alert.type}>{alert.message}</Alert>
-      )}
+      {alert && alert.message && <Alert {...alert} />}
       <Card>
         <p>
           Spotify Suggestions Generator doesn't store any of your information.

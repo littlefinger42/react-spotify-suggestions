@@ -68,9 +68,7 @@ function TopTracks(props) {
 
   return (
     <TopTracksContainer>
-      {alert.type && alert.message && (
-        <Alert type={alert.type}>{alert.message}</Alert>
-      )}
+      {alert && alert.message && <Alert {...alert} />}
       {isLoading && <Spinner />}
       {props.tracks.length > 0 && (
         <TopTracksList className="" tracks={props.tracks} />

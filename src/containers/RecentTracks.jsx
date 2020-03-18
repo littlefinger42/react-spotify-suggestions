@@ -60,9 +60,7 @@ function RecentTracks(props) {
 
   return (
     <RecentTracksContainer>
-      {alert.type && alert.message && (
-        <Alert type={alert.type}>{alert.message}</Alert>
-      )}
+      {alert && alert.message && <Alert {...alert} />}
       {isLoading && <Spinner />}
       {tracks && <RecentTracksList className="" tracks={tracks} />}
     </RecentTracksContainer>

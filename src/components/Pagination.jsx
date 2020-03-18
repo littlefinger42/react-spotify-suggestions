@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { style } from "../config";
 
 import Button from "./Button.jsx";
-import Controls from "./Controls.jsx";
+import Controls from "./Controls.js";
 
 const ButtonsContainer = styled.div`
   margin-bottom: ${style.sizeXs};
