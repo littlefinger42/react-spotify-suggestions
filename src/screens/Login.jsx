@@ -96,17 +96,13 @@ function LoginScreen(props) {
   return (
     <Main>
       {alert && alert.message && <Alert {...alert} />}
-      <Card>
+      <Card style={{width: '50em'}}>
+        <p>Discover spotify track suggestions based off seed tracks and parameters such as BPM, Key, Dancability and many more. Expor your selections to a new playlist with this handy tool.</p>
+        <br/>
         <p>
-          Spotify Suggestions Generator doesn't store any of your information.
+          For the generator to work, we need to authorise with your spotify account to get your top tracks. Spotify Suggestions Generator doesn't store any of your information.
         </p>
-        <br></br>
-        <p>
-          The purpose of Spotify Suggestions Generator is to utilise the spotify
-          API to give the user more control over their recommendations than they
-          can in the desktop or mobile client.
-        </p>
-        <br></br>
+        <br/>
         <Button handleClick={spotifyUtils.redirectToSpotifyLoginPage}>
           Authorize Spotify
         </Button>
